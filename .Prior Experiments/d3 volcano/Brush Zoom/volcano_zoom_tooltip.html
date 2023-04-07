@@ -1,0 +1,152 @@
+<!--
+To add:
+* https://observablehq.com/@d3/zoomable-scatterplot
+  > I would like to be able to control axes better
+* Done: Dynamically scaled axes
+* More complete tooltips
+* Zooming
+> At this point, we've reached the point of parity with plotly
+> Let's go beyond
+* Highlight a group of scatter points, e.g., for pathways? Highlight x vs y chromosome genes?
+  > Needed? Perhaps low priority: ask in meeting.
+  > Highlight a single point! Make another tooltip pop up on the bottom and stay there, for storing information about pathways, etc!
+> Useless style points
+* https://d3-graph-gallery.com/graph/scatter_animation_start.html
+
+-->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<!-- <script src="https://d3js.org/d3.v4.js"></script> -->
+<script src="d3.v4.min.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//Read the data
+let data = d3.csv("de_df_10th.csv", function(data) {
+
+  // Find ranges for axes
+  // Horizontal
+  const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+  const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+  const minh = Math.min(...numeric_hvals);
+  const maxh = Math.max(...numeric_hvals);
+
+  // Vertical
+  const vvals = data.map((row) => parseFloat(row.log10padj));
+  const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+  const minv = Math.min(...numeric_vvals)
+  const maxv = Math.max(...numeric_vvals)
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([minh, maxh])
+    .range([ 0, width ]);
+  var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([minv, maxv])
+    .range([ height, 0]);
+  var yAxis = svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Its opacity is set to 0: we don't see it by default.
+  var tooltip = d3.select("#my_dataviz")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("position", "absolute")
+
+  // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
+
+  // Add brushing
+  var brush = d3.brush()                 // Add the brush feature using the d3.brush function
+      .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+      .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+
+  // Create the scatter variable: where both the circles and the brush take place
+  var scatter = svg.append('g')
+    .attr("clip-path", "url(#clip)")
+
+  scatter
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return x(d.log2FoldChange); } )
+    .attr("cy", function (d) { return y(d.log10padj); } )
+    .attr("r", 8)
+    .style("opacity", 0.5)
+
+ // Add the brushing
+  scatter
+    .append("g")
+      .attr("class", "brush")
+      .call(brush);
+
+  // A function that set idleTimeOut to null
+  var idleTimeout
+  function idled() { idleTimeout = null; }
+
+  // A function that update the chart for given boundaries
+  function updateChart() {
+    extent = d3.event.selection
+
+    // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    if(!extent){
+      if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+      x.domain([minh, maxh])
+      y.domain([minv, maxv])
+    }else{
+      y.domain([ y.invert(extent[1][1]), y.invert(extent[0][1]) ])
+      x.domain([ x.invert(extent[0][0]), x.invert(extent[1][0]) ])
+      scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+    }
+
+    // Update axis and circle position
+    xAxis.transition().duration(1000).call(d3.axisBottom(x))
+    yAxis.transition().duration(1000).call(d3.axisLeft(y))
+    scatter
+      .selectAll("circle")
+      .transition().duration(1000)
+      .attr("cx", function (d) { return x(d.log2FoldChange); } )
+      .attr("cy", function (d) { return y(d.log10padj); } )
+
+    }
+})
+
+</script>
