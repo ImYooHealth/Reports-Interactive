@@ -1,0 +1,17 @@
+__pycache__/
+.DS_Store
+*.egg-info
+build/
+*.swp
+*.JPG
+*.jpg
+*.jpeg
+*.svg
+*.png
+*.html
+*.csv
+docs/notes/
+.vscode/
+.ipynb_checkpoints/
+*.env
+.sw*
