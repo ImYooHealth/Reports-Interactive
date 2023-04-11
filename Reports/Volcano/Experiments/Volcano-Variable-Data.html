@@ -53,47 +53,6 @@
 </select>
 
 <script>
-    function foobar(event) {
-        var data = readCSVFile(event.target.value)
-
-        // Find ranges for axes
-        // Horizontal
-        const hvals = data.map((row) => parseFloat(row.log2FoldChange));
-        const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
-        const minh = Math.min(...numeric_hvals);
-        const maxh = Math.max(...numeric_hvals);
-
-        // Vertical
-        const vvals = data.map((row) => parseFloat(row.stat));
-        const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-        const minv = Math.min(...numeric_vvals)
-        const maxv = Math.max(...numeric_vvals)
-
-        x.domain([minh, maxh])
-         .range([0, width]);
-
-        y.domain([minv, maxv])
-         .range([height, 0]);        
-
-        svg.selectAll(".point")
-            .data(data)
-            .enter().append("circle")
-            .attr("class", "point")
-            .attr("clip-path", "url(#clip)")
-            .attr("r", 8)
-            .attr("cx", function(d) { return x(d.log2FoldChange); })
-            .attr("cy", function(d) { return y(d.stat); })
-            .call(d3.helper.tooltip());
-
-        console.log(event.target.value)
-    }
-
-    const selector = document.querySelector('.dropdown_class')
-
-    selector.addEventListener("change", foobar)
-</script>
-
-<script>
 d3.helper = {};
 
 d3.helper.tooltip = function(){
@@ -177,9 +136,34 @@ function readCSVFile(filePath) {
   return result;
 }
 
+/* Begin canvas setup */
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+/* End canvas setup */
+
+
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+var idleTimeout
+function idled() { idleTimeout = null; }    
+
+/* Hereafter, things depend on data */
 var data = readCSVFile("de_df_10th.csv");
 console.log(data);
 
+/* Begin Setup axes and brush */
 // Find ranges for axes
 // Horizontal
 const hvals = data.map((row) => parseFloat(row.log2FoldChange));
@@ -192,11 +176,6 @@ const vvals = data.map((row) => parseFloat(row.stat));
 const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
 const minv = Math.min(...numeric_vvals)
 const maxv = Math.max(...numeric_vvals)
-
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
     .domain([minh, maxh])
@@ -221,12 +200,6 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .ticks(11);
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 svg.append("g")
     .attr("class", "x axis")
     .attr("clip-path", "url(#clip)")
@@ -242,15 +215,7 @@ svg.append("g")
     .call(brush)
   .selectAll('rect')
     .attr('height', height);
-
-svg.append("defs").append("clipPath")
-    .attr("id", "clip")
-  .append("rect")
-    .attr("width", width)
-    .attr("height", height);
-
-var idleTimeout
-function idled() { idleTimeout = null; }
+/* End setup axes and brush */
 
 function transition_data() {
   svg.selectAll(".point")
@@ -326,6 +291,59 @@ function brushend() {
   transition_data();
   reset_axis();  
 }
+
+function foobar(event) {
+    var data = readCSVFile(event.target.value)
+
+    // Find ranges for axes
+    // Horizontal
+    const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+    const minh = Math.min(...numeric_hvals);
+    const maxh = Math.max(...numeric_hvals);
+
+    // Vertical
+    const vvals = data.map((row) => parseFloat(row.stat));
+    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+    const minv = Math.min(...numeric_vvals)
+    const maxv = Math.max(...numeric_vvals)
+
+    x.domain([minh, maxh])
+    y.domain([minv, maxv]) 
+
+    points = svg.selectAll(".point")
+        .data(data)
+
+    points
+        .join(".point")
+        .transition()
+        .enter().append("circle")
+        .attr("class", "point")
+        .attr("clip-path", "url(#clip)")
+        .attr("r", 8)
+        .attr("cx", function(d) { return x(d.log2FoldChange); })
+        .attr("cy", function(d) { return y(d.stat); })
+        .call(d3.helper.tooltip());
+
+    points.on('mousedown', function(){
+      brush_elm = svg.select(".brush").node();
+      new_click_event = new Event('mousedown');
+      new_click_event.pageX = d3.event.pageX;
+      new_click_event.clientX = d3.event.clientX;
+      new_click_event.pageY = d3.event.pageY;
+      new_click_event.clientY = d3.event.clientY;
+      brush_elm.dispatchEvent(new_click_event);
+    });
+
+    transition_data();
+    reset_axis();  
+
+    console.log(event.target.value)
+}
+
+const selector = document.querySelector('.dropdown_class')
+
+selector.addEventListener("change", foobar)
 
 
 </script>
