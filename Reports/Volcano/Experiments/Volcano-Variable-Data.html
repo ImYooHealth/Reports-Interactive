@@ -47,13 +47,44 @@
 
 <label for="dropdown">Select a Cell Type</label>
 <select class="dropdown_class" name="dropdown" id="cell_type_selection">
-    <option value='nk'>Natural Killer Cells</option>
-    <option value='b'>B Cells</option>
-    <option value='t'>T Cells</option>
+    <option value="de_df_10th_1st3rd.csv">Natural Killer Cells</option>
+    <option value="de_df_10th_2nd3rd.csv">B Cells</option>
+    <option value="de_df_10th_3rd3rd.csv">T Cells</option>
 </select>
 
 <script>
     function foobar(event) {
+        var data = readCSVFile(event.target.value)
+
+        // Find ranges for axes
+        // Horizontal
+        const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+        const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+        const minh = Math.min(...numeric_hvals);
+        const maxh = Math.max(...numeric_hvals);
+
+        // Vertical
+        const vvals = data.map((row) => parseFloat(row.stat));
+        const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+        const minv = Math.min(...numeric_vvals)
+        const maxv = Math.max(...numeric_vvals)
+
+        x.domain([minh, maxh])
+         .range([0, width]);
+
+        y.domain([minv, maxv])
+         .range([height, 0]);        
+
+        svg.selectAll(".point")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "point")
+            .attr("clip-path", "url(#clip)")
+            .attr("r", 8)
+            .attr("cx", function(d) { return x(d.log2FoldChange); })
+            .attr("cy", function(d) { return y(d.stat); })
+            .call(d3.helper.tooltip());
+
         console.log(event.target.value)
     }
 
@@ -218,6 +249,30 @@ svg.append("defs").append("clipPath")
     .attr("width", width)
     .attr("height", height);
 
+var idleTimeout
+function idled() { idleTimeout = null; }
+
+function transition_data() {
+  svg.selectAll(".point")
+  .data(data)
+  .transition()
+  .duration(500)
+  .attr("cx", function(d) { return x(d.log2FoldChange); })
+  .attr("cy", function(d) { return y(d.stat); });
+}
+
+function reset_axis() {
+  svg.transition().duration(500)
+   .select(".x.axis")
+   .call(xAxis)
+
+  svg.transition().duration(500)
+   .select(".y.axis")
+   .call(yAxis)
+}
+
+/*---------- begin points object region --------*/
+
 points = svg.selectAll(".point")
     .data(data)
     .enter().append("circle")
@@ -248,9 +303,6 @@ function brushmove() {
   });
 }
 
-var idleTimeout
-function idled() { idleTimeout = null; }
-
 function brushend() {
   var extent = brush.extent()
   console.log(extent)
@@ -275,22 +327,5 @@ function brushend() {
   reset_axis();  
 }
 
-function transition_data() {
-  svg.selectAll(".point")
-  .data(data)
-  .transition()
-  .duration(500)
-  .attr("cx", function(d) { return x(d.log2FoldChange); })
-  .attr("cy", function(d) { return y(d.stat); });
-}
 
-function reset_axis() {
-  svg.transition().duration(500)
-   .select(".x.axis")
-   .call(xAxis)
-
-  svg.transition().duration(500)
-   .select(".y.axis")
-   .call(yAxis)
-}
 </script>
