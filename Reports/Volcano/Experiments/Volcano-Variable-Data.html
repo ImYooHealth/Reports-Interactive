@@ -55,6 +55,7 @@
 <script>
 d3.helper = {};
 
+// Begin Function Definitions
 d3.helper.tooltip = function(){
     var tooltipDiv;
     var bodyNode = d3.select('body').node();
@@ -136,6 +137,112 @@ function readCSVFile(filePath) {
   return result;
 }
 
+function transition_data() {
+  svg.selectAll(".point")
+  .data(data)
+  .transition()
+  .duration(500)
+  .attr("cx", function(d) { return x(d.log2FoldChange); })
+  .attr("cy", function(d) { return y(d.stat); });
+}
+
+function reset_axis() {
+  svg.transition().duration(500)
+   .select(".x.axis")
+   .call(xAxis)
+
+  svg.transition().duration(500)
+   .select(".y.axis")
+   .call(yAxis)
+}
+
+var idleTimeout
+function idled() { idleTimeout = null; }   
+
+function brushend() {
+  var extent = brush.extent()
+  console.log(extent)
+
+  if(extent[0][0] == extent[1][0] || extent[0][1] == extent[1][1]) {
+    // Another way to write the conditional below
+    // if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
+    if (!idleTimeout) {
+        idleTimeout = setTimeout(idled, 350);
+        return
+    }
+    x.domain([minh, maxh])
+    y.domain([minv, maxv])
+  } else {
+    x.domain([extent[0][0], extent[1][0]])
+    y.domain([extent[0][1], extent[1][1]])
+    points.classed("selected", false);
+    d3.select(".brush").call(brush.clear());
+  }
+
+  transition_data();
+  reset_axis();  
+}
+
+function brushmove() {
+  var extent = brush.extent();
+  points.classed("selected", function(d) {
+    //console.log(extent)
+    var h_brushed = extent[0][0] <= d.log2FoldChange && d.log2FoldChange <= extent[1][0]
+    var v_brushed = extent[0][1] <= d.stat && d.stat <= extent[1][1]
+    return h_brushed && v_brushed;
+  });
+}
+
+function update(event) {
+    var data = readCSVFile(event.target.value)
+
+    // Find ranges for axes
+    // Horizontal
+    const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+    const minh = Math.min(...numeric_hvals);
+    const maxh = Math.max(...numeric_hvals);
+
+    // Vertical
+    const vvals = data.map((row) => parseFloat(row.stat));
+    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+    const minv = Math.min(...numeric_vvals)
+    const maxv = Math.max(...numeric_vvals)
+
+    x.domain([minh, maxh])
+    y.domain([minv, maxv]) 
+
+    svg.selectAll(".point").remove()
+
+    points = svg.selectAll(".point")
+        .data(data)
+        .enter().append("circle")
+        .attr("class", "point")
+        .attr("clip-path", "url(#clip)")
+        .attr("r", 8)
+        .attr("cx", function(d) { return x(d.log2FoldChange); })
+        .attr("cy", function(d) { return y(d.stat); })
+        .call(d3.helper.tooltip());
+
+    /*
+    points.on('mousedown', function(){
+      brush_elm = svg.select(".brush").node();
+      new_click_event = new Event('mousedown');
+      new_click_event.pageX = d3.event.pageX;
+      new_click_event.clientX = d3.event.clientX;
+      new_click_event.pageY = d3.event.pageY;
+      new_click_event.clientY = d3.event.clientY;
+      brush_elm.dispatchEvent(new_click_event);
+    });
+    */
+    
+    transition_data();
+    reset_axis();  
+
+    console.log(event.target.value)
+}
+// End Function Definitions 
+
 /* Begin canvas setup */
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
@@ -149,15 +256,11 @@ var svg = d3.select("body").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 /* End canvas setup */
 
-
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
   .append("rect")
     .attr("width", width)
     .attr("height", height);
-
-var idleTimeout
-function idled() { idleTimeout = null; }    
 
 /* Hereafter, things depend on data */
 var data = readCSVFile("de_df_10th.csv");
@@ -217,27 +320,8 @@ svg.append("g")
     .attr('height', height);
 /* End setup axes and brush */
 
-function transition_data() {
-  svg.selectAll(".point")
-  .data(data)
-  .transition()
-  .duration(500)
-  .attr("cx", function(d) { return x(d.log2FoldChange); })
-  .attr("cy", function(d) { return y(d.stat); });
-}
-
-function reset_axis() {
-  svg.transition().duration(500)
-   .select(".x.axis")
-   .call(xAxis)
-
-  svg.transition().duration(500)
-   .select(".y.axis")
-   .call(yAxis)
-}
 
 /*---------- begin points object region --------*/
-
 
 points = svg.selectAll(".point")
     .data(data)
@@ -259,128 +343,7 @@ points.on('mousedown', function(){
   brush_elm.dispatchEvent(new_click_event);
 });
 
-function brushmove() {
-  var extent = brush.extent();
-  points.classed("selected", function(d) {
-    //console.log(extent)
-    var h_brushed = extent[0][0] <= d.log2FoldChange && d.log2FoldChange <= extent[1][0]
-    var v_brushed = extent[0][1] <= d.stat && d.stat <= extent[1][1]
-    return h_brushed && v_brushed;
-  });
-}
-
-function brushend() {
-  var extent = brush.extent()
-  console.log(extent)
-
-  if(extent[0][0] == extent[1][0] || extent[0][1] == extent[1][1]) {
-    // Another way to write the conditional below
-    // if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
-    if (!idleTimeout) {
-        idleTimeout = setTimeout(idled, 350);
-        return
-    }
-    x.domain([minh, maxh])
-    y.domain([minv, maxv])
-  } else {
-    x.domain([extent[0][0], extent[1][0]])
-    y.domain([extent[0][1], extent[1][1]])
-    points.classed("selected", false);
-    d3.select(".brush").call(brush.clear());
-  }
-
-  transition_data();
-  reset_axis();  
-}
-
-/*--------- Setup and Edit ------------------ */
-
-function update(event) {
-    var data = readCSVFile(event.target.value)
-
-    // Find ranges for axes
-    // Horizontal
-    const hvals = data.map((row) => parseFloat(row.log2FoldChange));
-    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
-    const minh = Math.min(...numeric_hvals);
-    const maxh = Math.max(...numeric_hvals);
-
-    // Vertical
-    const vvals = data.map((row) => parseFloat(row.stat));
-    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    const minv = Math.min(...numeric_vvals)
-    const maxv = Math.max(...numeric_vvals)
-
-    x.domain([minh, maxh])
-    y.domain([minv, maxv]) 
-
-    svg.selectAll(".point").remove()
-
-    points = svg.selectAll(".point")
-        .data(data)
-        .enter().append("circle")
-        .attr("class", "point")
-        .attr("clip-path", "url(#clip)")
-        .attr("r", 8)
-        .attr("cx", function(d) { return x(d.log2FoldChange); })
-        .attr("cy", function(d) { return y(d.stat); })
-        .call(d3.helper.tooltip());
-
-    /*
-    points.on('mousedown', function(){
-      brush_elm = svg.select(".brush").node();
-      new_click_event = new Event('mousedown');
-      new_click_event.pageX = d3.event.pageX;
-      new_click_event.clientX = d3.event.clientX;
-      new_click_event.pageY = d3.event.pageY;
-      new_click_event.clientY = d3.event.clientY;
-      brush_elm.dispatchEvent(new_click_event);
-    });
-    */
-    
-    transition_data();
-    reset_axis();  
-
-    console.log(event.target.value)
-}
-
 const selector = document.querySelector('.dropdown_class')
 selector.addEventListener("change", update)
-
-//update("de_df_10th_1st3rd.csv")
-
-function brushmove() {
-  var extent = brush.extent();
-  points.classed("selected", function(d) {
-    //console.log(extent)
-    var h_brushed = extent[0][0] <= d.log2FoldChange && d.log2FoldChange <= extent[1][0]
-    var v_brushed = extent[0][1] <= d.stat && d.stat <= extent[1][1]
-    return h_brushed && v_brushed;
-  });
-}
-
-function brushend() {
-  var extent = brush.extent()
-  console.log(extent)
-
-  if(extent[0][0] == extent[1][0] || extent[0][1] == extent[1][1]) {
-    // Another way to write the conditional below
-    // if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
-    if (!idleTimeout) {
-        idleTimeout = setTimeout(idled, 350);
-        return
-    }
-    x.domain([minh, maxh])
-    y.domain([minv, maxv])
-  } else {
-    x.domain([extent[0][0], extent[1][0]])
-    y.domain([extent[0][1], extent[1][1]])
-    points.classed("selected", false);
-    d3.select(".brush").call(brush.clear());
-  }
-
-  transition_data();
-  reset_axis();  
-}
 
 </script>
