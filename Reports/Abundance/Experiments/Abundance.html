@@ -75,6 +75,7 @@ function addViolin(theData) {
     .append("g")
       .attr("transform", function(d){ return("translate(" + x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
     .append("path")
+    .attr('class', 'violin')
         .datum(function(d){ return(d.value)})     // So now we are working bin per bin
         .style("stroke", "none")
         .style("fill","grey")
@@ -94,11 +95,12 @@ function addPoints(theData) {
     .data(theData)
     .enter()
     .append("circle")
-      .attr("cx", function(d){return(x(d.Species) + x.bandwidth()/2 - Math.random()*jitterWidth )})
-      .attr("cy", function(d){return(y(d.Sepal_Length))})
-      .attr("r", 5)
-      .style("fill", function(d){ return(myColor(d.Sepal_Length))})
-      .attr("stroke", "white")
+    .attr("class", "point")
+    .attr("cx", function(d){return(x(d.Species) + x.bandwidth()/2 - Math.random()*jitterWidth )})
+    .attr("cy", function(d){return(y(d.Sepal_Length))})
+    .attr("r", 5)
+    .style("fill", function(d){ return(myColor(d.Sepal_Length))})
+    .attr("stroke", "white")
 }
 
 function update(theData) {
@@ -110,7 +112,7 @@ function update(theData) {
 
 function removeFeatures() {
   // Remove violin
-  svg.selectAll('violin').remove()
+  svg.selectAll('.violin').remove()
 
   // Remove dots
   // I'd rather do this in line with volcano-variable-data, which would
@@ -118,7 +120,7 @@ function removeFeatures() {
   // Why the above does not work is unclear.
   // This impedes dropping the violin.
   // It's clear that svg.selectAll isn't seeing 'violin', 'points' :(
-  svg.selectAll('circle').remove()
+  svg.selectAll('.point').remove()
 }
 
 function respondToSelection(event) {
@@ -187,6 +189,6 @@ var histogram = d3.histogram()
 // End setup
 
 // Initialize
-//update(data)
+update(data)
 
 </script>
