@@ -343,6 +343,7 @@ points.on('mousedown', function(){
   brush_elm.dispatchEvent(new_click_event);
 });
 
+// TODO: Make update take either a string or an event, and use only it to create points
 const selector = document.querySelector('.dropdown_class')
 selector.addEventListener("change", update)
 
