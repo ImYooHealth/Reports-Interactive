@@ -113,7 +113,12 @@ function removeFeatures() {
   svg.selectAll('violin').remove()
 
   // Remove dots
-  svg.selectAll('points').remove()
+  // I'd rather do this in line with volcano-variable-data, which would
+  // do so via svg.selectAll('points').remove()
+  // Why the above does not work is unclear.
+  // This impedes dropping the violin.
+  // It's clear that svg.selectAll isn't seeing 'violin', 'points' :(
+  svg.selectAll('circle').remove()
 }
 
 function respondToSelection(event) {
