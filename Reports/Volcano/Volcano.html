@@ -161,7 +161,7 @@ var brush = d3.svg.brush()
     .x(x)
     .y(y)
     .on("brush", brushmove)
-    .on("brushend", brushend);
+    .on("brushend", brushend)
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -177,6 +177,21 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height - 6)
+    .text("income per capita, inflation-adjusted (dollars)");
+
+svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 6)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("life expectancy (years)");
 
 svg.append("g")
     .attr("class", "x axis")
