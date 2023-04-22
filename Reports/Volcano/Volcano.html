@@ -14,7 +14,7 @@
     }
 
     .axis {
-      font: 10px sans-serif;
+      font: 1px sans-serif;
     }
 
     p {
@@ -178,6 +178,7 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Horizontal axis label
 svg.append("text")
     .attr("class", "x label")
     .attr("text-anchor", "end")
@@ -185,13 +186,17 @@ svg.append("text")
     .attr("y", height - 6)
     .text("income per capita, inflation-adjusted (dollars)");
 
+// Vertical axis label
 svg.append("text")
     .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", 6)
+    .attr("text-anchor", "middle")
+    .attr("y", -20)
+    .attr("x", -(height / 2))
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
-    .text("life expectancy (years)");
+    .text("Signal Strength")
+    //.attr('.axis')
+    .attr("font-size","10px")
 
 svg.append("g")
     .attr("class", "x axis")
@@ -222,7 +227,7 @@ points = svg.selectAll(".point")
     .attr("clip-path", "url(#clip)")
     .attr("r", 8)
     .attr("cx", function(d) { return x(d.log2FoldChange); })
-    .attr("cy", function(d) { return y(d.stat); })
+    .attr("cy", function(d) { return y(Math.abs(d.stat)); })
     .call(d3.helper.tooltip());
 
 points.on('mousedown', function(){
