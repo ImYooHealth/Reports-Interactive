@@ -178,25 +178,48 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Horizontal axis label
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width)
-    .attr("y", height - 6)
-    .text("income per capita, inflation-adjusted (dollars)");
+function create_axis_labels(width, height) {
+    let h_axis_label_sink = 20
+    let font_family = 'Arial'
 
-// Vertical axis label
-svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "middle")
-    .attr("y", -20)
-    .attr("x", -(height / 2))
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .text("Signal Strength")
-    //.attr('.axis')
-    .attr("font-size","10px")
+    // Horizontal axis label
+    svg.append("text")
+        .attr("class", "x label left")
+        .attr("text-anchor", "end")
+        .attr("x", width)
+        .attr("y", height + h_axis_label_sink)
+        .text("More Expression")
+        .attr('font-size', '10px')
+        .attr('font-family', font_family)
+
+    // Horizontal axis label
+    svg.append("text")
+        .attr('class', 'x label right')
+        .attr('text-anchor', 'Begin')
+        .attr('x', 0)
+        .attr('y', height + h_axis_label_sink)
+        .text('Less Expression')
+        .attr('font-size', '10px')
+        .attr('font-family', font_family)    
+
+    // Vertical axis label
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("y", -20)
+        .attr("x", -(height / 2))
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("Signal Strength")
+        //.attr('.axis')
+        .attr("font-size","10px")
+        .attr('font-family', "Arial")
+}
+
+create_axis_labels(width, height)
+
+
+
 
 svg.append("g")
     .attr("class", "x axis")
