@@ -5,11 +5,11 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
-<label for="dropdown">Select a Cell Type</label>
+<label for="dropdown">Select a Gene</label>
 <select class="dropdown_class" name="dropdown" id="cell_type_selection">
-    <option value="data1.csv">Cell Type 1</option>
-    <option value="data2.csv">Cell Type 2</option>
-    <option value="data3.csv">Cell Type 3</option>
+    <option value="data1.csv">COMT</option>
+    <option value="data2.csv">CYP2D6</option>
+    <option value="data3.csv">SLC6A4</option>
 </select>
 
 <!-- Create a div where the graph will take place -->
@@ -99,7 +99,15 @@ function addPoints(theData) {
     .attr("cx", function(d){return(x(d.Species) + x.bandwidth()/2 - Math.random()*jitterWidth )})
     .attr("cy", function(d){return(y(d.Sepal_Length))})
     .attr("r", 5)
-    .style("fill", function(d){ return(myColor(d.Sepal_Length))})
+    .style("fill", function(d){
+            let retval = d.is_self == 'false' ? 'blue' : 'orange'; 
+            if(d.is_self) {
+                //console.log(d.is_self); 
+                //console.log(retval)
+            }
+            return retval
+        }
+    )
     .attr("stroke", "white")
 }
 
@@ -123,6 +131,7 @@ function respondToSelection(event) {
     var theData = readCSVFile(event.target.value)
     update(theData)
 }
+// End function definitions
 
 // Add response
 const selector = document.querySelector('.dropdown_class')
