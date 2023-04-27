@@ -108,6 +108,9 @@ function addPoints(theData) {
             return retval
         }
     )
+    .style('z-index', function(d) {
+        return d.is_self == 'false'? 500 : 999
+    })
     .attr("stroke", "white")
 }
 
