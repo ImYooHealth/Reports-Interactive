@@ -588,6 +588,7 @@
         .attr("r", 8)
         .attr("cx", function(d) { return x(d.log2FoldChange); })
         .attr("cy", function(d) { return y(Math.abs(d.stat)); })
+//        .attr("cy", function(d) { return y(d.stat); })        
         .call(d3v3.helper.tooltip());
 
     points.on('mousedown', function(){

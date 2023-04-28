@@ -357,11 +357,11 @@
     function reset_axis() {
       svg.transition().duration(500)
        .select(".volcano_x.axis")
-       .call(xAxis)
+       .call(volcano_xAxis)
 
       svg.transition().duration(500)
        .select(".y.axis")
-       .call(yAxis)
+       .call(volcano_yAxis)
     }
 
     var idleTimeout
@@ -383,7 +383,7 @@
         y.domain([minv, maxv])
       } else {
         volcano_x.domain([extent[0][0], extent[1][0]])
-        y.domain([extent[0][1], extent[1][1]])
+        volcano_y.domain([extent[0][1], extent[1][1]])
         points.classed("selected", false);
         d3v3.select(".brush").call(brush.clear());
       }
@@ -521,7 +521,7 @@
     var data = readCSVFile("de_df_10th.csv");
 
     // Data prep: we wish only to use |stat|
-    data.magstat = data.map((row) => Math.abs(parseFloat(row.stat)))
+    data.magstat = data.map((row) => Math.abs(parseFloat(row.magsstat)))
     console.log(data);
 
     /* Begin Setup axes and brush */
