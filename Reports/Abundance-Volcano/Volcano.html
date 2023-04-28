@@ -44,6 +44,8 @@
     }
 </style>
 
+<div id="volcano_plot"></div>
+
 <body>
 <script src="d3.v3.js"></script>
 
@@ -294,7 +296,7 @@
         height = 450 - margin.top - margin.bottom;
 
     // Create the SVG
-    var svg = d3v3.select("body").append("svg")
+    var svg = d3v3.select("#volcano_plot").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
