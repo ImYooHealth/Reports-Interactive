@@ -5,17 +5,23 @@
 <script src="d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
+<!-- CSS -->
+<link href="default.css" rel="stylesheet" type="text/css">
+
 <label for="dropdown">Select a Gene</label>
-<select class="dropdown_class" name="dropdown" id="cell_type_selection">
+<select class="abundance_dropdown_class" name="dropdown" id="gene_selection">
     <option value="data1.csv">COMT</option>
     <option value="data2.csv">CYP2D6</option>
     <option value="data3.csv">SLC6A4</option>
 </select>
 
 <!-- Create a div where the graph will take place -->
-<div id="abundance_plot"></div>
 <div id="volcano_plot"></div>
+<div id="abundance_plot"></div>
 
+<script src="abundance.js"></script>
+
+<!--
 <script>
     // Function definitions
     // Read the data and compute summary statistics for each species
@@ -52,7 +58,7 @@
         })
         .entries(theData)
 
-      // Section 2 of 3: xNum
+      // Section 2 of 3: abundance_xNum
       // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
       var maxNum = 0
       for ( i in sumstat ){
@@ -63,9 +69,9 @@
       }
 
       // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
-      var xNum = d3v4.scaleLinear()
-        .range([0, x.bandwidth()])
-        .domain([-maxNum,maxNum])
+      var abundance_xNum = d3v4.scaleLinear()
+        .range([0, abundance_x.bandwidth()])
+        .domain([-maxNum, maxNum])
 
       // Section 3 of 3: Plot
       svg
@@ -73,16 +79,16 @@
         .data(sumstat)
         .enter()        // So now we are working group per group
         .append("g")
-          .attr("transform", function(d){ return("translate(" + x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
+          .attr("transform", function(d){ return("translate(" + abundance_x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
         .append("path")
         .attr('class', 'violin')
             .datum(function(d){ return(d.value)})     // So now we are working bin per bin
             .style("stroke", "none")
             .style("fill","grey")
             .attr("d", d3v4.area()
-                .x0( xNum(0) )
-                .x1(function(d){ return(xNum(d.length)) } )
-                .y(function(d){ return(y(d.x0)) } )
+                .x0( abundance_xNum(0) )
+                .x1(function(d){ return(abundance_xNum(d.length)) } )
+                .y(function(d){ return(abundance_y(d.x0)) } )
                 .curve(d3v4.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3v4.curveStep to see the difference
             )
     }
@@ -91,13 +97,13 @@
     function addPoints(theData) {
       var jitterWidth = 40
       svg
-        .selectAll("points")
+        .selectAll("abundance_points")
         .data(theData)
         .enter()
         .append("circle")
-        .attr("class", "point")
-        .attr("cx", function(d){return(x(d.Species) + x.bandwidth()/2 - Math.random()*jitterWidth )})
-        .attr("cy", function(d){return(y(d.Sepal_Length))})
+        .attr("class", "abundance_point")
+        .attr("cx", function(d){return(abundance_x(d.Species) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )})
+        .attr("cy", function(d){return(abundance_y(d.Sepal_Length))})
         .attr("r", 5)
         .style("fill", function(d){
                 let retval = d.is_self == 'false' ? 'blue' : 'orange'; 
@@ -114,7 +120,7 @@
         .attr("stroke", "white")
     }
 
-    function update(theData) {
+    function updateAbundance(theData) {
       removeFeatures()
 
       addViolin(theData)
@@ -126,18 +132,18 @@
       svg.selectAll('.violin').remove()
 
       // Remove dots
-      svg.selectAll('.point').remove()
+      svg.selectAll('.abundance_point').remove()
     }
 
     function respondToSelection(event) {
         removeFeatures()
         var theData = readCSVFile(event.target.value)
-        update(theData)
+        updateAbundance(theData)
     }
     // End function definitions
 
     // Add response
-    const abundance_selector = document.querySelector('.dropdown_class')
+    const abundance_selector = document.querySelector('.abundance_dropdown_class')
     abundance_selector.addEventListener("change", respondToSelection)
 
     // Prepare to shift abundance down
@@ -176,39 +182,41 @@
     const abundance_minv = Math.min(...abundance_numeric_vvals)
     const abundance_maxv = Math.max(...abundance_numeric_vvals)
 
-    // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
-    var x = d3v4.scaleBand()
+    // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
+    var abundance_x = d3v4.scaleBand()
       .domain(abundance_hvals)
       .range([0, width])
       .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3v4.axisBottom(x))
+      .call(d3v4.axisBottom(abundance_x))
 
     // Build and Show the Y scale
-    var y = d3v4.scaleLinear()
+    var abundance_y = d3v4.scaleLinear()
       .domain([abundance_minv - 1, abundance_maxv + 1])          // Note that here the Y scale is set manually
       .range([v_adjust + height, v_adjust])
-    svg.append("g").call(d3v4.axisLeft(y))
+    svg.append("g").call(d3v4.axisLeft(abundance_y))
 
     // Features of the histogram
     var histogram = d3v4.histogram()
-          .domain(y.domain())
-          .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+          .domain(abundance_y.domain())
+          .thresholds(abundance_y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
           .value(d => d)
     // End setup
 
     // Initialize
-    update(data)
+    updateAbundance(data)
 </script>
+-->
 
 <!-- ^^^ From Abundance ^^^ -->
 <!-- vvv From Volcano   vvv --> 
 
 
 <!-- TODO: Move css into its own file -->
+<!--
 <style>   
-    .point {
+    .volcano_point {
       fill: #69b3a2;
       stroke: white;
       opacity: 0.3;
@@ -248,12 +256,13 @@
       shape-rendering: crispEdges;
     }
 </style>
+-->
 
 <body>
 <script src="d3.v3.js"></script>
 
 <label for="dropdown">Select a Cell Type</label>
-<select class="dropdown_class" name="dropdown" id="cell_type_selection">
+<select class="volcano_dropdown_class" name="dropdown" id="cell_type_selection">
     <option value="de_df_10th_1st3rd.csv">Natural Killer Cells</option>
     <option value="de_df_10th_2nd3rd.csv">B Cells</option>
     <option value="de_df_10th_3rd3rd.csv">T Cells</option>
@@ -346,27 +355,28 @@
     }
 
     function transition_data() {
-      svg.selectAll(".point")
+      svg.selectAll(".volcano_point")
       .data(data)
       .transition()
       .duration(500)
-      .attr("cx", function(d) { return x(d.log2FoldChange); })
-      .attr("cy", function(d) { return y(d.stat); });
+      .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
+      .attr("cy", function(d) { return volcano_y(d.stat); });
     }
 
     function reset_axis() {
       svg.transition().duration(500)
-       .select(".x.axis")
-       .call(xAxis)
+       .select(".volcano_x.axis")
+       .call(volcano_xAxis)
 
       svg.transition().duration(500)
        .select(".y.axis")
-       .call(yAxis)
+       .call(volcano_yAxis)
     }
 
     var idleTimeout
     function idled() { idleTimeout = null; }   
 
+    // TODO: parameters?
     function brushend() {
       var extent = brush.extent()
       console.log(extent)
@@ -378,11 +388,11 @@
             idleTimeout = setTimeout(idled, 350);
             return
         }
-        x.domain([minh, maxh])
+        volcano_x.domain([minh, maxh])
         y.domain([minv, maxv])
       } else {
-        x.domain([extent[0][0], extent[1][0]])
-        y.domain([extent[0][1], extent[1][1]])
+        volcano_x.domain([extent[0][0], extent[1][0]])
+        volcano_y.domain([extent[0][1], extent[1][1]])
         points.classed("selected", false);
         d3v3.select(".brush").call(brush.clear());
       }
@@ -401,7 +411,7 @@
       });
     }
 
-    function update(event) {
+    function updateVolcano(event) {
         var data = readCSVFile(event.target.value)
 
         // Find ranges for axes
@@ -417,23 +427,23 @@
         const minv = Math.min(...numeric_vvals)
         const maxv = Math.max(...numeric_vvals)
 
-        x.domain([minh, maxh])
-        y.domain([minv, maxv]) 
+        volcano_x.domain([minh, maxh])
+        volcano_y.domain([minv, maxv]) 
 
-        svg.selectAll(".point").remove()
+        svg.selectAll(".volcano_point").remove()
 
-        points = svg.selectAll(".point")
+        points = svg.selectAll(".volcano_point")
             .data(data)
             .enter()
             .append("circle")
-            .attr("class", "point")
+            .attr("class", "volcano_point")
             .attr("clip-path", "url(#clip)")
             .attr("r", 8)
-            .attr("cx", function(d) { return x(d.log2FoldChange); })
-            .attr("cy", function(d) { return y(d.stat); })
+            .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
+            .attr("cy", function(d) { return volcano_y(d.stat); })
             .call(d3v3.helper.tooltip());
 
-        /*
+        
         points.on('mousedown', function(){
           brush_elm = svg.select(".brush").node();
           new_click_event = new Event('mousedown');
@@ -443,7 +453,6 @@
           new_click_event.clientY = d3v3.event.clientY;
           brush_elm.dispatchEvent(new_click_event);
         });
-        */
         
         transition_data();
         reset_axis();  
@@ -520,7 +529,8 @@
     var data = readCSVFile("de_df_10th.csv");
 
     // Data prep: we wish only to use |stat|
-    data.magstat = data.map((row) => Math.abs(parseFloat(row.stat)))
+    // No data prep. That should happen in data generation. 
+    //data.magstat = data.map((row) => Math.abs(parseFloat(row.stat)))
     console.log(data);
 
     /* Begin Setup axes and brush */
@@ -537,38 +547,38 @@
     const minv = Math.min(...numeric_vvals)
     const maxv = Math.max(...numeric_vvals)
 
-    var x = d3v3.scale.linear()
+    var volcano_x = d3v3.scale.linear()
         .domain([minh, maxh])
         .range([0, width]);
 
-    var y = d3v3.scale.linear()
+    var volcano_y = d3v3.scale.linear()
         .domain([minv, maxv])
         .range([ height, 0]);
 
     var brush = d3v3.svg.brush()
-        .x(x)
-        .y(y)
+        .x(volcano_x)
+        .y(volcano_y)
         .on("brush", brushmove)
         .on("brushend", brushend);
 
-    var xAxis = d3v3.svg.axis()
-        .scale(x)
+    var volcano_xAxis = d3v3.svg.axis()
+        .scale(volcano_x)
         .orient("bottom");
 
-    var yAxis = d3v3.svg.axis()
-        .scale(y)
+    var volcano_yAxis = d3v3.svg.axis()
+        .scale(volcano_y)
         .orient("left")
         .ticks(11);
 
     svg.append("g")
-        .attr("class", "x axis")
+        .attr("class", "volcano_x axis")
         .attr("clip-path", "url(#clip)")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(volcano_xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
-        .call(yAxis);
+        .call(volcano_yAxis);
 
     svg.append("g")
         .attr("class", "brush")
@@ -580,28 +590,17 @@
 
     /*---------- begin points object region --------*/
 
-    points = svg.selectAll(".point")
+    points = svg.selectAll(".volcano_point")
         .data(data)
         .enter().append("circle")
-        .attr("class", "point")
+        .attr("class", "volcano_point")
         .attr("clip-path", "url(#clip)")
         .attr("r", 8)
-        .attr("cx", function(d) { return x(d.log2FoldChange); })
-        .attr("cy", function(d) { return y(Math.abs(d.stat)); })
-//        .attr("cy", function(d) { return y(d.stat); })        
+        .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
+        .attr("cy", function(d) { return volcano_y(Math.abs(d.stat)); })
         .call(d3v3.helper.tooltip());
 
-    points.on('mousedown', function(){
-      brush_elm = svg.select(".brush").node();
-      new_click_event = new Event('mousedown');
-      new_click_event.pageX = d3v3.event.pageX;
-      new_click_event.clientX = d3v3.event.clientX;
-      new_click_event.pageY = d3v3.event.pageY;
-      new_click_event.clientY = d3v3.event.clientY;
-      brush_elm.dispatchEvent(new_click_event);
-    });
-
     // TODO: Make update take either a string or an event, and use only it to create points
-    const volcano_selector = document.querySelector('.dropdown_class')
-    volcano_selector.addEventListener("change", update)
+    const volcano_selector = document.querySelector('.volcano_dropdown_class')
+    volcano_selector.addEventListener("change", updateVolcano)
 </script>
