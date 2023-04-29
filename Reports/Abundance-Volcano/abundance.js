@@ -49,7 +49,7 @@ function addViolin(theData) {
     .domain([-maxNum, maxNum])
 
   // Section 3 of 3: Plot
-  svg
+  abundance_svg
     .selectAll("violin")
     .data(sumstat)
     .enter()        // So now we are working group per group
@@ -71,7 +71,7 @@ function addViolin(theData) {
 // TODO: index.['likeThis'], pass field names as parameters. 
 function addPoints(theData) {
   var jitterWidth = 40
-  svg
+  abundance_svg
     .selectAll("abundance_points")
     .data(theData)
     .enter()
@@ -104,10 +104,10 @@ function updateAbundance(theData) {
 
 function removeFeatures() { 
   // Remove violin
-  svg.selectAll('.violin').remove()
+  abundance_svg.selectAll('.violin').remove()
 
   // Remove dots
-  svg.selectAll('.abundance_point').remove()
+  abundance_svg.selectAll('.abundance_point').remove()
 }
 
 function respondToSelection(event) {
@@ -129,8 +129,8 @@ var margin = {top: 10, right: 30, bottom: 30, left: 40},
     width = 460 - margin.left - margin.right,
     height = v_adjust + 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3v4.select("#abundance_plot")
+// append the abundance_svg object to the body of the page
+var abundance_svg = d3v4.select("#abundance_plot")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -162,7 +162,7 @@ var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-svg.append("g")
+abundance_svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3v4.axisBottom(abundance_x))
 
@@ -170,7 +170,7 @@ svg.append("g")
 var abundance_y = d3v4.scaleLinear()
   .domain([abundance_minv - 1, abundance_maxv + 1])          // Note that here the Y scale is set manually
   .range([v_adjust + height, v_adjust])
-svg.append("g").call(d3v4.axisLeft(abundance_y))
+abundance_svg.append("g").call(d3v4.axisLeft(abundance_y))
 
 // Features of the histogram
 var histogram = d3v4.histogram()
