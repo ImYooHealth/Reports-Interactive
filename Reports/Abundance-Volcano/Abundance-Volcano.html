@@ -3,32 +3,38 @@
 
 <!-- Load d3.js and plugin for color scale -->
 <script src="d3.v4.js"></script>
+<script src="d3.v3.js"></script> <!-- For some reason v3 has to be imported after v4 -->
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 <!-- CSS -->
 <link href="default.css" rel="stylesheet" type="text/css">
 
-<label for="dropdown">Select a Gene</label>
-<select class="abundance_dropdown_class" name="dropdown" id="gene_selection">
-    <option value="data1.csv">COMT</option>
-    <option value="data2.csv">CYP2D6</option>
-    <option value="data3.csv">SLC6A4</option>
-</select>
+<!-- The composition of two plots -->
+<div id="abundance-volcano">
+    <div id="volcano">
+        <div id="volcano_plot"></div>
 
-<!-- Create a div where the graph will take place -->
-<div id="volcano_plot"></div>
-<div id="abundance_plot"></div>
+        <label for="dropdown">Select a Cell Type</label>
+        <select class="volcano_dropdown_class" name="dropdown" id="cell_type_selection">
+            <option value="de_df_10th_1st3rd.csv">Natural Killer Cells</option>
+            <option value="de_df_10th_2nd3rd.csv">B Cells</option>
+            <option value="de_df_10th_3rd3rd.csv">T Cells</option>
+        </select>    
+    </div>
 
+    <div id="abundance">
+        <div id="abundance_plot"></div>
+
+        <label for="dropdown">Select a Gene</label>
+        <select class="abundance_dropdown_class" name="dropdown" id="gene_selection">
+            <option value="data1.csv">COMT</option>
+            <option value="data2.csv">CYP2D6</option>
+            <option value="data3.csv">SLC6A4</option>
+        </select>
+    </div>
+</div>
+
+
+<!-- Local libraries -->
 <script src="abundance.js"></script>
-
-<body>
-<script src="d3.v3.js"></script>
-
-<label for="dropdown">Select a Cell Type</label>
-<select class="volcano_dropdown_class" name="dropdown" id="cell_type_selection">
-    <option value="de_df_10th_1st3rd.csv">Natural Killer Cells</option>
-    <option value="de_df_10th_2nd3rd.csv">B Cells</option>
-    <option value="de_df_10th_3rd3rd.csv">T Cells</option>
-</select>
-
 <script src="volcano.js"></script>
