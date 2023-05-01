@@ -1,5 +1,22 @@
-const GROUPING = 'Species'
-const ABUNDANCE_VERTICAL = 'Sepal_Length'
+const real_data = true
+
+
+var GROUPING
+var ABUNDANCE_VERTICAL
+var SELF
+var data
+
+if (real_data) {
+    GROUPING = 'cell_type' // For demo data use: 'Species'
+    ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
+    SELF = 'is_self'
+    data = readCSVFile("304/Abundances/COMT.csv")
+} else {
+    GROUPING = 'Species'
+    ABUNDANCE_VERTICAL = 'Sepal_Width'
+    SELF = 'is_self'
+    data = readCSVFile("data1.csv")
+}
 
 // Function definitions
 // Read the data and compute summary statistics for each species
@@ -64,15 +81,17 @@ function addViolin(theData) {
         .style("stroke", "none")
         .style("fill","grey")
         .attr("d", d3v4.area()
-            .x0( abundance_xNum(0) )
-            .x1(function(d){ return(abundance_xNum(d.length)) } )
-            .y(function(d){ return(abundance_y(d.x0)) } )
+            .x0(abundance_xNum(0))
+            .x1(function(d){ return(abundance_xNum(d.length)) })
+            .y(function(d){ return(abundance_y(d.x0)) })
             .curve(d3v4.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3v4.curveStep to see the difference
         )
 }
 
 // TODO: index.['likeThis'], pass field names as parameters. 
 function addPoints(theData) {
+    // Dev 
+    console.log(theData)
   var jitterWidth = 40
   abundance_svg
     .selectAll("abundance_points")
@@ -80,20 +99,23 @@ function addPoints(theData) {
     .enter()
     .append("circle")
     .attr("class", "abundance_point")
-    .attr("cx", function(d){return(abundance_x(d[GROUPING]) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )})
+    .attr("cx", function(d) {
+        console.log(d)
+        return(abundance_x(d[GROUPING]) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )
+    })
     .attr("cy", function(d){return(abundance_y(d[ABUNDANCE_VERTICAL]))})
     .attr("r", 5)
     .style("fill", function(d){
-            let retval = d.is_self == 'false' ? 'blue' : 'orange'; 
-            if(d.is_self) {
-                //console.log(d.is_self); 
+            let retval = d[SELF] == 'false' ? 'orange' : 'blue'; 
+            if(d[SELF]) {
+                //console.log(d[SELF]); 
                 //console.log(retval)
             }
             return retval
         }
     )
     .style('z-index', function(d) {
-        return d.is_self == 'false'? 500 : 999
+        return d[SELF] == 'false'? 500 : 999
     })
     .attr("stroke", "white")
 }
@@ -115,7 +137,9 @@ function removeFeatures() {
 
 function respondToSelection(event) {
     removeFeatures()
+    console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
+    console.log(event.target.value)
     updateAbundance(theData)
 }
 // End function definitions
@@ -147,7 +171,7 @@ var myColor = d3v4.scaleSequential()
   .domain([3,9])
 
 // Hereafter, everything depends on data
-data = readCSVFile("data1.csv")
+//data = readCSVFile("304/Abundances/COMT.csv")
 
 // Begin setup
 // Find ranges for axes
