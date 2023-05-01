@@ -1,3 +1,6 @@
+const GROUPING = 'Species'
+const VERTICAL = 'Sepal_Length'
+
 // Function definitions
 // Read the data and compute summary statistics for each species
 function readCSVFile(filePath) {
@@ -25,9 +28,9 @@ function addViolin(theData) {
   // Section 1 of 3: Sumstat
   // Compute the binning for each group of the dataset
   var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
-    .key(function(d) { return d.Species;})
+    .key(function(d) { return d[GROUPING];})
     .rollup(function(d) {   // For each key..
-      input = d.map(function(g) { return g.Sepal_Length;})    // Keep the variable called Sepal_Length
+      input = d.map(function(g) { return g[VERTICAL];})    // Keep the variable called Sepal_Length
       bins = histogram(input)   // And compute the binning on it.
       return(bins)
     })
@@ -77,8 +80,8 @@ function addPoints(theData) {
     .enter()
     .append("circle")
     .attr("class", "abundance_point")
-    .attr("cx", function(d){return(abundance_x(d.Species) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )})
-    .attr("cy", function(d){return(abundance_y(d.Sepal_Length))})
+    .attr("cx", function(d){return(abundance_x(d[GROUPING]) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )})
+    .attr("cy", function(d){return(abundance_y(d[VERTICAL]))})
     .attr("r", 5)
     .style("fill", function(d){
             let retval = d.is_self == 'false' ? 'blue' : 'orange'; 
@@ -96,7 +99,7 @@ function addPoints(theData) {
 }
 
 function updateAbundance(theData) {
-  removeFeatures()
+  //removeFeatures()
 
   addViolin(theData)
   addPoints(theData)
@@ -149,35 +152,41 @@ data = readCSVFile("data1.csv")
 // Begin setup
 // Find ranges for axes
 // Horizontal
-const abundance_hvals = [...new Set(data.map((row) => row.Species))].filter((item) => typeof(item) === 'string')
+const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
 // Vertical
-const abundance_vvals = data.map((row) => parseFloat(row.Sepal_Length));
+const abundance_vvals = data.map((row) => parseFloat(row[VERTICAL]));
 const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
 const abundance_minv = Math.min(...abundance_numeric_vvals)
 const abundance_maxv = Math.max(...abundance_numeric_vvals)
 
-// Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
+
+// Build and Show the X scale. It is a band scale like for a boxplot: each group has an
+// dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
 var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+
 abundance_svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3v4.axisBottom(abundance_x))
+
 
 // Build and Show the Y scale
 var abundance_y = d3v4.scaleLinear()
   .domain([abundance_minv - 1, abundance_maxv + 1])          // Note that here the Y scale is set manually
   .range([v_adjust + height, v_adjust])
+
 abundance_svg.append("g").call(d3v4.axisLeft(abundance_y))
 
 // Features of the histogram
 var histogram = d3v4.histogram()
       .domain(abundance_y.domain())
-      .thresholds(abundance_y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+      .thresholds(abundance_y.ticks(20))    //  Number of Bins
       .value(d => d)
 // End setup
+
 
 // Initialize
 updateAbundance(data)
