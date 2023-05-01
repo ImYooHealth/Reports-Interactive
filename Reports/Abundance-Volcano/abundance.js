@@ -1,5 +1,5 @@
 const GROUPING = 'Species'
-const VERTICAL = 'Sepal_Length'
+const ABUNDANCE_VERTICAL = 'Sepal_Length'
 
 // Function definitions
 // Read the data and compute summary statistics for each species
@@ -30,7 +30,7 @@ function addViolin(theData) {
   var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
     .key(function(d) { return d[GROUPING];})
     .rollup(function(d) {   // For each key..
-      input = d.map(function(g) { return g[VERTICAL];})    // Keep the variable called Sepal_Length
+      input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
       bins = histogram(input)   // And compute the binning on it.
       return(bins)
     })
@@ -81,7 +81,7 @@ function addPoints(theData) {
     .append("circle")
     .attr("class", "abundance_point")
     .attr("cx", function(d){return(abundance_x(d[GROUPING]) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )})
-    .attr("cy", function(d){return(abundance_y(d[VERTICAL]))})
+    .attr("cy", function(d){return(abundance_y(d[ABUNDANCE_VERTICAL]))})
     .attr("r", 5)
     .style("fill", function(d){
             let retval = d.is_self == 'false' ? 'blue' : 'orange'; 
@@ -155,7 +155,7 @@ data = readCSVFile("data1.csv")
 const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
 // Vertical
-const abundance_vvals = data.map((row) => parseFloat(row[VERTICAL]));
+const abundance_vvals = data.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
 const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
 const abundance_minv = Math.min(...abundance_numeric_vvals)
 const abundance_maxv = Math.max(...abundance_numeric_vvals)

@@ -1,3 +1,6 @@
+const VOLCANO_HORIZONTAL = 'log2FoldChange'
+const VOLCANO_VERTICAL = 'stat'
+
 d3v3.helper = {};
 
 // Begin Function Definitions
@@ -8,7 +11,7 @@ d3v3.helper.tooltip = function(){
 
     function tooltip(selection){
 
-        selection.on('mouseover.tooltip', function(pD, pI){
+        selection.on('mouseover.tooltip', function(pD, pI) {
             // Clean up lost tooltips
             d3v3.select('body').selectAll('div.tooltip').remove();
             // Append tooltip
@@ -33,7 +36,7 @@ d3v3.helper.tooltip = function(){
             var only_line = '<p>Gene: ' + pD.gene_name + '</p>'
             tooltipDiv.html(only_line)
         })
-        .on('mousemove.tooltip', function(pD, pI){
+        .on('mousemove.tooltip', function(pD, pI) {
             // Move tooltip
             var absoluteMousePos = d3v3.mouse(bodyNode);
             tooltipDiv.style({
@@ -41,11 +44,16 @@ d3v3.helper.tooltip = function(){
                 top: (absoluteMousePos[1] - 30)+'px'
             });
         })
-        .on('mouseout.tooltip', function(pD, pI){
+        .on('mouseout.tooltip', function(pD, pI) {
             // Remove tooltip
             tooltipDiv.remove();
+        })
+        .on('click', function(pD, pI) {
+            console.log('foobar')
+            console.log(pD.gene_name)
+            console.log(pD)
+            console.log(pI)
         });
-
     }
 
     tooltip.attr = function(_x){
@@ -88,8 +96,8 @@ function transition_data() {
   .data(data)
   .transition()
   .duration(500)
-  .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
-  .attr("cy", function(d) { return volcano_y(d.stat); });
+  .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+  .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
 }
 
 function reset_axis() {
@@ -134,8 +142,8 @@ function brushmove() {
   var extent = brush.extent();
   points.classed("selected", function(d) {
     //console.log(extent)
-    var h_brushed = extent[0][0] <= d.log2FoldChange && d.log2FoldChange <= extent[1][0]
-    var v_brushed = extent[0][1] <= d.stat && d.stat <= extent[1][1]
+    var h_brushed = extent[0][0] <= d[VOLCANO_HORIZONTAL] && d[VOLCANO_HORIZONTAL] <= extent[1][0]
+    var v_brushed = extent[0][1] <= d[VOLCANO_VERTICAL] && d[VOLCANO_VERTICAL] <= extent[1][1]
     return h_brushed && v_brushed;
   });
 }
@@ -145,13 +153,13 @@ function updateVolcano(event) {
 
     // Find ranges for axes
     // Horizontal
-    const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
     const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
     const minh = Math.min(...numeric_hvals);
     const maxh = Math.max(...numeric_hvals);
 
     // Vertical
-    const vvals = data.map((row) => parseFloat(row.stat));
+    const vvals = data.map((row) => parseFloat(row[VOLCANO_VERTICAL]));
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
     const minv = Math.min(...numeric_vvals)
     const maxv = Math.max(...numeric_vvals)
@@ -168,12 +176,12 @@ function updateVolcano(event) {
         .attr("class", "volcano_point")
         .attr("clip-path", "url(#clip)")
         .attr("r", 8)
-        .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
-        .attr("cy", function(d) { return volcano_y(d.stat); })
+        .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+        .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); })
         .call(d3v3.helper.tooltip());
 
     
-    points.on('mousedown', function(){
+    points.on('mousedown', function() {
       brush_elm = svg.select(".brush").node();
       new_click_event = new Event('mousedown');
       new_click_event.pageX = d3v3.event.pageX;
@@ -186,7 +194,9 @@ function updateVolcano(event) {
     transition_data();
     reset_axis();  
 
-    console.log(event.target.value)
+    //console.log(event.target.value)
+
+    return data
 }
 
 function create_axis_labels(svg, width, height) {
@@ -255,23 +265,24 @@ svg.append("defs").append("clipPath")
     .attr("height", height);
 
 /* Hereafter, things depend on data */
+/* TODO: initialize from new data */
 var data = readCSVFile("de_df_10th.csv");
 
 // Data prep: we wish only to use |stat|
 // No data prep. That should happen in data generation. 
-//data.magstat = data.map((row) => Math.abs(parseFloat(row.stat)))
-console.log(data);
+//data.magstat = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])))
+//console.log(data);
 
 /* Begin Setup axes and brush */
 // Find ranges for axes
 // Horizontal
-const hvals = data.map((row) => parseFloat(row.log2FoldChange));
+const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
 const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
 const minh = Math.min(...numeric_hvals);
 const maxh = Math.max(...numeric_hvals);
 
 // Vertical
-const vvals = data.map((row) => Math.abs(parseFloat(row.stat)));
+const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
 const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
 const minv = Math.min(...numeric_vvals)
 const maxv = Math.max(...numeric_vvals)
@@ -281,8 +292,8 @@ var volcano_x = d3v3.scale.linear()
     .range([0, width]);
 
 var volcano_y = d3v3.scale.linear()
-    .domain([minv, maxv])
-    .range([ height, 0]);
+    .domain([0, 1])
+    .range([height, 0]);
 
 var brush = d3v3.svg.brush()
     .x(volcano_x)
@@ -297,7 +308,7 @@ var volcano_xAxis = d3v3.svg.axis()
 var volcano_yAxis = d3v3.svg.axis()
     .scale(volcano_y)
     .orient("left")
-    .ticks(11);
+    .ticks(8);  // TODO: Replace with arrow
 
 svg.append("g")
     .attr("class", "volcano_x axis")
@@ -312,23 +323,26 @@ svg.append("g")
 svg.append("g")
     .attr("class", "brush")
     .call(brush)
-  .selectAll('rect')
-    .attr('height', height);
+      .selectAll('rect')
+      .attr('height', height);
 /* End setup axes and brush */
 
 
 /*---------- begin points object region --------*/
-
+/*
 points = svg.selectAll(".volcano_point")
     .data(data)
     .enter().append("circle")
     .attr("class", "volcano_point")
     .attr("clip-path", "url(#clip)")
     .attr("r", 8)
-    .attr("cx", function(d) { return volcano_x(d.log2FoldChange); })
-    .attr("cy", function(d) { return volcano_y(Math.abs(d.stat)); })
+    .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+    .attr("cy", function(d) { return volcano_y(Math.abs(d[VOLCANO_VERTICAL])); })
     .call(d3v3.helper.tooltip());
-
+*/
 // TODO: Make update take either a string or an event, and use only it to create points
 const volcano_selector = document.querySelector('.volcano_dropdown_class')
 volcano_selector.addEventListener("change", updateVolcano)
+
+// Initialize
+var data = updateVolcano({target: {value: "de_df_10th.csv"}})
