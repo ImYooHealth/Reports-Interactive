@@ -101,7 +101,7 @@ function addPoints(theData) {
     .attr("class", "abundance_point")
     .attr("cx", function(d) {
         console.log(d)
-        return(abundance_x(d[GROUPING]) + abundance_x.bandwidth()/2 - Math.random()*jitterWidth )
+        return(abundance_x(d[GROUPING]) + abundance_x.bandwidth() / 2 - Math.random() * jitterWidth)
     })
     .attr("cy", function(d){return(abundance_y(d[ABUNDANCE_VERTICAL]))})
     .attr("r", 5)
@@ -114,9 +114,6 @@ function addPoints(theData) {
             return retval
         }
     )
-    .style('z-index', function(d) {
-        return d[SELF] == 'false'? 500 : 999
-    })
     .attr("stroke", "white")
 }
 
@@ -214,3 +211,5 @@ var histogram = d3v4.histogram()
 
 // Initialize
 updateAbundance(data)
+
+export {updateAbundance}
