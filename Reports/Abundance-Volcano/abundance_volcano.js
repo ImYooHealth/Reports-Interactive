@@ -116,10 +116,21 @@ function addPoints(theData) {
 }
 
 function updateAbundance(theData) {
-  //removeFeatures()
+  removeFeatures()
 
   addViolin(theData)
   addPoints(theData)
+  removeNaNPoints()
+}
+
+function removeNaNPoints() {
+    abundance_svg.selectAll('circle').filter(function() {
+        return d3.select(this).attr('cx') == "NaN"
+    }).remove()
+
+    abundance_svg.selectAll('circle').filter(function() {
+        return d3.select(this).attr('cy') == "NaN"
+    }).remove()
 }
 
 function removeFeatures() { 
