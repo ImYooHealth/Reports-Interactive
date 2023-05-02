@@ -12,6 +12,7 @@ if (real_data) {
     ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
     SELF = 'is_self'
     data = readCSVFile("304/Abundances/COMT.csv")
+    console.log(data)
 } else {
     GROUPING = 'Species'
     ABUNDANCE_VERTICAL = 'Sepal_Width'
@@ -108,10 +109,6 @@ function addPoints(theData) {
     .attr("r", 5)
     .style("fill", function(d){
             let retval = d[SELF] == 'false' ? 'orange' : 'blue'; 
-            if(d[SELF]) {
-                //console.log(d[SELF]); 
-                //console.log(retval)
-            }
             return retval
         }
     )
@@ -222,7 +219,9 @@ d3v3.helper = {};
 
 function click_circle(pD, pI) {
     var filename = '304/Abundances/' + pD.gene_name + '.csv'
-    updateAbundance(filename)
+    console.log(filename)
+    var data = readCSVFile(filename)
+    updateAbundance(data)
     //alert(pD.gene_name)
 }
 
