@@ -295,8 +295,8 @@ const v_adjust = 0//200
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
-    width = 760 - margin.left - margin.right,
-    height = v_adjust + 400 - margin.top - margin.bottom;
+    width = 960 - margin.left - margin.right,
+    height = v_adjust + 500 - margin.top - margin.bottom;
 
 // append the abundance_svg object to the body of the page
 var abundance_svg = d3v4.select("#abundance_plot")
@@ -441,14 +441,14 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
-function transition_data() {
-  svg.selectAll(".volcano_point")
-  .data(data)
-  .transition()
-  .duration(500)
-  .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-  .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-}
+// function transition_data(data) {
+//   svg.selectAll(".volcano_point")
+//   .data(data)
+//   .transition()
+//   .duration(500)
+//   .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+//   .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+// }
 
 function reset_axis() {
   svg.transition().duration(500)
@@ -475,8 +475,8 @@ function brushend() {
         idleTimeout = setTimeout(idled, 1000);
         return
     }
-    volcano_x.domain([minh, maxh])
-    volcano_y.domain([minv, maxv])
+    volcano_x.domain([-maxx, maxx])
+    volcano_y.domain([0, maxv])
   } else {
     volcano_x.domain([extent[0][0], extent[1][0]])
     volcano_y.domain([extent[0][1], extent[1][1]])
@@ -484,7 +484,7 @@ function brushend() {
     d3v3.select(".brush").call(brush.clear());
   }
 
-  transition_data();
+  // transition_data();
   reset_axis();  
 }
 
@@ -499,6 +499,7 @@ function brushmove() {
 }
 
 function updateVolcano(event) {
+
     var data = readCSVFile(event.target.value)
 
     // Find ranges for axes
@@ -507,17 +508,15 @@ function updateVolcano(event) {
     const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
     const minh = Math.min(...numeric_hvals);
     const maxh = Math.max(...numeric_hvals);
+    const maxx = Math.max(...[-minh, maxh]) * 1.10;
 
     // Vertical
     const vvals = data.map((row) => parseFloat(row[VOLCANO_VERTICAL]));
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    const minv = Math.min(...numeric_vvals)
-    const maxv = Math.max(...numeric_vvals)
+    const maxv = Math.max(...numeric_vvals) * 1.10;
 
-    console.log(minv)
-
-    volcano_x.domain([minh, maxh])
-    volcano_y.domain([minv, maxv]) 
+    volcano_x.domain([-maxx, maxx])
+    volcano_y.domain([0, maxv]) 
 
     svg.selectAll(".volcano_point").remove()
 
@@ -543,7 +542,7 @@ function updateVolcano(event) {
       brush_elm.dispatchEvent(new_click_event);
     });
     
-    transition_data();
+    // transition_data(data);
     reset_axis();  
 
     //console.log(event.target.value)
@@ -596,8 +595,8 @@ function create_axis_labels(svg, width, height) {
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 40, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 // Create the SVG
 var svg = d3v3.select("#volcano_plot").append("svg")
@@ -618,7 +617,7 @@ svg.append("defs").append("clipPath")
 
 /* Hereafter, things depend on data */
 /* TODO: initialize from new data */
-var data = readCSVFile("304/Volcanoes/Monocytes.csv");
+var data = readCSVFile("304/Volcanoes/B Cells.csv");
 
 // Data prep: we wish only to use |stat|
 // No data prep. That should happen in data generation. 
@@ -632,19 +631,19 @@ const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
 const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
 const minh = Math.min(...numeric_hvals);
 const maxh = Math.max(...numeric_hvals);
+const maxx = Math.max(...[-minh, maxh]) * 1.10;
 
 // Vertical
 const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
 const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-const minv = Math.min(...numeric_vvals)
-const maxv = Math.max(...numeric_vvals)
+const maxv = Math.max(...numeric_vvals) * 1.10;
 
 var volcano_x = d3v3.scale.linear()
-    .domain([minh, maxh])
+    .domain([-maxx, maxx])
     .range([0, width]);
 
 var volcano_y = d3v3.scale.linear()
-    .domain([minv, maxv])
+    .domain([0, maxv])
     .range([height, 0]);
 
 var brush = d3v3.svg.brush()
@@ -697,4 +696,4 @@ const volcano_selector = document.querySelector('.volcano_dropdown_class')
 volcano_selector.addEventListener("change", updateVolcano)
 
 // Initialize
-var data = updateVolcano({target: {value: "304/Volcanoes/Monocytes.csv"}})
+var data = updateVolcano({target: {value: "304/Volcanoes/B Cells.csv"}})
