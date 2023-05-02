@@ -13,6 +13,23 @@ if (real_data) {
     SELF = 'is_self'
     data = readCSVFile("304/Abundances/COMT.csv")
     console.log(data)
+    
+    var data_groups = {
+      "others": {
+        "data": [],
+        "point_tag": "other_abundance_points",
+        "point_class": "other_abundance_point",
+        "color": "#C0CCDC",
+        "radius": 3
+      },
+      "self": {
+        "data": [],
+        "point_tag": "self_abundance_points",
+        "point_class": "self_abundance_point",
+        "color": "#D73737",
+        "radius": 7
+      }
+    };
 } else {
     GROUPING = 'Species'
     ABUNDANCE_VERTICAL = 'Sepal_Width'
@@ -29,7 +46,11 @@ function readCSVFile(filePath) {
   const csvData = request.responseText;
   const rows = csvData.split("\n");
   const headerRow = rows[0].split(",");
-  const dataRows = rows.slice(1);
+  var dataRows = rows.slice(1);
+  // Remove empty rows at the end that trigger nans
+  if (dataRows.slice(-1).length < headerRow.length) {
+    dataRows = dataRows.slice(0, -1);
+  }
   const result = [];
   for (let i = 0; i < dataRows.length; i++) {
     const dataRow = dataRows[i].split(",");
@@ -85,68 +106,183 @@ function addViolin(theData) {
         .attr("d", d3v4.area()
             .x0(abundance_xNum(0))
             .x1(function(d){ return(abundance_xNum(d.length)) })
-            .y(function(d){ return(abundance_y(d.x0)) })
+            .y(function(d){ return(abundance_y_scale(d.x0)) })
             .curve(d3v4.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3v4.curveStep to see the difference
         )
 }
 
+function setPointJitter(theData) {
+
+  console.log(theData);
+
+  var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
+  .key(function(d) { return d[GROUPING];})
+  .rollup(function(d) {   // For each key..
+    input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
+    bins = histogram(input)   // And compute the binning on it.
+    return(bins)
+  })
+  .entries(theData)
+
+  // Section 2 of 3: abundance_xNum
+  // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
+  var maxNum = 0
+  for ( i in sumstat ){
+    allBins = sumstat[i].value
+    lengths = allBins.map(function(a){return a.length;})
+    longest = d3v4.max(lengths)
+    if (longest > maxNum) { maxNum = longest }
+  }
+
+  // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
+  var abundance_xNum = d3v4.scaleLinear()
+    .range([0, abundance_x.bandwidth()])
+    .domain([-maxNum, maxNum])
+
+  for(let datum of theData) {
+    
+    let group = datum[GROUPING];
+    let groupstat = null;
+
+    for(var i in sumstat) {
+      if(sumstat[i]["key"] == group) {
+        groupstat = sumstat[i]["key"];
+        break;
+      }
+    }
+
+    if(groupstat == null) {
+      alert("Error matching group statistic with group in data");
+      console.log("baaaad");
+      return null;
+    }
+
+    for(let bin of sumstat[i]["value"]) {
+
+      datum.jitter = bin.length;
+
+      if(
+        datum[ABUNDANCE_VERTICAL] >= bin.x0 &&
+        datum[ABUNDANCE_VERTICAL] < bin.x1) {
+          break;
+      }
+    }
+  }
+
+  return theData;
+}
+
 // TODO: index.['likeThis'], pass field names as parameters. 
 function addPoints(theData) {
-    // Dev 
-    console.log(theData)
-  var jitterWidth = 40
-  abundance_svg
-    .selectAll("abundance_points")
-    .data(theData)
-    .enter()
-    .append("circle")
-    .attr("class", "abundance_point")
-    .attr("cx", function(d) {
-        //console.log(d)
-        return(abundance_x(d[GROUPING]) + abundance_x.bandwidth() / 2 - Math.random() * jitterWidth)
-    })
-    .attr("cy", function(d){return(abundance_y(d[ABUNDANCE_VERTICAL]))})
-    .attr("r", 5)
-    .style("fill", function(d){
-            let retval = d[SELF] == 'false' ? 'orange' : 'blue'; 
-            return retval
-        }
-    )
-    .attr("stroke", "white")
+
+  //var jitterWidth = 40
+  var jitterMultiplier = 2.5;
+
+  // Separate the data into two groups - others and self. That way we can
+  // make sure to add self last, putting it on top of the (seemingly
+  // inaccessible) z-stack. Conveniently, we can also style it independently
+  // that way.
+
+  theData = setPointJitter(theData);
+
+  for(let group in data_groups) {
+    data_groups[group]["data"] = [];
+  }
+
+  for(let datum of theData) {
+
+    if(datum[SELF] == "True") {
+      data_groups["self"]["data"].push(datum);
+    }
+    else {
+      data_groups["others"]["data"].push(datum);
+    }
+  }
+
+  for(let group in data_groups) {
+
+    let data = data_groups[group]["data"];
+
+    abundance_svg
+      .selectAll(data_groups[group]["point_tag"])
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", data_groups[group]["point_class"])
+      .attr("cx", function(d) {
+          // console.log(d)
+          let jitter = d["jitter"];
+          let val = abundance_x(d[GROUPING]) + abundance_x.bandwidth() / 2 - Math.random() * jitter * jitterMultiplier;
+          if (isNaN(val)) {
+            console.log(d);
+          }
+          return val;
+      })
+      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
+      .attr("r", data_groups[group]["radius"])
+      .style("fill", data_groups[group]["color"]
+      )
+      .attr("stroke", "white")
+  }
 }
 
 function updateAbundance(theData) {
-  removeFeatures()
 
+  updateAxes(theData);
+  removeFeatures();
   addViolin(theData)
   addPoints(theData)
-  removeNaNPoints()
+  // removeNaNPoints()
 }
 
-function removeNaNPoints() {
-    abundance_svg.selectAll('circle').filter(function() {
-        return d3.select(this).attr('cx') == "NaN"
-    }).remove()
+// function removeNaNPoints() {
+//     abundance_svg.selectAll('circle').filter(function() {
+//         return d3.select(this).attr('cx') == "NaN"
+//     }).remove()
 
-    abundance_svg.selectAll('circle').filter(function() {
-        return d3.select(this).attr('cy') == "NaN"
-    }).remove()
-}
+//     abundance_svg.selectAll('circle').filter(function() {
+//         return d3.select(this).attr('cy') == "NaN"
+//     }).remove()
+// }
 
-function removeFeatures() { 
+function removeFeatures() {
+
   // Remove violin
   abundance_svg.selectAll('.violin').remove()
 
-  // Remove dots
-  abundance_svg.selectAll('.abundance_point').remove()
+  // Remove dots in all data groups
+  for(group in data_groups) {
+    let point_class = data_groups[group]["point_class"];
+    let class_selector = `\.${point_class}`;
+    abundance_svg.selectAll(class_selector).remove();
+  }
 }
 
 function respondToSelection(event) {
-    removeFeatures()
     console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
     console.log(event.target.value)
     updateAbundance(theData)
+}
+
+function updateAxes(theData) {
+
+  // Vertical
+  const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
+  const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
+  const abundance_maxv = Math.max(...abundance_numeric_vvals);
+
+  // Update scale domain
+  abundance_y_scale.domain([0, abundance_maxv * 1.10]);
+
+  // Redraw yAxis
+  abundance_svg.select(".y.axis")
+      .transition()  // optional, for smooth transition
+      // .duration(1000)  // transition duration in milliseconds
+      .call(abundance_y_axis);
+
+  histogram.domain(abundance_y_scale.domain())
+    .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
 }
 // End function definitions
 
@@ -159,7 +295,7 @@ const v_adjust = 0//200
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
-    width = 460 - margin.left - margin.right,
+    width = 760 - margin.left - margin.right,
     height = v_adjust + 400 - margin.top - margin.bottom;
 
 // append the abundance_svg object to the body of the page
@@ -177,18 +313,12 @@ var myColor = d3v4.scaleSequential()
   .domain([3,9])
 
 // Hereafter, everything depends on data
-//data = readCSVFile("304/Abundances/COMT.csv")
+// data = readCSVFile("304/Abundances/COMT.csv")
 
 // Begin setup
 // Find ranges for axes
 // Horizontal
 const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
-
-// Vertical
-const abundance_vvals = data.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
-const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
-const abundance_minv = Math.min(...abundance_numeric_vvals)
-const abundance_maxv = Math.max(...abundance_numeric_vvals)
 
 
 // Build and Show the X scale. It is a band scale like for a boxplot: each group has an
@@ -204,17 +334,20 @@ abundance_svg.append("g")
 
 
 // Build and Show the Y scale
-var abundance_y = d3v4.scaleLinear()
-  .domain([abundance_minv - 1, abundance_maxv + 1])          // Note that here the Y scale is set manually
-  .range([v_adjust + height, v_adjust])
+var abundance_y_scale = d3v4.scaleLinear()
+  .domain([0, 1])
+  // .domain([0, abundance_maxv * 1.10]) // Note that here the Y scale is set manually
+  .range([v_adjust + height, v_adjust]);
 
-abundance_svg.append("g").call(d3v4.axisLeft(abundance_y))
+var abundance_y_axis = d3v4.axisLeft(abundance_y_scale);
+
+abundance_svg.append("g")
+  .attr("class", "y axis")
+  .call(abundance_y_axis);
 
 // Features of the histogram
 var histogram = d3v4.histogram()
-      .domain(abundance_y.domain())
-      .thresholds(abundance_y.ticks(20))    //  Number of Bins
-      .value(d => d)
+  .value(d => d)
 // End setup
 
 
@@ -224,7 +357,7 @@ updateAbundance(data)
 //-----------
 
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
-const VOLCANO_VERTICAL = 'stat'
+const VOLCANO_VERTICAL = 'magstat'
 
 d3v3.helper = {};
 
@@ -307,26 +440,6 @@ d3v3.helper.tooltip = function(){
 
     return tooltip;
 };
-
-function readCSVFile(filePath) {
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].split(",");
-  const dataRows = rows.slice(1);
-  const result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    const dataRow = dataRows[i].split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
-    }
-    result.push(obj);
-  }
-  return result;
-}
 
 function transition_data() {
   svg.selectAll(".volcano_point")
