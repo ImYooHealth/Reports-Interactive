@@ -14,3 +14,4 @@ docs/notes/
 .ipynb_checkpoints/
 *.env
 .sw*
+.zip
