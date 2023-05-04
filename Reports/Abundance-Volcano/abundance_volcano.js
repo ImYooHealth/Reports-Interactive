@@ -118,6 +118,18 @@ function addPoints(theData) {
 function updateAbundance(theData) {
   removeFeatures()
 
+const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
+const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
+const abundance_minv = Math.min(...abundance_numeric_vvals)
+const abundance_maxv = Math.max(...abundance_numeric_vvals)
+
+// Build and Show the Y scale
+var abundance_y = d3v4.scaleLinear()
+  .domain([abundance_minv - 1, abundance_maxv + 1])          // Note that here the Y scale is set manually
+  .range([v_adjust + height, v_adjust])
+
+abundance_svg.append("g").call(d3v4.axisLeft(abundance_y))  
+
   addViolin(theData)
   addPoints(theData)
   removeNaNPoints()
@@ -359,11 +371,11 @@ function brushend() {
     // Another way to write the conditional below
     // if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
     if (!idleTimeout) {
-        idleTimeout = setTimeout(idled, 350);
+        idleTimeout = setTimeout(idled, 1000);
         return
     }
     volcano_x.domain([minh, maxh])
-    y.domain([minv, maxv])
+    volcano_y.domain([minv, maxv])
   } else {
     volcano_x.domain([extent[0][0], extent[1][0]])
     volcano_y.domain([extent[0][1], extent[1][1]])
@@ -400,6 +412,8 @@ function updateVolcano(event) {
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
     const minv = Math.min(...numeric_vvals)
     const maxv = Math.max(...numeric_vvals)
+
+    console.log(minv)
 
     volcano_x.domain([minh, maxh])
     volcano_y.domain([minv, maxv]) 
@@ -529,7 +543,7 @@ var volcano_x = d3v3.scale.linear()
     .range([0, width]);
 
 var volcano_y = d3v3.scale.linear()
-    .domain([0, 1])
+    .domain([minv, maxv])
     .range([height, 0]);
 
 var brush = d3v3.svg.brush()
