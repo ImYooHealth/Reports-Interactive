@@ -11,7 +11,7 @@ if (real_data) {
     GROUPING = 'cell_type' // For demo data use: 'Species'
     ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
     SELF = 'is_self'
-    data = readCSVFile("304/Abundances/COMT.csv")
+    data = readCSVFile("305/Abundances/COMT.csv")
     console.log(data)
     
     var data_groups = {
@@ -313,7 +313,7 @@ var myColor = d3v4.scaleSequential()
   .domain([3,9])
 
 // Hereafter, everything depends on data
-// data = readCSVFile("304/Abundances/COMT.csv")
+// data = readCSVFile("305/Abundances/COMT.csv")
 
 // Begin setup
 // Find ranges for axes
@@ -362,7 +362,7 @@ const VOLCANO_VERTICAL = 'magstat'
 d3v3.helper = {};
 
 function click_circle(pD, pI) {
-    var filename = '304/Abundances/' + pD.gene_name + '.csv'
+    var filename = '305/Abundances/' + pD.gene_name + '.csv'
     console.log(filename)
     var data = readCSVFile(filename)
     updateAbundance(data)
@@ -617,7 +617,7 @@ svg.append("defs").append("clipPath")
 
 /* Hereafter, things depend on data */
 /* TODO: initialize from new data */
-var data = readCSVFile("304/Volcanoes/B Cells.csv");
+var data = readCSVFile("305/Volcanoes/B Cells.csv");
 
 // Data prep: we wish only to use |stat|
 // No data prep. That should happen in data generation. 
@@ -696,4 +696,4 @@ const volcano_selector = document.querySelector('.volcano_dropdown_class')
 volcano_selector.addEventListener("change", updateVolcano)
 
 // Initialize
-var data = updateVolcano({target: {value: "304/Volcanoes/B Cells.csv"}})
+var data = updateVolcano({target: {value: "305/Volcanoes/B Cells.csv"}})
