@@ -12,7 +12,6 @@ function App() {
   return (
     <Router>
       <DashboardLayout>
-      /*
         <Switch>
           <Route exact path="/">
             <HomePage />
@@ -33,7 +32,6 @@ function App() {
             <StatusPage />
           </Route>
         </Switch>
-      */
       </DashboardLayout>
     </Router>
   );
