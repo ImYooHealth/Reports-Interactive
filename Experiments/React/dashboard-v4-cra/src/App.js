@@ -17,7 +17,7 @@ function App() {
             <HomePage />
           </Route>
           <Route path="/admin/archives">
-            <ArchivesPage but could be Abundance Page />
+            <ArchivesPage />
           </Route>
           <Route exact path="/admin/credits">
             <CreditsPage />

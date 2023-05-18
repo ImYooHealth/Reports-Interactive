@@ -6,6 +6,8 @@ export default function TopNavigation() {
     <header className="h-20 items-center relative z-10">
       <div className="flex flex-center flex-col h-full justify-center mx-auto relative px-3 text-white z-10">
         <div className="flex items-center pl-1 relative w-full sm:ml-0 sm:pr-2 lg:max-w-68">
+
+          {/* Hamburger Button */}
           <div className="flex group h-full items-center relative w-12">
             <button
               type="button"
@@ -17,6 +19,9 @@ export default function TopNavigation() {
               &#8801;
             </button>
           </div>
+
+          {/* Search Bar */}
+          {/*
           <div className="container flex left-0 relative w-3/4">
             <div className="group hidden items-center ml-8 relative w-full md:flex lg:w-72">
               <div className="absolute block cursor-pointer flex items-center justify-center h-10 p-3 pr-2 text-gray-500 text-sm uppercase w-auto sm:hidden">
@@ -46,6 +51,8 @@ export default function TopNavigation() {
               />
             </div>
           </div>
+          */}
+
         </div>
       </div>
     </header>
