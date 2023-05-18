@@ -1,5 +1,6 @@
 const Content = ({ title }) => (
   <div className="flex flex-wrap">
+  beyond outer
     <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl">
       <div className="flex justify-between text-white items-center mb-8">
         <p className="text-2xl font-bold">{title}</p>
