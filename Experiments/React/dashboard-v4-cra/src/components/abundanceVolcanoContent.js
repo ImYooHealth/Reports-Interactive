@@ -1,3 +1,5 @@
+import Circle from './circle';
+
 const Content = ({ title }) => (
   <div className="flex flex-wrap">
   beyond outer
@@ -14,18 +16,11 @@ const Content = ({ title }) => (
                 <span className="text-sm">AbundanceVolcano</span>
               </div>
 
-              {/* Circle */}
-              <div className="flex items-center justify-center">
-                  <svg height="100" width="100">
-                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-                  </svg>
+              {/* d3 experiment */}
+              <div className='the_circle flex items-center justify-center'>
+                <Circle cx="10" cy="20"/>
               </div>
-              <div className="flex items-center justify-center">              
-                  {/* Circle */}
-                  <svg height="100" width="100">
-                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-                  </svg>
-              </div>
+
             </div>
           </div>
         </div>

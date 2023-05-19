@@ -15,3 +15,5 @@ docs/notes/
 *.env
 .sw*
 .zip
+Presentation/data/
+*zip
