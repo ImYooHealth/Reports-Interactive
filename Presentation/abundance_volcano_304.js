@@ -1,6 +1,6 @@
+
+
 const real_data = true
-
-
 
 var GROUPING
 var ABUNDANCE_VERTICAL
@@ -37,31 +37,7 @@ if (real_data) {
     data = readCSVFile("data1.csv")
 }
 
-// Function definitions
-// Read the data and compute summary statistics for each species
-function readCSVFile(filePath) {
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].split(",");
-  var dataRows = rows.slice(1);
-  // Remove empty rows at the end that trigger nans
-  if (dataRows.slice(-1).length < headerRow.length) {
-    dataRows = dataRows.slice(0, -1);
-  }
-  const result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    const dataRow = dataRows[i].split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
-    }
-    result.push(obj);
-  }
-  return result;
-}
+
 
 // TODO: index.['likeThis'], pass field names as parameters. 
 function addViolin(theData) {
@@ -441,14 +417,7 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
-// function transition_data(data) {
-//   svg.selectAll(".volcano_point")
-//   .data(data)
-//   .transition()
-//   .duration(500)
-//   .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-//   .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-// }
+
 
 function reset_axis() {
   svg.transition().duration(500)
