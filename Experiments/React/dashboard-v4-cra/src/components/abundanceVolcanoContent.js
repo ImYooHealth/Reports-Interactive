@@ -29,14 +29,14 @@ const Content = ({ title }) => (
             </div>
           </div>
 
-          {/* One-Circle D3 Experiment */}
+          {/* Abundance */}
           <div className="p-2">
 
             <div className="p-4 rounded-3xl bg-gray-300">
 
               {/* Text */}
               <div className="flex items-center justify-b">
-                <span className="text-sm">AbundanceVolcano</span>
+                <span className="text-sm">Abundance</span>
               </div>
 
               {/* Circle */}
@@ -44,11 +44,16 @@ const Content = ({ title }) => (
                 <Circle cx="10" cy="20"/>
               </div>
 
+              {/* Text */}
+              <div className="flex items-center justify-b">
+                <span className="text-sm">^^^ circle ^^^ | vvv Abundance vvv</span>
+              </div>
+
               {/* Abundance */}
-{/*              <div className='the_circle flex items-center justify-center'>
+              <div className='the_circle flex items-center justify-center'>
                 <Abundance />
               </div>
-*/}            </div>
+            </div>
           </div>
           {/* One-Circle D3 Experiment */}
 
