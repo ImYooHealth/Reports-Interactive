@@ -35,18 +35,14 @@ if (real_data) {
     data = readCSVFile("data1.csv")
 }
 
-
 // Add response
 const abundance_selector = document.querySelector('.abundance_dropdown_class')
 abundance_selector.addEventListener("change", respondToSelection)
 
-// Prepare to shift abundance down
-const v_adjust = 0//200
-
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
-    height = v_adjust + 500 - margin.top - margin.bottom;
+    height = 500 - margin.top - margin.bottom;
 
 // append the abundance_svg object to the body of the page
 var abundance_svg = d3v4.select("#abundance_plot")
@@ -87,7 +83,7 @@ abundance_svg.append("g")
 var abundance_y_scale = d3v4.scaleLinear()
   .domain([0, 1])
   // .domain([0, abundance_maxv * 1.10]) // Note that here the Y scale is set manually
-  .range([v_adjust + height, v_adjust]);
+  .range([height, 0]);
 
 var abundance_y_axis = d3v4.axisLeft(abundance_y_scale);
 
@@ -109,7 +105,6 @@ updateAbundance(data)
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 
-d3v3.helper = {};
 
 // Hereafter, js is essentially main()
 
@@ -202,7 +197,17 @@ svg.append("g")
 
 
 /*---------- begin points object region --------*/
-
+/*
+points = svg.selectAll(".volcano_point")
+    .data(data)
+    .enter().append("circle")
+    .attr("class", "volcano_point")
+    .attr("clip-path", "url(#clip)")
+    .attr("r", 8)
+    .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+    .attr("cy", function(d) { return volcano_y(Math.abs(d[VOLCANO_VERTICAL])); })
+    .call(d3v3.helper.tooltip());
+*/
 // TODO: Make update take either a string or an event, and use only it to create points
 const volcano_selector = document.querySelector('.volcano_dropdown_class')
 volcano_selector.addEventListener("change", updateVolcano)

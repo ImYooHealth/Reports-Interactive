@@ -1,3 +1,14 @@
+//var points
+
+// Test
+function test() {
+    console.log(d3v3)
+}
+
+function testarg(arg) {
+    alert(arg)
+}
+
 // Read the data and compute summary statistics for each species
 function readCSVFile(filePath) {
   const request = new XMLHttpRequest();
@@ -237,8 +248,20 @@ function updateAxes(theData) {
 }
 // End Abundance function definitions
 
+// -------- //
+
 // Begin Volcano Function Definitions
+function transition_data() {
+  svg.selectAll(".point")
+  .data(data)
+  .transition()
+  .duration(500)
+  .attr("cx", function(d) { return x(d[VOLCANO_HORIZONTAL]); })
+  .attr("cy", function(d) { return y(d[VOLCANO_VERTICAL]); });
+}
+
 // TODO: Move function defs into their own file
+d3v3.helper = {};
 d3v3.helper.tooltip = function(){
     var tooltipDiv;
     var bodyNode = d3v3.select('body').node();
@@ -317,7 +340,7 @@ function click_circle(pD, pI) {
     //alert(pD.gene_name)
 }
 
-function reset_axis() {
+function reset_axes() {
   svg.transition().duration(500)
    .select(".volcano_x.axis")
    .call(volcano_xAxis)
@@ -351,8 +374,8 @@ function brushend() {
     d3v3.select(".brush").call(brush.clear());
   }
 
-  // transition_data();
-  reset_axis();  
+  transition_data();
+  reset_axes();
 }
 
 function brushmove() {
@@ -409,8 +432,8 @@ function updateVolcano(event) {
       brush_elm.dispatchEvent(new_click_event);
     });
     
-    // transition_data(data);
-    reset_axis();  
+    transition_data(data);
+    reset_axes();  
 
     //console.log(event.target.value)
 
