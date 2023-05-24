@@ -1,3 +1,5 @@
+import * as d3v4 from './d3.v4.js'
+
 import * as utils from './utils.js'
 
 const real_data = true
@@ -37,10 +39,9 @@ if (real_data) {
     data = readCSVFile("data1.csv")
 }
 
-
 // Add response
-const abundance_selector = document.querySelector('.abundance_dropdown_class')
-abundance_selector.addEventListener("change", respondToSelection)
+//const abundance_selector = document.querySelector('.abundance_dropdown_class')
+//abundance_selector.addEventListener("change", respondToSelection)
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -86,7 +87,7 @@ abundance_svg.append("g")
 var abundance_y_scale = d3v4.scaleLinear()
   .domain([0, 1])
   // .domain([0, abundance_maxv * 1.10]) // Note that here the Y scale is set manually
-  .range([v_adjust + height, v_adjust]);
+  .range([height, 0]);
 
 var abundance_y_axis = d3v4.axisLeft(abundance_y_scale);
 
@@ -99,6 +100,17 @@ var histogram = d3v4.histogram()
   .value(d => d)
 // End setup
 
+// Bundle state
+var state = {
+    ABUNDANCE_VERTICAL: ABUNDANCE_VERTICAL,
+    abundance_y_scale: abundance_y_scale,
+    abundance_svg: abundance_svg,
+    abundance_y_axis: abundance_y_axis,
+    histogram: histogram,
+    data_groups: data_groups,
+    abundance_x: abundance_x,
+}
+
 
 // Initialize
-updateAbundance(data)
+utils.updateAbundance(data, state)
