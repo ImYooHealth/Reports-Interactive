@@ -25,14 +25,21 @@ var longest
 
 // Functions used only here
 function setState(state) {
+
+    // AV should stay
     ABUNDANCE_VERTICAL = state.ABUNDANCE_VERTICAL
-    abundance_y_scale = state.abundance_y_scale
     abundance_svg = state.abundance_svg
+
+    // Unexamined
+    abundance_y_scale = state.abundance_y_scale
     abundance_y_axis = state.abundance_y_axis
     histogram = state.histogram
     data_groups = state.data_groups
     GROUPING = state.GROUPING
     abundance_x = state.abundance_x
+
+    // Best passed directly
+    
 
     console.log('received state vvv')
     console.log(data_groups) 
@@ -239,9 +246,9 @@ export function addPoints(theData) {
   }
 }
 
-export function updateAbundance(theData, state) {
+export function updateAbundance(theData, state, abundance_svg) {
   setState(state)
-  updateAxes(theData, ABUNDANCE_VERTICAL);
+  updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
   addViolin(theData)
   //addPoints(theData)
@@ -268,7 +275,7 @@ export function respondToSelection(event) {
     updateAbundance(theData)
 }
 
-export function updateAxes(theData, ABUNDANCE_VERTICAL) {
+export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 
   // Vertical
   const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
