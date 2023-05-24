@@ -13,7 +13,7 @@ var data
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = utils.readCSVFile("../../../../Presentation/304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+data = utils.readCSVFile("http://localhost:8000/Presentation/304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 console.log(data)
 
 var data_groups = {
@@ -42,10 +42,13 @@ const margin = {top: 10, right: 30, bottom: 30, left: 40},
 width = 960 - margin.left - margin.right,
 height = + 500 - margin.top - margin.bottom; 
 
+/* Not actually used now. An artifact from when the dots had a spectrum to them. 
+// Perhaps: spectrum, or white for self.
 // Color scale for dots
 var myColor = d3v4.scaleSequential()
   .interpolator(d3v4.interpolateInferno)
   .domain([3,9])
+*/
 
 // Begin setup
 // Find ranges for axes
@@ -59,9 +62,6 @@ var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-
-
-
 
 // Build and Show the Y scale
 var abundance_y_scale = d3v4.scaleLinear()
