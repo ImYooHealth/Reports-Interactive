@@ -1,5 +1,6 @@
 import Circle from './circle';
-import Abundance from './circle'
+import Abundance from './abundance.js'
+import MyComponent from './demo_component.js'
 
 const Content = ({ title }) => (
   <div className="flex flex-wrap">
@@ -11,24 +12,32 @@ const Content = ({ title }) => (
       </div>
       <div className="flex flex-wrap">
         <div className="w-full md:w-4/12">
-        
+
+
           <div className="p-2">
             <div className="p-4 rounded-3xl bg-gray-300">
+
+              {/* Only text */}
               <div className="flex items-center justify-b">
-                <span className="text-sm">AbundanceVolcano</span>
+                <span className="text-sm">Demo</span>
               </div>
 
-              {/* d3 experiment */}
+              {/* One Circle */}
               <div className='the_circle flex items-center justify-center'>
                 <Circle cx="10" cy="20"/>
               </div>
-              {/* d3 experiment */}
-              <div className='the_circle flex items-center justify-center'>
-                <Abundance />
+
+              {/* variables and data with button demo */}
+              <div className='flex items-center justify-center'>
+                <MyComponent />
               </div>
+
+
+ 
             </div>
           </div>
 
+{/*
           {/* Abundance */}
           <div className="p-2">
 
@@ -37,11 +46,6 @@ const Content = ({ title }) => (
               {/* Text */}
               <div className="flex items-center justify-b">
                 <span className="text-sm">Abundance</span>
-              </div>
-
-              {/* Circle */}
-              <div className='the_circle flex items-center justify-center'>
-                <Circle cx="10" cy="20"/>
               </div>
 
               {/* Text */}
@@ -53,10 +57,11 @@ const Content = ({ title }) => (
               <div className='the_circle flex items-center justify-center'>
                 <Abundance />
               </div>
+              
             </div>
           </div>
-          {/* One-Circle D3 Experiment */}
-
+          {/* One-Circle D3 Experiment //
+*/}
         </div>
       </div>
     </div>

@@ -1,5 +1,49 @@
+import * as d3v4 from './d3.v4.js'
+
+// State
+
+// data I don't have
+var GROUPING
+var ABUNDANCE_VERTICAL
+var SELF
+var data
+var abundance_y_scale
+var abundance_svg
+var abundance_y_axis
+var histogram
+var data_groups
+var abundance_x
+
+// var const or let missing and that's unexamined
+var bins
+
+// var const or let missing and that's fine
+var input
+var allBins
+var lengths
+var longest
+
+// Functions used only here
+function setState(state) {
+    ABUNDANCE_VERTICAL = state.ABUNDANCE_VERTICAL
+    abundance_y_scale = state.abundance_y_scale
+    abundance_svg = state.abundance_svg
+    abundance_y_axis = state.abundance_y_axis
+    histogram = state.histogram
+    data_groups = state.data_groups
+    GROUPING = state.GROUPING
+    abundance_x = state.abundance_x
+
+    console.log('received state vvv')
+    console.log(data_groups) 
+    console.log(data_groups.others)
+    console.log(data_groups.self) 
+}
+
+
+// Begin section functions used by both
 // Read the data and compute summary statistics for each species
-function readCSVFile(filePath) {
+export function readCSVFile(filePath) {
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
   request.send();
@@ -22,10 +66,13 @@ function readCSVFile(filePath) {
   }
   return result;
 }
+// End section functions used by both
 
 // Begin Abundance Function Definitions
 // TODO: index.['likeThis'], pass field names as parameters. 
-function addViolin(theData) {
+export function addViolin(theData) {
+  var bins
+  var input
   // Section 1 of 3: Sumstat
   // Compute the binning for each group of the dataset
   var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
@@ -40,7 +87,7 @@ function addViolin(theData) {
   // Section 2 of 3: abundance_xNum
   // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
   var maxNum = 0
-  for ( i in sumstat ){
+  for (let i in sumstat){
     allBins = sumstat[i].value
     lengths = allBins.map(function(a){return a.length;})
     longest = d3v4.max(lengths)
@@ -72,9 +119,11 @@ function addViolin(theData) {
         )
 }
 
-function setPointJitter(theData) {
+export function setPointJitter(theData) {
 
+  console.log('vvv theData vvv')
   console.log(theData);
+  var bins
 
   var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
   .key(function(d) { return d[GROUPING];})
@@ -84,6 +133,9 @@ function setPointJitter(theData) {
     return(bins)
   })
   .entries(theData)
+
+  console.log('vvv sumstat')
+  console.log(sumstat)
 
   // Section 2 of 3: abundance_xNum
   // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
@@ -134,7 +186,7 @@ function setPointJitter(theData) {
 }
 
 // TODO: index.['likeThis'], pass field names as parameters. 
-function addPoints(theData) {
+export function addPoints(theData) {
 
   //var jitterWidth = 40
   var jitterMultiplier = 2.5;
@@ -187,36 +239,36 @@ function addPoints(theData) {
   }
 }
 
-function updateAbundance(theData) {
-
-  updateAxes(theData);
+export function updateAbundance(theData, state) {
+  setState(state)
+  updateAxes(theData, ABUNDANCE_VERTICAL);
   removeFeatures();
   addViolin(theData)
-  addPoints(theData)
+  //addPoints(theData)
   // removeNaNPoints()
 }
 
-function removeFeatures() {
+export function removeFeatures() {
 
   // Remove violin
   abundance_svg.selectAll('.violin').remove()
 
   // Remove dots in all data groups
-  for(group in data_groups) {
+  for(let group in data_groups) {
     let point_class = data_groups[group]["point_class"];
     let class_selector = `\.${point_class}`;
     abundance_svg.selectAll(class_selector).remove();
   }
 }
 
-function respondToSelection(event) {
+export function respondToSelection(event) {
     console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
     console.log(event.target.value)
     updateAbundance(theData)
 }
 
-function updateAxes(theData) {
+export function updateAxes(theData, ABUNDANCE_VERTICAL) {
 
   // Vertical
   const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
