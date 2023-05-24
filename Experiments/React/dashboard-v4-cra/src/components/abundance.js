@@ -23,7 +23,7 @@ const Abundance = () => {
               .append("g")
                 .attr("transform",
                       "translate(" + margin.left + "," + margin.top + ")");
-    });
+    }, [margin, width, height]);
 
     return (
         <div>
