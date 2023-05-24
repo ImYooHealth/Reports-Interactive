@@ -9,6 +9,8 @@ var ABUNDANCE_VERTICAL
 var SELF
 var data
 
+// Moved to abundance
+/*
 if (real_data) {
     GROUPING = 'cell_type' // For demo data use: 'Species'
     ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
@@ -38,15 +40,21 @@ if (real_data) {
     SELF = 'is_self'
     data = readCSVFile("data1.csv")
 }
+*/
 
+/* Temporarily Disabled */
 // Add response
 //const abundance_selector = document.querySelector('.abundance_dropdown_class')
 //abundance_selector.addEventListener("change", respondToSelection)
 
+
+// Moved to abundance.js
+/*
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
+
 
 // append the abundance_svg object to the body of the page
 var abundance_svg = d3v4.select("#abundance_plot")
@@ -56,15 +64,12 @@ var abundance_svg = d3v4.select("#abundance_plot")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+*/
 
-// Color scale for dots
-var myColor = d3v4.scaleSequential()
-  .interpolator(d3v4.interpolateInferno)
-  .domain([3,9])
 
 // Hereafter, everything depends on data
 // data = readCSVFile("304/Abundances/COMT.csv")
-
+/*
 // Begin setup
 // Find ranges for axes
 // Horizontal
@@ -114,3 +119,4 @@ var state = {
 
 // Initialize
 utils.updateAbundance(data, state)
+*/
