@@ -37,16 +37,7 @@ function setState(state) {
     data_groups = state.data_groups
     GROUPING = state.GROUPING
     abundance_x = state.abundance_x
-
-    // Best passed directly
-    
-
-    console.log('received state vvv')
-    console.log(data_groups) 
-    console.log(data_groups.others)
-    console.log(data_groups.self) 
 }
-
 
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
@@ -246,15 +237,6 @@ export function addPoints(theData) {
   }
 }
 
-export function updateAbundance(theData, state, abundance_svg) {
-  setState(state)
-  updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
-  removeFeatures();
-  addViolin(theData)
-  //addPoints(theData)
-  // removeNaNPoints()
-}
-
 export function removeFeatures() {
 
   // Remove violin
@@ -293,6 +275,15 @@ export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 
   histogram.domain(abundance_y_scale.domain())
     .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
+}
+
+export function updateAbundance(theData, state, abundance_svg) {
+  setState(state)
+  updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
+  //removeFeatures();
+  //addViolin(theData)
+  //addPoints(theData)
+  // removeNaNPoints()
 }
 // End Abundance function definitions
 

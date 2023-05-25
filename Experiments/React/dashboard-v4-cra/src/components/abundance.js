@@ -9,11 +9,12 @@ var GROUPING
 var ABUNDANCE_VERTICAL
 var SELF
 var data
+var abundance_data_path_prefix = 'http://localhost:8000/Presentation/'
 
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = utils.readCSVFile("http://localhost:8000/Presentation/304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+data = utils.readCSVFile(abundance_data_path_prefix + "304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 console.log(data)
 
 var data_groups = {
@@ -117,7 +118,7 @@ const Abundance = () => {
         // This should be the last line
         state.abundance_svg = svgEl
         utils.updateAbundance(data, state, svgEl)  
-    }, [margin, width, height, data]);
+    }, []);
 
     return (
         <div>

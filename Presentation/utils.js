@@ -1,4 +1,5 @@
 //var points
+// does this show up
 
 // Test
 function test() {
@@ -203,7 +204,7 @@ function updateAbundance(theData) {
   updateAxes(theData);
   removeFeatures();
   addViolin(theData)
-  addPoints(theData)
+  //addPoints(theData)
   // removeNaNPoints()
 }
 

@@ -23,8 +23,13 @@ const Content = ({ title }) => (
               </div>
 
               {/* One Circle */}
-              <div className='the_circle flex items-center justify-center'>
-                <Circle cx="10" cy="20"/>
+              <div className='one_circle flex items-center justify-center'>
+                <Circle cx="11" cy="21"/>
+              </div>
+
+              {/* A Second Circle */}
+              <div className='two_circle flex items-center justify-center'>
+                <Circle cx="19" cy="11"/>
               </div>
 
               {/* variables and data with button demo */}
