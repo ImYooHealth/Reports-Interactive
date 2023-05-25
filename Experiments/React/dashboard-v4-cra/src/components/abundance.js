@@ -57,7 +57,7 @@ var myColor = d3v4.scaleSequential()
 const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
 
-// Build and Show the X scale. It is a band scale like for a boxplot: each group has an
+// Build and Show the X Axis. It is a band scale like for a boxplot: each group has an
 // dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
 var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
@@ -69,7 +69,6 @@ var abundance_y_scale = d3v4.scaleLinear()
   .domain([0, 1])
   // .domain([0, abundance_maxv * 1.10]) // Note that here the Y scale is set manually
   .range([height, 0]);
-
 var abundance_y_axis = d3v4.axisLeft(abundance_y_scale);
 
 // Features of the histogram
@@ -118,7 +117,7 @@ const Abundance = () => {
         // This should be the last line
         state.abundance_svg = svgEl
         utils.updateAbundance(data, state, svgEl)  
-    }, []);
+    }, [abundance_x, abundance_y_axis]);
 
     return (
         <div>
