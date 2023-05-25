@@ -42,7 +42,7 @@ const Content = ({ title }) => (
             </div>
           </div>
 
-{/*
+
           {/* Abundance */}
           <div className="p-2">
 
@@ -65,8 +65,8 @@ const Content = ({ title }) => (
               
             </div>
           </div>
-          {/* One-Circle D3 Experiment //
-*/}
+          
+
         </div>
       </div>
     </div>
