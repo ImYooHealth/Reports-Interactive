@@ -18,23 +18,18 @@ const Circle = ({cx, cy}) => {
 
     React.useEffect(() =>  {
         const svgEl = d3v4.select(svgRef.current)
-        svgEl.selectAll("*").remove()
+        //svgEl.selectAll("*").remove()
 
         svgEl
             .append('circle')
-            .attr('cx', width / 2)
-            .attr('cy', height / 2)
+            .attr('cx', cx)
+            .attr('cy', cy)
             .attr('r', 40)
             .style('fill', selected_color)
             .style('stroke-width', "3")
             .style('stroke', 'black')
 
-        const measured_width = d3v4.select('.the_circle').node().getBoundingClientRect().width
-        const measured_height = d3v4.select('.the_circle').node().getBoundingClientRect().height;
 
-        d3v4.select('circle')
-            .attr('cx', measured_width / 2)
-            .attr('cy', measured_height / 2)
     }, [selected_color])
 
     return (
