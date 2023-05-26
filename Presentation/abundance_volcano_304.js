@@ -52,12 +52,12 @@ var abundance_svg = d3v4.select("#abundance_plot")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
-
+/*
 // Color scale for dots
 var myColor = d3v4.scaleSequential()
   .interpolator(d3v4.interpolateInferno)
   .domain([3,9])
-
+*/
 // Hereafter, everything depends on data
 // data = readCSVFile("304/Abundances/COMT.csv")
 
@@ -66,18 +66,15 @@ var myColor = d3v4.scaleSequential()
 // Horizontal
 const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
-
 // Build and Show the X scale. It is a band scale like for a boxplot: each group has an
 // dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
 var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-
 abundance_svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3v4.axisBottom(abundance_x))
-
 
 // Build and Show the Y scale
 var abundance_y_scale = d3v4.scaleLinear()

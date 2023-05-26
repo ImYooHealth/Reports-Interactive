@@ -5,6 +5,13 @@ import * as d3v4 from './d3.v4.js';
 //import * as abundance from './abundance_main.js'
 import * as utils from './utils.js'
 
+// -- vvv Abundance Functions vvv -- //
+
+
+// -- ^^^ Abundance Functions ^^^ -- //
+
+// -- vvv Abundance Main vvv -- //
+
 var GROUPING
 var ABUNDANCE_VERTICAL
 var SELF
@@ -56,7 +63,6 @@ var myColor = d3v4.scaleSequential()
 // Horizontal
 const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
-
 // Build and Show the X Axis. It is a band scale like for a boxplot: each group has an
 // dedicated RANGE on the axis. This range has a length of abundance_x.bandwidth
 var abundance_x = d3v4.scaleBand()
@@ -78,6 +84,7 @@ var histogram = d3v4.histogram()
 
 // Bundle state
 var state = {
+    GROUPING: GROUPING,
     ABUNDANCE_VERTICAL: ABUNDANCE_VERTICAL,
     abundance_y_scale: abundance_y_scale,
 //    abundance_svg: abundance_svg,  // Set once svgEl exists
@@ -117,7 +124,7 @@ const Abundance = () => {
         // This should be the last line
         state.abundance_svg = svgEl
         utils.updateAbundance(data, state, svgEl)  
-    }, [abundance_x, abundance_y_axis]);
+    }, [data, state, abundance_x, abundance_y_axis]);
 
     return (
         <div>
