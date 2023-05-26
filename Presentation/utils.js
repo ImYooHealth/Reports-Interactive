@@ -35,54 +35,6 @@ function readCSVFile(filePath) {
   return result;
 }
 
-// Begin Abundance Function Definitions
-// TODO: index.['likeThis'], pass field names as parameters. 
-function addViolin(theData) {
-  // Section 1 of 3: Sumstat
-  // Compute the binning for each group of the dataset
-  var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
-    .key(function(d) { return d[GROUPING];})
-    .rollup(function(d) {   // For each key..
-      input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
-      bins = histogram(input)   // And compute the binning on it.
-      return(bins)
-    })
-    .entries(theData)
-
-  // Section 2 of 3: abundance_xNum
-  // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
-  var maxNum = 0
-  for ( i in sumstat ){
-    allBins = sumstat[i].value
-    lengths = allBins.map(function(a){return a.length;})
-    longest = d3v4.max(lengths)
-    if (longest > maxNum) { maxNum = longest }
-  }
-
-  // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
-  var abundance_xNum = d3v4.scaleLinear()
-    .range([0, abundance_x.bandwidth()])
-    .domain([-maxNum, maxNum])
-
-  // Section 3 of 3: Plot
-  abundance_svg
-    .selectAll("violin")
-    .data(sumstat)
-    .enter()        // So now we are working group per group
-    .append("g")
-      .attr("transform", function(d){ return("translate(" + abundance_x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
-    .append("path")
-    .attr('class', 'violin')
-        .datum(function(d){ return(d.value)})     // So now we are working bin per bin
-        .style("stroke", "none")
-        .style("fill","grey")
-        .attr("d", d3v4.area()
-            .x0(abundance_xNum(0))
-            .x1(function(d){ return(abundance_xNum(d.length)) })
-            .y(function(d){ return(abundance_y_scale(d.x0)) })
-            .curve(d3v4.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3v4.curveStep to see the difference
-        )
-}
 
 function setPointJitter(theData) {
 
@@ -96,6 +48,13 @@ function setPointJitter(theData) {
     return(bins)
   })
   .entries(theData)
+
+  console.log('vvv sumstat vvv')
+  console.log('vvv sumstat vvv')
+  console.log('vvv sumstat vvv')
+  console.log('vvv sumstat vvv')
+  console.log('vvv sumstat vvv')
+  //console.log(sumstat)
 
   // Section 2 of 3: abundance_xNum
   // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
@@ -143,6 +102,15 @@ function setPointJitter(theData) {
   }
 
   return theData;
+}
+
+
+
+function respondToSelection(event) {
+    console.log(event.target.value)
+    var theData = readCSVFile(event.target.value)
+    console.log(event.target.value)
+    updateAbundance(theData)
 }
 
 // TODO: index.['likeThis'], pass field names as parameters. 
@@ -199,13 +167,53 @@ function addPoints(theData) {
   }
 }
 
-function updateAbundance(theData) {
+// Begin Abundance Function Definitions
+// TODO: index.['likeThis'], pass field names as parameters. 
+function addViolin(theData) {
+  // Section 1 of 3: Sumstat
+  // Compute the binning for each group of the dataset
+  var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
+    .key(function(d) { return d[GROUPING];})
+    .rollup(function(d) {   // For each key..
+      input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
+      bins = histogram(input)   // And compute the binning on it.
+      return(bins)
+    })
+    .entries(theData)
 
-  updateAxes(theData);
-  removeFeatures();
-  addViolin(theData)
-  //addPoints(theData)
-  // removeNaNPoints()
+  // Section 2 of 3: abundance_xNum
+  // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
+  var maxNum = 0
+  for ( i in sumstat ){
+    allBins = sumstat[i].value
+    lengths = allBins.map(function(a){return a.length;})
+    longest = d3v4.max(lengths)
+    if (longest > maxNum) { maxNum = longest }
+  }
+
+  // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
+  var abundance_xNum = d3v4.scaleLinear()
+    .range([0, abundance_x.bandwidth()])
+    .domain([-maxNum, maxNum])
+
+  // Section 3 of 3: Plot
+  abundance_svg
+    .selectAll("violin")
+    .data(sumstat)
+    .enter()        // So now we are working group per group
+    .append("g")
+      .attr("transform", function(d){ return("translate(" + abundance_x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
+    .append("path")
+    .attr('class', 'violin')
+        .datum(function(d){ return(d.value)})     // So now we are working bin per bin
+        .style("stroke", "none")
+        .style("fill","grey")
+        .attr("d", d3v4.area()
+            .x0(abundance_xNum(0))
+            .x1(function(d){ return(abundance_xNum(d.length)) })
+            .y(function(d){ return(abundance_y_scale(d.x0)) })
+            .curve(d3v4.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3v4.curveStep to see the difference
+        )
 }
 
 function removeFeatures() {
@@ -219,13 +227,6 @@ function removeFeatures() {
     let class_selector = `\.${point_class}`;
     abundance_svg.selectAll(class_selector).remove();
   }
-}
-
-function respondToSelection(event) {
-    console.log(event.target.value)
-    var theData = readCSVFile(event.target.value)
-    console.log(event.target.value)
-    updateAbundance(theData)
 }
 
 function updateAxes(theData) {
@@ -246,6 +247,14 @@ function updateAxes(theData) {
 
   histogram.domain(abundance_y_scale.domain())
     .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
+}
+
+function updateAbundance(theData) {
+  updateAxes(theData);
+  removeFeatures();
+  addViolin(theData)
+  //addPoints(theData)
+  // removeNaNPoints()
 }
 // End Abundance function definitions
 

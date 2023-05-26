@@ -35,7 +35,12 @@ function setState(state) {
     abundance_y_axis = state.abundance_y_axis
     histogram = state.histogram
     data_groups = state.data_groups
+    console.log('Grouping is: ')
+    console.log(GROUPING)
     GROUPING = state.GROUPING
+    console.log('Now grouping is:')
+    console.log(GROUPING)
+
     abundance_x = state.abundance_x
 }
 
@@ -65,6 +70,147 @@ export function readCSVFile(filePath) {
   return result;
 }
 // End section functions used by both
+
+export function respondToSelection(event) {
+    console.log(event.target.value)
+    var theData = readCSVFile(event.target.value)
+    console.log(event.target.value)
+    updateAbundance(theData)
+}
+
+export function setPointJitter(theData) {
+
+  console.log('vvv theData vvv')
+  console.log(theData);
+  var bins
+
+  console.log
+
+  var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
+  .key(function(d) { return d[GROUPING];})
+  .rollup(function(d) {   // For each key..
+    input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
+    bins = histogram(input)   // And compute the binning on it.
+    return(bins)
+  })
+  .entries(theData)
+
+  console.log('vvv sumstat')
+  console.log(sumstat)
+
+  // Section 2 of 3: abundance_xNum
+  // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
+  var maxNum = 0
+  for ( i in sumstat ){
+    allBins = sumstat[i].value
+    lengths = allBins.map(function(a){return a.length;})
+    longest = d3v4.max(lengths)
+    if (longest > maxNum) { maxNum = longest }
+  }
+
+  // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
+  var abundance_xNum = d3v4.scaleLinear()
+    .range([0, abundance_x.bandwidth()])
+    .domain([-maxNum, maxNum])
+
+  for(let datum of theData) {
+    
+    let group = datum[GROUPING];
+    console.log('vvv group vvv')
+    console.log(group)
+    console.log('^^^ group ^^^')
+    let groupstat = null;
+
+    for(var i in sumstat) {
+        console.log(i)
+        console.log(sumstat[i])
+      if(sumstat[i]["key"] == group) {
+        console.log(sumstat[i]['key'])
+        groupstat = sumstat[i]["key"];
+        break;
+      }
+    }
+
+    if(groupstat == null) {
+      alert("Error matching group statistic with group in data");
+      console.log("baaaad");
+      return null;
+    }
+
+    for(let bin of sumstat[i]["value"]) {
+
+      datum.jitter = bin.length;
+
+      if(
+        datum[ABUNDANCE_VERTICAL] >= bin.x0 &&
+        datum[ABUNDANCE_VERTICAL] < bin.x1) {
+          break;
+      }
+    }
+  }
+
+  console.log('Leaving setPointJitter and theData is:')
+  console.log(theData)
+  return theData;
+}
+
+// TODO: index.['likeThis'], pass field names as parameters. 
+export function addPoints(theData) {
+
+  //var jitterWidth = 40
+  var jitterMultiplier = 2.5;
+
+  // Separate the data into two groups - others and self. That way we can
+  // make sure to add self last, putting it on top of the (seemingly
+  // inaccessible) z-stack. Conveniently, we can also style it independently
+  // that way.
+
+  console.log('In addPoints and just about to visit setPointJitter and theData is:')
+  console.log(theData)
+  theData = setPointJitter(theData);
+  console.log('Just arrived back to addPoints from setPointJitter and theData is:')
+  console.log(theData)
+
+  for(let group in data_groups) {
+    data_groups[group]["data"] = [];
+  }
+
+  for(let datum of theData) {
+
+    if(datum[SELF] == "True") {
+      data_groups["self"]["data"].push(datum);
+    }
+    else {
+      data_groups["others"]["data"].push(datum);
+    }
+  }
+
+  for(let group in data_groups) {
+
+    let data = data_groups[group]["data"];
+
+    abundance_svg
+      .selectAll(data_groups[group]["point_tag"])
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", data_groups[group]["point_class"])
+      .attr("cx", function(d) {
+          // console.log(d)
+          let jitter = d["jitter"];
+          let val = abundance_x(d[GROUPING]) + abundance_x.bandwidth() / 2 - Math.random() * jitter * jitterMultiplier;
+          if (isNaN(val)) {
+            console.log(d);
+          }
+          return val;
+      })
+      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
+      .attr("r", data_groups[group]["radius"])
+      .style("fill", data_groups[group]["color"]
+      )
+      .attr("stroke", "white")
+  }
+}
 
 // Begin Abundance Function Definitions
 // TODO: index.['likeThis'], pass field names as parameters. 
@@ -117,126 +263,6 @@ export function addViolin(theData) {
         )
 }
 
-export function setPointJitter(theData) {
-
-  console.log('vvv theData vvv')
-  console.log(theData);
-  var bins
-
-  var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
-  .key(function(d) { return d[GROUPING];})
-  .rollup(function(d) {   // For each key..
-    input = d.map(function(g) { return g[ABUNDANCE_VERTICAL];})    // Keep the variable called Sepal_Length
-    bins = histogram(input)   // And compute the binning on it.
-    return(bins)
-  })
-  .entries(theData)
-
-  console.log('vvv sumstat')
-  console.log(sumstat)
-
-  // Section 2 of 3: abundance_xNum
-  // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
-  var maxNum = 0
-  for ( i in sumstat ){
-    allBins = sumstat[i].value
-    lengths = allBins.map(function(a){return a.length;})
-    longest = d3v4.max(lengths)
-    if (longest > maxNum) { maxNum = longest }
-  }
-
-  // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
-  var abundance_xNum = d3v4.scaleLinear()
-    .range([0, abundance_x.bandwidth()])
-    .domain([-maxNum, maxNum])
-
-  for(let datum of theData) {
-    
-    let group = datum[GROUPING];
-    let groupstat = null;
-
-    for(var i in sumstat) {
-      if(sumstat[i]["key"] == group) {
-        groupstat = sumstat[i]["key"];
-        break;
-      }
-    }
-
-    if(groupstat == null) {
-      alert("Error matching group statistic with group in data");
-      console.log("baaaad");
-      return null;
-    }
-
-    for(let bin of sumstat[i]["value"]) {
-
-      datum.jitter = bin.length;
-
-      if(
-        datum[ABUNDANCE_VERTICAL] >= bin.x0 &&
-        datum[ABUNDANCE_VERTICAL] < bin.x1) {
-          break;
-      }
-    }
-  }
-
-  return theData;
-}
-
-// TODO: index.['likeThis'], pass field names as parameters. 
-export function addPoints(theData) {
-
-  //var jitterWidth = 40
-  var jitterMultiplier = 2.5;
-
-  // Separate the data into two groups - others and self. That way we can
-  // make sure to add self last, putting it on top of the (seemingly
-  // inaccessible) z-stack. Conveniently, we can also style it independently
-  // that way.
-
-  theData = setPointJitter(theData);
-
-  for(let group in data_groups) {
-    data_groups[group]["data"] = [];
-  }
-
-  for(let datum of theData) {
-
-    if(datum[SELF] == "True") {
-      data_groups["self"]["data"].push(datum);
-    }
-    else {
-      data_groups["others"]["data"].push(datum);
-    }
-  }
-
-  for(let group in data_groups) {
-
-    let data = data_groups[group]["data"];
-
-    abundance_svg
-      .selectAll(data_groups[group]["point_tag"])
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("class", data_groups[group]["point_class"])
-      .attr("cx", function(d) {
-          // console.log(d)
-          let jitter = d["jitter"];
-          let val = abundance_x(d[GROUPING]) + abundance_x.bandwidth() / 2 - Math.random() * jitter * jitterMultiplier;
-          if (isNaN(val)) {
-            console.log(d);
-          }
-          return val;
-      })
-      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
-      .attr("r", data_groups[group]["radius"])
-      .style("fill", data_groups[group]["color"]
-      )
-      .attr("stroke", "white")
-  }
-}
-
 export function removeFeatures() {
 
   // Remove violin
@@ -248,13 +274,6 @@ export function removeFeatures() {
     let class_selector = `\.${point_class}`;
     abundance_svg.selectAll(class_selector).remove();
   }
-}
-
-export function respondToSelection(event) {
-    console.log(event.target.value)
-    var theData = readCSVFile(event.target.value)
-    console.log(event.target.value)
-    updateAbundance(theData)
 }
 
 export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
@@ -280,10 +299,9 @@ export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 export function updateAbundance(theData, state, abundance_svg) {
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
-  //removeFeatures();
+  removeFeatures();
   //addViolin(theData)
-  //addPoints(theData)
-  // removeNaNPoints()
+  addPoints(theData)
 }
 // End Abundance function definitions
 
