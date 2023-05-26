@@ -300,7 +300,7 @@ export function updateAbundance(theData, state, abundance_svg) {
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
-  //addViolin(theData)
+  addViolin(theData)
   addPoints(theData)
 }
 // End Abundance function definitions
