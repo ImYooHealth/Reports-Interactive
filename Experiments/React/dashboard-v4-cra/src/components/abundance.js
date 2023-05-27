@@ -48,7 +48,7 @@ var data_groups = {
 
 const margin = {top: 10, right: 30, bottom: 30, left: 40},
 width = 960 - margin.left - margin.right,
-height = + 500 - margin.top - margin.bottom; 
+height = 800 - margin.top - margin.bottom; 
 
 /* Not actually used now. An artifact from when the dots had a spectrum to them. 
 // Perhaps: spectrum, or white for self.
@@ -101,7 +101,6 @@ var state = {
 const Abundance = () => {
     const svgRef = React.useRef(null)
 
-
     React.useEffect(() => {
         const svgEl = d3v4.select(svgRef.current)
 
@@ -124,6 +123,7 @@ const Abundance = () => {
         // This should be the last line
         state.abundance_svg = svgEl
         utils.updateAbundance(data, state, svgEl)  
+
     }, [data, state, abundance_x, abundance_y_axis]);
 
     return (

@@ -4,14 +4,15 @@ import MyComponent from './demo_component.js'
 
 const Content = ({ title }) => (
   <div className="flex flex-wrap">
-  beyond outer
     <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl">
       <div className="flex justify-between text-white items-center mb-8">
         <p className="text-2xl font-bold">{title}</p>
         <p className="">December, 12</p>
       </div>
       <div className="flex flex-wrap">
-        <div className="w-full md:w-4/12">
+
+        {/* Ensure member divs have uniform width */}
+        <div className="w-full">
 
 
           <div className="p-2">
@@ -37,15 +38,11 @@ const Content = ({ title }) => (
                 <MyComponent />
               </div>
 
-
- 
             </div>
           </div>
 
-
           {/* Abundance */}
           <div className="p-2">
-
             <div className="p-4 rounded-3xl bg-gray-300">
 
               {/* Text */}
@@ -59,15 +56,19 @@ const Content = ({ title }) => (
               </div>
 
               {/* Abundance */}
-              <div className='the_circle flex items-center justify-center'>
-                <Abundance />
+              <div className="flex flex-col">
+                <div className='flex-grow'>
+                    <Abundance />
+                </div>
               </div>
               
             </div>
           </div>
-          
+
 
         </div>
+
+      
       </div>
     </div>
   </div>
