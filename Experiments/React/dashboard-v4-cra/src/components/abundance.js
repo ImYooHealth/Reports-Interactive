@@ -127,7 +127,7 @@ const Abundance = () => {
     }, [data, state, abundance_x, abundance_y_axis]);
 
     return (
-            <svg ref={svgRef} width={width + 500}  height={height + 50}></svg>
+            <svg ref={svgRef} width={width + 50}  height={height + 50}></svg>
     );
 }
 

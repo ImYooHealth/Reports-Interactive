@@ -3,8 +3,7 @@ import Abundance from './abundance.js'
 import MyComponent from './demo_component.js'
 
 const Content = ({ title }) => (
-  <div className="flex flex-wrap">
-    <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl min-w-min">
+    <div className="lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
 
       {/* Just Text */}
       <div className="flex justify-between text-white items-center mb-8">
@@ -29,7 +28,6 @@ const Content = ({ title }) => (
       </div>
 
     </div>
-  </div>
 );
 
 export default Content;
