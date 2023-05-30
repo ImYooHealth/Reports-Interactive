@@ -95,6 +95,10 @@ var state = {
     histogram: histogram,
     data_groups: data_groups,
     abundance_x: abundance_x,
+    margin: margin,
+    width: width,
+    height: height,
+    v_offset: v_offset,
 }
 
 
