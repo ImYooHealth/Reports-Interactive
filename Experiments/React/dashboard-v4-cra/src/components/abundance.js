@@ -46,9 +46,12 @@ var data_groups = {
 //const abundance_selector = document.querySelector('.abundance_dropdown_class')
 //abundance_selector.addEventListener("change", respondToSelection)
 
-const margin = {top: 10, right: 30, bottom: 30, left: 40},
+const margin = {top: 10, right: 30, bottom: 30, left: 25},
 width = 960 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
+
+// Offsets to ensure non-overlap
+let v_offset = 20
 
 /* Not actually used now. An artifact from when the dots had a spectrum to them. 
 // Perhaps: spectrum, or white for self.
@@ -103,6 +106,7 @@ const Abundance = () => {
 
     React.useEffect(() => {
         const svgEl = d3v4.select(svgRef.current)
+        svgEl.select("*").remove()
 
         svgEl
             .append("svg")
@@ -113,10 +117,11 @@ const Abundance = () => {
                       "translate(" + margin.left + "," + margin.top + ")");
 
         svgEl.append("g")
-          .attr("transform", "translate(0," + height + ")")
+          .attr("transform", "translate(" + margin.left + "," + height + ")")
           .call(d3v4.axisBottom(abundance_x))
 
         svgEl.append("g")
+          .attr('transform', 'translate(' + margin.left + ",0)")
           .attr("class", "y axis")
           .call(abundance_y_axis);
 
@@ -127,7 +132,7 @@ const Abundance = () => {
     }, [data, state, abundance_x, abundance_y_axis]);
 
     return (
-            <svg ref={svgRef} width={width + 50}  height={height + 50}></svg>
+            <svg ref={svgRef} width={width}  height={height + v_offset}></svg>
     );
 }
 
