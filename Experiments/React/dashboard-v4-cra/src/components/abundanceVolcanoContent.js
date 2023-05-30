@@ -4,72 +4,30 @@ import MyComponent from './demo_component.js'
 
 const Content = ({ title }) => (
   <div className="flex flex-wrap">
-    <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl">
+    <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl min-w-min">
+
+      {/* Just Text */}
       <div className="flex justify-between text-white items-center mb-8">
         <p className="text-2xl font-bold">{title}</p>
         <p className="">December, 12</p>
       </div>
+
       <div className="flex flex-wrap">
 
-        {/* Ensure member divs have uniform width */}
-        <div className="w-full">
-
-
-          <div className="p-2">
-            <div className="p-4 rounded-3xl bg-gray-300">
-
-              {/* Only text */}
-              <div className="flex items-center justify-b">
-                <span className="text-sm">Demo</span>
-              </div>
-
-              {/* One Circle */}
-              <div className='one_circle flex items-center justify-center'>
-                <Circle cx="11" cy="21"/>
-              </div>
-
-              {/* A Second Circle */}
-              <div className='two_circle flex items-center justify-center'>
-                <Circle cx="19" cy="11"/>
-              </div>
-
-              {/* variables and data with button demo */}
-              <div className='flex items-center justify-center'>
-                <MyComponent />
-              </div>
-
-            </div>
-          </div>
-
           {/* Abundance */}
-          <div className="p-2">
+
             <div className="p-4 rounded-3xl bg-gray-300">
-
-              {/* Text */}
-              <div className="flex items-center justify-b">
-                <span className="text-sm">Abundance</span>
-              </div>
-
-              {/* Text */}
-              <div className="flex items-center justify-b">
-                <span className="text-sm">^^^ circle ^^^ | vvv Abundance vvv</span>
-              </div>
-
               {/* Abundance */}
-              <div className="flex flex-col">
-                <div className='flex-grow'>
-                    <Abundance />
-                </div>
+              <div className="p-10 bg-white rounded-3xl">
+
+                <Abundance />
+
               </div>
-              
             </div>
-          </div>
 
 
-        </div>
-
-      
       </div>
+
     </div>
   </div>
 );
