@@ -17,7 +17,7 @@ const Content = ({ title }) => (
 
             <div className="p-4 rounded-3xl bg-gray-300">
               {/* Abundance */}
-              <div className="p-10 bg-white rounded-3xl">
+              <div className="p-7 bg-white rounded-3xl">
 
                 <Abundance />
 
