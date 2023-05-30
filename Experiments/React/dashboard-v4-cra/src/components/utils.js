@@ -196,6 +196,8 @@ export function addPoints(theData) {
       .selectAll(data_groups[group]["point_tag"])
       .data(data)
       .enter()
+      .append('g')
+        .attr('transform', 'translate(' + (margin.left - 3) + ",0)")
       .append("circle")
       .attr("class", data_groups[group]["point_class"])
       .attr("cx", function(d) {
@@ -306,7 +308,7 @@ export function updateAbundance(theData, state, abundance_svg) {
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
   addViolin(theData, state.margin)
-  addPoints(theData)
+  addPoints(theData, state.margin)
 }
 // End Abundance function definitions
 
