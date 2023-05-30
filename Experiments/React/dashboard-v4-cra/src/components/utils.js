@@ -13,6 +13,7 @@ var abundance_y_axis
 var histogram
 var data_groups
 var abundance_x
+var margin
 
 // var const or let missing and that's unexamined
 var bins
@@ -42,6 +43,8 @@ function setState(state) {
     console.log(GROUPING)
 
     abundance_x = state.abundance_x
+
+    margin = state.margin
 }
 
 // Begin section functions used by both
@@ -214,7 +217,7 @@ export function addPoints(theData) {
 
 // Begin Abundance Function Definitions
 // TODO: index.['likeThis'], pass field names as parameters. 
-export function addViolin(theData) {
+export function addViolin(theData, margin) {
   var bins
   var input
   // Section 1 of 3: Sumstat
@@ -248,6 +251,8 @@ export function addViolin(theData) {
     .selectAll("violin")
     .data(sumstat)
     .enter()        // So now we are working group per group
+    .append("g")
+        .attr("transform", "translate(" + margin.left + ",0)")
     .append("g")
       .attr("transform", function(d){ return("translate(" + abundance_x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
     .append("path")
@@ -300,7 +305,7 @@ export function updateAbundance(theData, state, abundance_svg) {
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
-  addViolin(theData)
+  addViolin(theData, state.margin)
   addPoints(theData)
 }
 // End Abundance function definitions
