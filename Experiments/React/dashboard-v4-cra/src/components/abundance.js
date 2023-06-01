@@ -26,7 +26,7 @@ var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = utils.readCSVFile(abundance_data_path_prefix + "304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+data = utils.readCSVFile(abundance_data_path_prefix + "305/Abundances/WDR83OS.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 var gene_names = utils.readCSVFile(abundance_data_path_prefix + 'gene_list.csv')
     .map(u => u['gene_name'])
 console.log(gene_names)
@@ -115,7 +115,6 @@ const Abundance = () => {
     const svgRef = React.useRef(null)
     const items = ['Option 1', 'Option 2', 'Option 333333333'];
 
-
     React.useEffect(() => {
         const svg = d3v4.select(svgRef.current)
         svg.select("*").remove()
@@ -159,7 +158,7 @@ const Abundance = () => {
         <div>
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
-            
+
             <div className="p-2">
             </div>
 
