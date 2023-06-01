@@ -16,6 +16,9 @@ var abundance_x
 var margin
 var v_offset
 
+// Necessarily-hardcoded data
+var data_path = ''
+
 // var const or let missing and that's unexamined
 var bins
 
@@ -66,6 +69,7 @@ export function readCSVFile(filePath) {
 }
 // End section functions used by both
 
+// Begin Abundance
 export function respondToSelection(event) {
     console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
