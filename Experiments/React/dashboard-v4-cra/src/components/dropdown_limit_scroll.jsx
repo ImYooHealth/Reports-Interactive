@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Dropdown.css';
+import './Dropdown_limit_scroll.css';
 
-const Dropdown = ({ options }) => {
+const Dropdown_limit_scroll = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -40,4 +40,4 @@ const Dropdown = ({ options }) => {
   );
 };
 
-export default Dropdown;
+export default Dropdown_limit_scroll;
