@@ -22,7 +22,7 @@ const Content = ({ title }) => (
         </div>
 
         {/* Abundance */}
-        <div className="p-7 bg-white rounded-3xl">
+        <div className="p-10 bg-white rounded-3xl">
           <Abundance />
         </div>
 

@@ -15,6 +15,8 @@ var data_groups
 var abundance_x
 var margin
 var v_offset
+var width
+var height
 
 // Necessarily-hardcoded data
 var data_path = ''
@@ -69,7 +71,6 @@ export function readCSVFile(filePath) {
 }
 // End section functions used by both
 
-// Begin Abundance
 export function respondToSelection(event) {
     console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
@@ -195,7 +196,7 @@ export function addPoints(theData) {
 
 // Begin Abundance Function Definitions
 // TODO: index.['likeThis'], pass field names as parameters. 
-export function addViolin(theData, margin) {
+export function addViolin(theData) {
   var bins
   var input
   // Section 1 of 3: Sumstat
@@ -283,8 +284,8 @@ export function updateAbundance(theData, state, abundance_svg) {
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
-  addViolin(theData, state.margin)
-  addPoints(theData, state.margin, state)
+  addViolin(theData)
+  addPoints(theData)
 }
 // End Abundance function definitions
 

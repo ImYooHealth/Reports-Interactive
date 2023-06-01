@@ -4,7 +4,8 @@ import * as d3v4 from './d3.v4.js';
 
 //import * as abundance from './abundance_main.js'
 import * as utils from './utils.js'
-import Dropdown from './dropdown.jsx'
+import Dropdown_limit_scroll from './dropdown_limit_scroll.jsx'
+import DropdownAutocomplete from './dropdown_autocomplete'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -52,8 +53,10 @@ var data_groups = {
 //const abundance_selector = document.querySelector('.abundance_dropdown_class')
 //abundance_selector.addEventListener("change", respondToSelection)
 
-const margin = {top: 10, right: 30, bottom: 30, left: 25},
-width = 960 - margin.left - margin.right,
+
+
+const margin = {top: 10, right: 30, bottom: 30, left: 50},
+width = 900 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
 // Offsets to ensure non-overlap
@@ -77,7 +80,7 @@ const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((i
 var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
-  .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+  .padding(0.0001)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
 
 // Build and Show the Y scale
 var abundance_y_scale = d3v4.scaleLinear()
@@ -107,16 +110,17 @@ var state = {
     v_offset: v_offset,
 }
 
+
 const Abundance = () => {
     const svgRef = React.useRef(null)
     const items = ['Option 1', 'Option 2', 'Option 333333333'];
 
 
     React.useEffect(() => {
-        const svgEl = d3v4.select(svgRef.current)
-        svgEl.select("*").remove()
+        const svg = d3v4.select(svgRef.current)
+        svg.select("*").remove()
 
-        svgEl
+        svg
             .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -124,18 +128,30 @@ const Abundance = () => {
                 .attr("transform",
                       "translate(" + margin.left + "," + margin.top + ")");
 
-        svgEl.append("g")
+        svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + height + ")")
           .call(d3v4.axisBottom(abundance_x))
 
-        svgEl.append("g")
+        svg.append("g")
           .attr('transform', 'translate(' + margin.left + ",0)")
           .attr("class", "y axis")
-          .call(abundance_y_axis);
+          .call(abundance_y_axis);   
+
+        // Vertical axis label
+        svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "middle")
+            .attr("y", 0)
+            .attr("x", -(height / 2))
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Counts Per Million")
+            .attr("font-size","20px")
+            .attr('font-family', "Arial")
 
         // This should be the last line
-        state.abundance_svg = svgEl
-        utils.updateAbundance(data, state, svgEl)  
+        state.abundance_svg = svg
+        utils.updateAbundance(data, state, svg)
 
     }, [data, state, abundance_x, abundance_y_axis]);
 
@@ -143,7 +159,14 @@ const Abundance = () => {
         <div>
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
-            <Dropdown options={gene_names} />
+            
+            <div className="p-2">
+            </div>
+
+            <div className='flex space-x-4'>
+                <Dropdown_limit_scroll options={gene_names} />
+                <DropdownAutocomplete options={gene_names} />
+            </div>
         </div>
     );
 }
