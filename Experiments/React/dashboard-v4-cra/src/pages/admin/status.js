@@ -1,5 +1,5 @@
-import Content from '../../components/abundanceVolcanoContent';
+import Content from '../../components/abundanceVolcanoContent.js';
 
 export default function StatusPage() {
-  return <Content title="Abundance Volcano" />;
+  return <Content title="Cell Signatures" />;
 }

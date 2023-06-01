@@ -14,6 +14,7 @@ var histogram
 var data_groups
 var abundance_x
 var margin
+var v_offset
 
 // var const or let missing and that's unexamined
 var bins
@@ -26,25 +27,16 @@ var longest
 
 // Functions used only here
 function setState(state) {
-
-    // AV should stay
     ABUNDANCE_VERTICAL = state.ABUNDANCE_VERTICAL
     abundance_svg = state.abundance_svg
-
-    // Unexamined
+    abundance_x = state.abundance_x
+    margin = state.margin
+    v_offset = state.v_offset    
     abundance_y_scale = state.abundance_y_scale
     abundance_y_axis = state.abundance_y_axis
     histogram = state.histogram
     data_groups = state.data_groups
-    console.log('Grouping is: ')
-    console.log(GROUPING)
     GROUPING = state.GROUPING
-    console.log('Now grouping is:')
-    console.log(GROUPING)
-
-    abundance_x = state.abundance_x
-
-    margin = state.margin
 }
 
 // Begin section functions used by both
@@ -82,12 +74,7 @@ export function respondToSelection(event) {
 }
 
 export function setPointJitter(theData) {
-
-  console.log('vvv theData vvv')
-  console.log(theData);
   var bins
-
-  console.log
 
   var sumstat = d3v4.nest()  // nest function allows to group the calculation per level of a factor
   .key(function(d) { return d[GROUPING];})
@@ -97,9 +84,6 @@ export function setPointJitter(theData) {
     return(bins)
   })
   .entries(theData)
-
-  console.log('vvv sumstat')
-  console.log(sumstat)
 
   // Section 2 of 3: abundance_xNum
   // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
@@ -119,16 +103,10 @@ export function setPointJitter(theData) {
   for(let datum of theData) {
     
     let group = datum[GROUPING];
-    console.log('vvv group vvv')
-    console.log(group)
-    console.log('^^^ group ^^^')
     let groupstat = null;
 
     for(var i in sumstat) {
-        console.log(i)
-        console.log(sumstat[i])
       if(sumstat[i]["key"] == group) {
-        console.log(sumstat[i]['key'])
         groupstat = sumstat[i]["key"];
         break;
       }
@@ -152,8 +130,6 @@ export function setPointJitter(theData) {
     }
   }
 
-  console.log('Leaving setPointJitter and theData is:')
-  console.log(theData)
   return theData;
 }
 
@@ -168,11 +144,7 @@ export function addPoints(theData) {
   // inaccessible) z-stack. Conveniently, we can also style it independently
   // that way.
 
-  console.log('In addPoints and just about to visit setPointJitter and theData is:')
-  console.log(theData)
   theData = setPointJitter(theData);
-  console.log('Just arrived back to addPoints from setPointJitter and theData is:')
-  console.log(theData)
 
   for(let group in data_groups) {
     data_groups[group]["data"] = [];
@@ -209,7 +181,7 @@ export function addPoints(theData) {
           }
           return val;
       })
-      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
+      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]) + v_offset)})
       .attr("r", data_groups[group]["radius"])
       .style("fill", data_groups[group]["color"]
       )
@@ -308,7 +280,7 @@ export function updateAbundance(theData, state, abundance_svg) {
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
   addViolin(theData, state.margin)
-  addPoints(theData, state.margin)
+  addPoints(theData, state.margin, state)
 }
 // End Abundance function definitions
 

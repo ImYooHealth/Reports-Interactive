@@ -4,6 +4,7 @@ import * as d3v4 from './d3.v4.js';
 
 //import * as abundance from './abundance_main.js'
 import * as utils from './utils.js'
+import Dropdown from './dropdown.jsx'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -16,13 +17,18 @@ var GROUPING
 var ABUNDANCE_VERTICAL
 var SELF
 var data
-var abundance_data_path_prefix = 'http://localhost:8000/Presentation/'
+var abundance_path_prefix = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
+var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
+
+
 
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
 data = utils.readCSVFile(abundance_data_path_prefix + "304/Abundances/COMT.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
-console.log(data)
+var gene_names = utils.readCSVFile(abundance_data_path_prefix + 'gene_list.csv')
+    .map(u => u['gene_name'])
+console.log(gene_names)
 
 var data_groups = {
   "others": {
@@ -101,12 +107,10 @@ var state = {
     v_offset: v_offset,
 }
 
-
-// Initialize
-
-
 const Abundance = () => {
     const svgRef = React.useRef(null)
+    const items = ['Option 1', 'Option 2', 'Option 333333333'];
+
 
     React.useEffect(() => {
         const svgEl = d3v4.select(svgRef.current)
@@ -136,7 +140,11 @@ const Abundance = () => {
     }, [data, state, abundance_x, abundance_y_axis]);
 
     return (
-            <svg ref={svgRef} width={width}  height={height + v_offset}></svg>
+        <div>
+            <svg ref={svgRef} width={width}  height={height + v_offset}>
+            </svg>
+            <Dropdown options={gene_names} />
+        </div>
     );
 }
 
