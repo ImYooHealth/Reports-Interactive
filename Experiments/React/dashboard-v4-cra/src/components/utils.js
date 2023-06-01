@@ -5,7 +5,6 @@ import * as d3v4 from './d3.v4.js'
 // data I don't have
 var GROUPING
 var ABUNDANCE_VERTICAL
-var SELF
 var data
 var abundance_y_scale
 var abundance_svg
@@ -155,10 +154,13 @@ export function addPoints(theData) {
     data_groups[group]["data"] = [];
   }
 
-  for(let datum of theData) {
+  console.log(theData)
 
-    if(datum[SELF] == "True") {
+  for(let datum of theData) {
+    console.log(datum['is_self'])
+    if(datum['is_self'] == "True") {
       data_groups["self"]["data"].push(datum);
+      console.log('Noticed self sample')
     }
     else {
       data_groups["others"]["data"].push(datum);
@@ -166,6 +168,9 @@ export function addPoints(theData) {
   }
 
   for(let group in data_groups) {
+    console.log(group)
+    console.log(Object.keys(data_groups[group]).length)
+    console.log(data_groups[group])
 
     let data = data_groups[group]["data"];
 
@@ -281,6 +286,7 @@ export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 }
 
 export function updateAbundance(theData, state, abundance_svg) {
+    console.log(state)
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();

@@ -104,8 +104,6 @@ function setPointJitter(theData) {
   return theData;
 }
 
-
-
 function respondToSelection(event) {
     console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
@@ -253,7 +251,7 @@ function updateAbundance(theData) {
   updateAxes(theData);
   removeFeatures();
   addViolin(theData)
-  //addPoints(theData)
+  addPoints(theData)
   // removeNaNPoints()
 }
 // End Abundance function definitions

@@ -59,7 +59,6 @@ var myColor = d3v4.scaleSequential()
   .domain([3,9])
 */
 // Hereafter, everything depends on data
-// data = readCSVFile("304/Abundances/COMT.csv")
 
 // Begin setup
 // Find ranges for axes
@@ -72,6 +71,7 @@ var abundance_x = d3v4.scaleBand()
   .domain(abundance_hvals)
   .range([0, width])
   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+  
 abundance_svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3v4.axisBottom(abundance_x))
@@ -131,7 +131,7 @@ svg.append("defs").append("clipPath")
 
 /* Hereafter, things depend on data */
 /* TODO: initialize from new data */
-var data = readCSVFile("304/Volcanoes/B Cells.csv");
+var data = readCSVFile("data/304/Volcanoes/B Cells.csv");
 
 // Data prep: we wish only to use |stat|
 // No data prep. That should happen in data generation. 
@@ -194,7 +194,7 @@ svg.append("g")
 
 
 /*---------- begin points object region --------*/
-/*
+
 points = svg.selectAll(".volcano_point")
     .data(data)
     .enter().append("circle")
@@ -204,7 +204,7 @@ points = svg.selectAll(".volcano_point")
     .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
     .attr("cy", function(d) { return volcano_y(Math.abs(d[VOLCANO_VERTICAL])); })
     .call(d3v3.helper.tooltip());
-*/
+
 // TODO: Make update take either a string or an event, and use only it to create points
 const volcano_selector = document.querySelector('.volcano_dropdown_class')
 volcano_selector.addEventListener("change", updateVolcano)
