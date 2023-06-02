@@ -29,6 +29,9 @@ var allBins
 var lengths
 var longest
 
+var abundance_path_prefix = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/Data/__secrets__00/Abundances/'
+
+
 // Functions used only here
 function setState(state) {
     ABUNDANCE_VERTICAL = state.ABUNDANCE_VERTICAL
@@ -43,9 +46,23 @@ function setState(state) {
     GROUPING = state.GROUPING
 }
 
+export function handleChange(option) {
+    const geneName = option.value
+    console.log(geneName)
+    data = readAbundanceData(geneName)
+    console.log(data)
+    updateAbundance(data)
+}
+
+export function readAbundanceData(geneName) {
+    return readCSVFile(abundance_path_prefix + geneName + '.csv')
+}
+
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
-export function readCSVFile(filePath) {
+export function readCSVFile(filePath, type) {
+  if(type == "Abundance") {
+  }
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
   request.send();
@@ -255,7 +272,7 @@ export function removeFeatures() {
   }
 }
 
-export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
+export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
 
   // Vertical
   const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
@@ -276,8 +293,11 @@ export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 }
 
 export function updateAbundance(theData, state, abundance_svg) {
-  setState(state)
-  updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
+  if(state !== undefined) {
+    setState(state)    
+  }
+
+  updateAxes(theData)//, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
   addViolin(theData)
   addPoints(theData)
