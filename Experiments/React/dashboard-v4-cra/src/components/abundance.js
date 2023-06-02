@@ -12,6 +12,7 @@ import Dropdown from './dropdown.js'
 
 // -- vvv Abundance Functions vvv -- //
 
+// Moved to utils.js
 
 // -- ^^^ Abundance Functions ^^^ -- //
 
@@ -130,9 +131,13 @@ const Abundance = () => {
                 .attr("transform",
                       "translate(" + margin.left + "," + margin.top + ")");
 
+                console.log(abundance_x)
+
         svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + height + ")")
           .call(d3v4.axisBottom(abundance_x))
+          .attr("font-size","18px")
+          .attr('font-family', "Arial")
 
         svg.append("g")
           .attr('transform', 'translate(' + margin.left + ",0)")
@@ -148,8 +153,36 @@ const Abundance = () => {
             .attr("dy", ".75em")
             .attr("transform", "rotate(-90)")
             .text("Counts Per Million")
-            .attr("font-size","20px")
+            .attr("font-size","18px")
             .attr('font-family', "Arial")
+
+        // Axis Labels
+        let v_axis_label_adjust = -40
+        let h_axis_label_adjust = 30
+        let font_family = 'Arial'
+        svg.append("text")
+            .attr("class", "x label left")
+            .attr("text-anchor", "end")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text("Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.")
+            .attr('font-size', '10px')
+            .attr('font-family', font_family)
+            .attr('z', 1)
+
+        svg.append("text")
+            .attr('class', 'x label right')
+            .attr('text-anchor', 'Begin')
+            .attr('x', 0)
+            .attr('y', height + h_axis_label_adjust)
+            .text('Less Expression')
+            .attr('font-size', '10px')
+            .attr('font-family', font_family)    
+
+        svg
+          .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+
+
 
         // This should be the last line
         state.abundance_svg = svg
