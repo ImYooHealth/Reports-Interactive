@@ -3,12 +3,14 @@ import Select from 'react-select';
 //import { colourOptions, groupedOptions } from './docs/data';
 
 import * as utils from './utils.js'
-import genes from '../Data/geneList.js'
-console.log(genes)
+import genes from '../Data/geneList1000.js'
+//console.log(genes)
 
+/*
 //const data = utils.readCSVFile('http://localhost:8000/Experiments/React/dashboard-v4-cra/src/Data/gene_list.csv')
 //console.log(data)
 
+/*
 const groupStyles = {
   display: 'flex',
   alignItems: 'center',
@@ -28,15 +30,22 @@ const groupBadgeStyles: CSSProperties = {
   textAlign: 'center',
 };
 
-const formatGroupLabel = (data) => (
-  <div style={groupStyles}>
-    <span>{data.label}</span>
-    <span style={groupBadgeStyles}>{data.options.length}</span>
-  </div>
-);
+*/
+function Dropdown() {
+  const [selectedOption, setSelectedOption] = React.useState(null);
 
-const Dropdown = () => (
-  <Select options={genes} />
+  const handleChange = (selectedOption) => {
+    utils.handleChange(selectedOption)
+  }
+
+
+  return (
+      <Select 
+        value={selectedOption}
+        options={genes}
+        onChange={handleChange}
+      />
+  )
   /*
   <Select
     defaultValue={genes[1]}
@@ -45,6 +54,6 @@ const Dropdown = () => (
   />
   */
 
-);
+};
 
 export default Dropdown;

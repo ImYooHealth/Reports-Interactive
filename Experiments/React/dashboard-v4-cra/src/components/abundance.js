@@ -8,7 +8,7 @@ import * as d3v4 from './d3.v4.js';
 import * as utils from './utils.js'
 //import Dropdown_limit_scroll from './dropdown_limit_scroll.jsx'
 //import DropdownAutocomplete from './dropdown_autocomplete'
-import Dropdown from './dropdown.jsx'
+import Dropdown from './dropdown.js'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -27,7 +27,7 @@ var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = utils.readCSVFile(abundance_data_path_prefix + "305/Abundances/WDR83OS.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+data = utils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 
 var data_groups = {
   "others": {
