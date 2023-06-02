@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Dropdown_limit_scroll.css';
+import './dropdown_limit_scroll.css';
 
 const Dropdown_limit_scroll = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState('');

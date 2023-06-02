@@ -71,9 +71,7 @@ export function readCSVFile(filePath) {
 // End section functions used by both
 
 export function respondToSelection(event) {
-    console.log(event.target.value)
     var theData = readCSVFile(event.target.value)
-    console.log(event.target.value)
     updateAbundance(theData)
 }
 
@@ -154,13 +152,9 @@ export function addPoints(theData) {
     data_groups[group]["data"] = [];
   }
 
-  console.log(theData)
-
   for(let datum of theData) {
-    console.log(datum['is_self'])
     if(datum['is_self'] == "True") {
       data_groups["self"]["data"].push(datum);
-      console.log('Noticed self sample')
     }
     else {
       data_groups["others"]["data"].push(datum);
@@ -168,10 +162,6 @@ export function addPoints(theData) {
   }
 
   for(let group in data_groups) {
-    console.log(group)
-    console.log(Object.keys(data_groups[group]).length)
-    console.log(data_groups[group])
-
     let data = data_groups[group]["data"];
 
     abundance_svg
@@ -286,7 +276,6 @@ export function updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg) {
 }
 
 export function updateAbundance(theData, state, abundance_svg) {
-    console.log(state)
   setState(state)
   updateAxes(theData, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();

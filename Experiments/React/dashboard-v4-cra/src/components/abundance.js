@@ -1,11 +1,14 @@
 import React from "react"
+import Select from 'react-select'
+
 
 import * as d3v4 from './d3.v4.js';
 
 //import * as abundance from './abundance_main.js'
 import * as utils from './utils.js'
-import Dropdown_limit_scroll from './dropdown_limit_scroll.jsx'
-import DropdownAutocomplete from './dropdown_autocomplete'
+//import Dropdown_limit_scroll from './dropdown_limit_scroll.jsx'
+//import DropdownAutocomplete from './dropdown_autocomplete'
+import Dropdown from './dropdown.jsx'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -21,15 +24,10 @@ var data
 var abundance_path_prefix = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
 var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 
-
-
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
 data = utils.readCSVFile(abundance_data_path_prefix + "305/Abundances/WDR83OS.csv")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
-var gene_names = utils.readCSVFile(abundance_data_path_prefix + 'gene_list.csv')
-    .map(u => u['gene_name'])
-console.log(gene_names)
 
 var data_groups = {
   "others": {
@@ -114,6 +112,11 @@ var state = {
 const Abundance = () => {
     const svgRef = React.useRef(null)
     const items = ['Option 1', 'Option 2', 'Option 333333333'];
+    const options = [
+      { value: 'chocolate', label: 'Chocolate' },
+      { value: 'strawberry', label: 'Strawberry' },
+      { value: 'vanilla', label: 'Vanilla' }
+    ]
 
     React.useEffect(() => {
         const svg = d3v4.select(svgRef.current)
@@ -163,8 +166,7 @@ const Abundance = () => {
             </div>
 
             <div className='flex space-x-4'>
-                <Dropdown_limit_scroll options={gene_names} />
-                <DropdownAutocomplete options={gene_names} />
+                <Dropdown />
             </div>
         </div>
     );
