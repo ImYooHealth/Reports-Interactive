@@ -54,7 +54,7 @@ var data_groups = {
 
 
 
-const margin = {top: 10, right: 30, bottom: 30, left: 50},
+const margin = {top: 15, right: 10, bottom: 45, left: 10},
 width = 900 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
@@ -136,14 +136,14 @@ const Abundance = () => {
         svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + height + ")")
           .call(d3v4.axisBottom(abundance_x))
-          .attr("font-size","18px")
+          .attr("font-size","16px")
           .attr('font-family', "Arial")
 
         svg.append("g")
           .attr('transform', 'translate(' + margin.left + ",0)")
           .attr("class", "y axis")
           .call(abundance_y_axis);   
-
+        /*
         // Vertical axis label
         svg.append("text")
             .attr("class", "y label")
@@ -155,30 +155,21 @@ const Abundance = () => {
             .text("Counts Per Million")
             .attr("font-size","18px")
             .attr('font-family', "Arial")
-
+        */
         // Axis Labels
-        let v_axis_label_adjust = -40
-        let h_axis_label_adjust = 30
+        let v_axis_label_adjust = 0
+        let h_axis_label_adjust = 50
         let font_family = 'Arial'
-        svg.append("text")
-            .attr("class", "x label left")
-            .attr("text-anchor", "end")
-            .attr("x", 0)
-            .attr("y", 0)
-            .text("Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.")
-            .attr('font-size', '10px')
-            .attr('font-family', font_family)
-            .attr('z', 1)
-
+        /*
         svg.append("text")
             .attr('class', 'x label right')
-            .attr('text-anchor', 'Begin')
-            .attr('x', 0)
+            .attr('text-anchor', 'End')
+            .attr('x', width)
             .attr('y', height + h_axis_label_adjust)
-            .text('Less Expression')
-            .attr('font-size', '10px')
+            .text('Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.')
+            .attr('font-size', '14px')
             .attr('font-family', font_family)    
-
+        */
         svg
           .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
@@ -195,11 +186,9 @@ const Abundance = () => {
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
-            <div className="p-2">
-            </div>
-
             <div className='flex space-x-4'>
                 <Dropdown />
+                <p style={{ textAlign: 'right', fontSize: '14px'}}>Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.</p>
             </div>
         </div>
     );
