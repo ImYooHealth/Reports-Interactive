@@ -160,16 +160,16 @@ const Abundance = () => {
         let v_axis_label_adjust = 0
         let h_axis_label_adjust = 50
         let font_family = 'Arial'
-        /*
+
         svg.append("text")
             .attr('class', 'x label right')
-            .attr('text-anchor', 'End')
-            .attr('x', width)
+            .attr('text-anchor', 'Begin')
+            .attr('x', 0)
             .attr('y', height + h_axis_label_adjust)
             .text('Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.')
             .attr('font-size', '14px')
             .attr('font-family', font_family)    
-        */
+
         svg
           .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
@@ -186,9 +186,11 @@ const Abundance = () => {
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
+            <div className="p-2">
+            </div>
+
             <div className='flex space-x-4'>
                 <Dropdown />
-                <p style={{ textAlign: 'right', fontSize: '14px'}}>Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.</p>
             </div>
         </div>
     );
