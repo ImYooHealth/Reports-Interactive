@@ -164,7 +164,7 @@ const Abundance = () => {
         svg.append("text")
             .attr('class', 'x label right')
             .attr('text-anchor', 'Begin')
-            .attr('x', 0)
+            .attr('x', 225)
             .attr('y', height + h_axis_label_adjust)
             .text('Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.')
             .attr('font-size', '14px')
@@ -185,9 +185,6 @@ const Abundance = () => {
         <div>
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
-
-            <div className="p-2">
-            </div>
 
             <div className='flex space-x-4'>
                 <Dropdown />
