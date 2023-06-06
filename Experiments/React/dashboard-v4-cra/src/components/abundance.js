@@ -1,18 +1,12 @@
 import React from "react"
-import Select from 'react-select'
-
-
 import * as d3v4 from './d3.v4.js';
 
-//import * as abundance from './abundance_main.js'
-import * as utils from './utils.js'
-//import Dropdown_limit_scroll from './dropdown_limit_scroll.jsx'
-//import DropdownAutocomplete from './dropdown_autocomplete'
+import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
 
 // -- vvv Abundance Functions vvv -- //
 
-// Moved to utils.js
+// Moved to AbundanceUtilsjs
 
 // -- ^^^ Abundance Functions ^^^ -- //
 
@@ -28,7 +22,7 @@ var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = utils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+data = AbundanceUtils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 
 var data_groups = {
   "others": {
@@ -173,11 +167,9 @@ const Abundance = () => {
         svg
           .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
-
-
         // This should be the last line
         state.abundance_svg = svg
-        utils.updateAbundance(data, state, svg)
+        AbundanceUtils.updateAbundance(data, state, svg)
 
     }, [data, state, abundance_x, abundance_y_axis]);
 
