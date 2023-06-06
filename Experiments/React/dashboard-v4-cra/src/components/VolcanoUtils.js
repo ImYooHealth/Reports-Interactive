@@ -1,5 +1,10 @@
-
 // Begin Volcano section
+
+// Parametrize columns used
+const VOLCANO_HORIZONTAL = 'log2FoldChange'
+const VOLCANO_VERTICAL = 'magstat'
+
+d3v3.helper = {};
 
 // Begin Volcano Function Definitions
 // TODO: Move function defs into their own file

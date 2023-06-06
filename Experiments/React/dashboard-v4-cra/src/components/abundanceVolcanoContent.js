@@ -18,6 +18,11 @@ const Content = ({ title }) => (
           <Abundance />
         </div>
 
+        <div className="p-1">
+        </div>
+
+        <div className="p-7 bg-white rounded-3xl">
+        </div>
       </div>
     </div>
   </div>
