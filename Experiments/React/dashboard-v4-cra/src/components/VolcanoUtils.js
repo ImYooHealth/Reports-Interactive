@@ -1,16 +1,19 @@
 // Begin Volcano section
 import d3v3 from './d3.v3.js'
-
+const VOLCANO_HORIZONTAL = 'log2FoldChange'
+const VOLCANO_VERTICAL = 'magstat'
+const volcanoPath = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
+const volcanoDataPath = volcanoPath + 'Data/__secrets__01/'
+const margin = {top: 10, right: 30, bottom: 40, left: 60},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
 // --- Constants --- //
 
 // Parametrize columns used
-const VOLCANO_HORIZONTAL = 'log2FoldChange'
-const VOLCANO_VERTICAL = 'magstat'
+
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 40, left: 60},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+
 
 // Begin Volcano Function Definitions
 d3v3.helper = {};
@@ -131,9 +134,17 @@ export function brushmove() {
   });
 }
 
-export function updateVolcano(event) {
+export function updateVolcano(path) {
+    console.log(path)
 
-    var data = readCSVFile(event.target.value)
+    var data = readCSVFile(path)
+    console.log(typeof(data))
+    console.log(Object.keys(data))
+    console.log(data.hasOwnProperty('0'))
+    console.log(Object.keys(data[0]))
+    console.log(data[0].hasOwnProperty('<!DOCTYPE html>'))
+
+    console.log(data[0]['<!DOCTYPE html>'])
 
     // Find ranges for axes
     // Horizontal
@@ -247,10 +258,7 @@ export function setupCanvas(svg) {
 }
 
 export function initializeCanvas(svg) {
-    var volcanoPath = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
-    var volcanoDataPath = volcanoPath + 'Data/__secrets__01/'
     var data = readCSVFile(volcanoDataPath + "Volcanoes/B Cells.csv");
-    console.log(data)
 
     /* Begin Setup axes and brush */
     // Find ranges for axes
@@ -289,9 +297,6 @@ export function initializeCanvas(svg) {
         .orient("left")
         .ticks(8);  // TODO: Replace with arrow
 
-    console.log(volcano_y)
-    console.log(volcano_yAxis)
-
     // Modify svg
     // TODO: David, horizontal bar adjuster. 
     var height_adjust = 0//35
@@ -313,6 +318,8 @@ export function initializeCanvas(svg) {
         .call(brush)
           .selectAll('rect')
           .attr('height', height);
+
+    return data;
 }
 
 // TODO: Move this to a 'shared-utils.js' file and reference it in
@@ -340,5 +347,13 @@ export function readCSVFile(filePath, type) {
     }
     result.push(obj);
   }
-  return result;
+
+  // Validate
+  if(! (result.hasOwnProperty('0') && result[0].hasOwnProperty('<!DOCTYPE html>'))) {
+    return result;
+  } else {
+    throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +
+        "\n\nIf you feel you've reached this error in error, please delete and try " +
+        "something else.")
+  }
 }
