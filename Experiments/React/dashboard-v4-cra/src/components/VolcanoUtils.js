@@ -1,4 +1,5 @@
 // Begin Volcano section
+import d3v3 from './d3.v3.js'
 
 // Parametrize columns used
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
@@ -69,7 +70,7 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
-function click_circle(pD, pI) {
+export function click_circle(pD, pI) {
     var filename = '304/Abundances/' + pD.gene_name + '.csv'
     console.log(filename)
     var data = readCSVFile(filename)
@@ -77,7 +78,7 @@ function click_circle(pD, pI) {
     //alert(pD.gene_name)
 }
 
-function reset_axis() {
+export function reset_axis() {
   svg.transition().duration(500)
    .select(".volcano_x.axis")
    .call(volcano_xAxis)
@@ -88,10 +89,10 @@ function reset_axis() {
 }
 
 var idleTimeout
-function idled() { idleTimeout = null; }   
+export function idled() { idleTimeout = null; }   
 
 // TODO: parameters?
-function brushend() {
+export function brushend() {
   var extent = brush.extent()
   console.log(extent)
 
@@ -115,7 +116,7 @@ function brushend() {
   reset_axis();  
 }
 
-function brushmove() {
+export function brushmove() {
   var extent = brush.extent();
   points.classed("selected", function(d) {
     //console.log(extent)
@@ -125,7 +126,7 @@ function brushmove() {
   });
 }
 
-function updateVolcano(event) {
+export function updateVolcano(event) {
 
     var data = readCSVFile(event.target.value)
 
@@ -177,7 +178,7 @@ function updateVolcano(event) {
     return data
 }
 
-function create_axis_labels(svg, width, height) {
+export function create_axis_labels(svg, width, height) {
     let v_axis_label_adjust = -40
     let h_axis_label_adjust = 30
     let font_family = 'Arial'
