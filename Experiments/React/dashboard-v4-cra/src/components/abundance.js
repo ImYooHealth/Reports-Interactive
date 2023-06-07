@@ -125,8 +125,6 @@ const Abundance = () => {
                 .attr("transform",
                       "translate(" + margin.left + "," + margin.top + ")");
 
-                console.log(abundance_x)
-
         svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + height + ")")
           .call(d3v4.axisBottom(abundance_x))
