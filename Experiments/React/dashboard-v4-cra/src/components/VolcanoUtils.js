@@ -1,14 +1,19 @@
 // Begin Volcano section
 import d3v3 from './d3.v3.js'
 
+// --- Constants --- //
+
 // Parametrize columns used
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 
-d3v3.helper = {};
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 40, left: 60},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 // Begin Volcano Function Definitions
-// TODO: Move function defs into their own file
+d3v3.helper = {};
 d3v3.helper.tooltip = function(){
     var tooltipDiv;
     var bodyNode = d3v3.select('body').node();
@@ -215,3 +220,117 @@ export function create_axis_labels(svg, width, height) {
         .attr('font-family', "Arial")
 }
 // End Volcano Function Definitions 
+
+export function setupCanvas(svg) {
+    // Create the SVG
+    svg.append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Create axis labels
+    create_axis_labels(svg, width, height)
+
+    // Add clip defs
+    svg.append("defs").append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
+
+    return [margin, width, height]
+}
+
+export function initializeCanvas(svg) {
+    var volcanoPath = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
+    var volcanoDataPath = volcanoPath + 'Data/__secrets__01/'
+    var data = readCSVFile(volcanoDataPath + "Volcanoes/B Cells.csv");
+    console.log(data)
+
+    /* Begin Setup axes and brush */
+    // Find ranges for axes
+    // Horizontal
+    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
+    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+    const minh = Math.min(...numeric_hvals);
+    const maxh = Math.max(...numeric_hvals);
+    const maxx = Math.max(...[-minh, maxh]) * 1.10;
+
+    // Vertical
+    const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
+    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+    const maxv = Math.max(...numeric_vvals) * 1.10;
+
+    var volcano_x = d3v3.scale.linear()
+        .domain([-maxx, maxx])
+        .range([0, width]);
+
+    var volcano_y = d3v3.scale.linear()
+        .domain([0, maxv])
+        .range([height, 0]);
+
+    var brush = d3v3.svg.brush()
+        .x(volcano_x)
+        .y(volcano_y)
+        .on("brush", brushmove)
+        .on("brushend", brushend);
+
+    var volcano_xAxis = d3v3.svg.axis()
+        .scale(volcano_x)
+        .orient("bottom");
+
+    var volcano_yAxis = d3v3.svg.axis()
+        .scale(volcano_y)
+        .orient("left")
+        .ticks(8);  // TODO: Replace with arrow
+
+    // Modify svg
+    // TODO: David, horizontal bar adjuster. 
+    var height_adjust = 35
+    svg.append("g")
+        .attr("class", "volcano_x axis")
+        .attr("clip-path", "url(#clip)")
+        .attr("transform", "translate(0," + (height-height_adjust) + ")")
+        .call(volcano_xAxis);
+
+    // TODO: David, vertical axis adjuster 
+    var lateral_adjust = 25
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr('transform', "translate(" + lateral_adjust + "," + 0 + ")")
+        .call(volcano_yAxis);
+
+    svg.append("g")
+        .attr("class", "brush")
+        .call(brush)
+          .selectAll('rect')
+          .attr('height', height);
+}
+
+// TODO: Move this to a 'shared-utils.js' file and reference it in both abundance and volc utils. 
+// Begin section functions used by both
+// Read the data and compute summary statistics for each species
+export function readCSVFile(filePath, type) {
+  const request = new XMLHttpRequest();
+  request.open("GET", filePath, false);
+  request.send();
+  const csvData = request.responseText;
+  const rows = csvData.split("\n");
+  const headerRow = rows[0].split(",");
+  var dataRows = rows.slice(1);
+  // Remove empty rows at the end that trigger nans
+  if (dataRows.slice(-1).length < headerRow.length) {
+    dataRows = dataRows.slice(0, -1);
+  }
+  const result = [];
+  for (let i = 0; i < dataRows.length; i++) {
+    const dataRow = dataRows[i].split(",");
+    const obj = {};
+    for (let j = 0; j < headerRow.length; j++) {
+      obj[headerRow[j]] = dataRow[j];
+    }
+    result.push(obj);
+  }
+  return result;
+}
