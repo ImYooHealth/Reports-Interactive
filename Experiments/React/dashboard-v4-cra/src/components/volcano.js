@@ -26,7 +26,13 @@ const Volcano = () => {
         const svg = d3v3.select(svgRef.current)
         svg.select('*').remove()
         VolcanoUtils.setupCanvas(svg)
+        // ^ No data needed
+
+        // v Hereafter, everything depends on data.
         VolcanoUtils.initializeCanvas(svg)
+
+        // Initialize
+        //VolcanoUtils.updateVolcano("B Cells.csv")
 
     }, []);
 
