@@ -16,14 +16,14 @@ const Content = ({ title }) => (
 
         {/* Abundance */}
         <div className="p-7 bg-white rounded-3xl">
-          <Abundance />
+          <Volcano />
         </div>
 
         <div className="p-1">
         </div>
 
         <div className="p-7 bg-white rounded-3xl">
-          <Volcano />
+          <Abundance />
         </div>
       </div>
     </div>

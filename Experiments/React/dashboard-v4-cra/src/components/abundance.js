@@ -92,7 +92,6 @@ var state = {
     GROUPING: GROUPING,
     ABUNDANCE_VERTICAL: ABUNDANCE_VERTICAL,
     abundance_y_scale: abundance_y_scale,
-//    abundance_svg: abundance_svg,  // Set once svgEl exists
     abundance_y_axis: abundance_y_axis,
     histogram: histogram,
     data_groups: data_groups,
@@ -135,35 +134,27 @@ const Abundance = () => {
           .attr('transform', 'translate(' + margin.left + ",0)")
           .attr("class", "y axis")
           .call(abundance_y_axis);   
-        /*
-        // Vertical axis label
-        svg.append("text")
-            .attr("class", "y label")
-            .attr("text-anchor", "middle")
-            .attr("y", 0)
-            .attr("x", -(height / 2))
-            .attr("dy", ".75em")
-            .attr("transform", "rotate(-90)")
-            .text("Counts Per Million")
-            .attr("font-size","18px")
-            .attr('font-family', "Arial")
-        */
+
         // Axis Labels
         let v_axis_label_adjust = 0
         let h_axis_label_adjust = 50
         let font_family = 'Arial'
-        /*
+        
         svg.append("text")
             .attr('class', 'x label right')
             .attr('text-anchor', 'End')
             .attr('x', width)
             .attr('y', height + h_axis_label_adjust)
-            .text('Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.')
+            .text('Units of Counts per Million: literal number ' +
+                  'of transcripts of this gene counted per ' +
+                  'million transcripts counted.')
             .attr('font-size', '14px')
             .attr('font-family', font_family)    
-        */
+        
         svg
-          .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+          .attr("viewBox", `0 0 ${
+            width+ margin.left + margin.right} ${height + margin.top + margin.bottom
+        }`);
 
         // This should be the last line
         state.abundance_svg = svg
@@ -171,14 +162,35 @@ const Abundance = () => {
 
     }, [data, state, abundance_x, abundance_y_axis]);
 
+
+    const paragraphStyle = {
+        fontSize: '12px',
+        textAlign: 'right'
+    }
+
     return (
         <div>
+            <Dropdown />
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
             <div className='flex space-x-4'>
                 <Dropdown />
-                <p style={{ textAlign: 'right', fontSize: '14px'}}>Units of Counts per Million: literal number of transcripts of this gene counted per million transcripts counted.</p>
+                <div className='flex justify-end'>
+                    <p style={paragraphStyle}>
+                        Units of Counts per Million: literal number
+                        of transcripts of this gene counted per
+                        million transcripts counted.
+                    </p>
+                </div>                
+            </div>
+
+            <div className='flex justify-end'>
+                <p style={paragraphStyle}>
+                    Units of Counts per Million: literal number
+                    of transcripts of this gene counted per 
+                    million transcripts counted.
+                </p>
             </div>
         </div>
     );

@@ -58,8 +58,6 @@ export function readAbundanceData(geneName) {
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
 export function readCSVFile(filePath, type) {
-  if(type == "Abundance") {
-  }
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
   request.send();

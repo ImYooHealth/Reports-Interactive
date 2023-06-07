@@ -183,9 +183,8 @@ export function updateVolcano(event) {
     return data
 }
 
+// TODO: David, adjust axis labels "less / more expression" etc.
 export function create_axis_labels(svg, width, height) {
-    let v_axis_label_adjust = 0
-    let h_axis_label_adjust = 0
     let font_family = 'Arial'
 
     // Horizontal axis label
@@ -193,7 +192,7 @@ export function create_axis_labels(svg, width, height) {
         .attr("class", "x label left")
         .attr("text-anchor", "end")
         .attr("x", width)
-        .attr("y", height + h_axis_label_adjust)
+        .attr("y", height + margin.bottom - margin.top)
         .text("More Expression")
         .attr('font-size', '10px')
         .attr('font-family', font_family)
@@ -201,8 +200,8 @@ export function create_axis_labels(svg, width, height) {
     svg.append("text")
         .attr('class', 'x label right')
         .attr('text-anchor', 'Begin')
-        .attr('x', 0)
-        .attr('y', height + h_axis_label_adjust)
+        .attr('x', 0)  // Here
+        .attr('y', height + margin.bottom - margin.top) // Here
         .text('Less Expression')
         .attr('font-size', '10px')
         .attr('font-family', font_family)    
@@ -211,7 +210,7 @@ export function create_axis_labels(svg, width, height) {
     svg.append("text")
         .attr("class", "y label")
         .attr("text-anchor", "middle")
-        .attr("y", v_axis_label_adjust)
+        .attr("y", 0)
         .attr("x", -(height / 2))
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
@@ -227,7 +226,12 @@ export function setupCanvas(svg) {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + 
+            margin.left + "," + margin.top + ")");
+
+    // Add the viewbox
+    svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} 
+        ${height + margin.top + margin.bottom}`);        
 
     // Create axis labels
     create_axis_labels(svg, width, height)
@@ -285,20 +289,23 @@ export function initializeCanvas(svg) {
         .orient("left")
         .ticks(8);  // TODO: Replace with arrow
 
+    console.log(volcano_y)
+    console.log(volcano_yAxis)
+
     // Modify svg
     // TODO: David, horizontal bar adjuster. 
-    var height_adjust = 35
+    var height_adjust = 0//35
     svg.append("g")
         .attr("class", "volcano_x axis")
         .attr("clip-path", "url(#clip)")
-        .attr("transform", "translate(0," + (height-height_adjust) + ")")
+        .attr("transform", "translate(0," + (height+margin.bottom-margin.top) + ")")
         .call(volcano_xAxis);
 
     // TODO: David, vertical axis adjuster 
-    var lateral_adjust = 25
+    var lateral_adjust = 0//25
     svg.append("g")
         .attr("class", "y axis")
-        .attr('transform', "translate(" + lateral_adjust + "," + 0 + ")")
+        .attr('transform', "translate(" + (width/2) + "," + (margin.bottom-margin.top) + ")")
         .call(volcano_yAxis);
 
     svg.append("g")
@@ -308,7 +315,8 @@ export function initializeCanvas(svg) {
           .attr('height', height);
 }
 
-// TODO: Move this to a 'shared-utils.js' file and reference it in both abundance and volc utils. 
+// TODO: Move this to a 'shared-utils.js' file and reference it in
+// both abundance and volc utils. 
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
 export function readCSVFile(filePath, type) {

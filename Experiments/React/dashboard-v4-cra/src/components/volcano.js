@@ -17,11 +17,6 @@ if(false) {
 
 }
 
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 40, left: 60},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
 // The Volcano component
 const Volcano = () => {
     const svgRef = React.useRef(null)
@@ -30,12 +25,8 @@ const Volcano = () => {
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
         svg.select('*').remove()
-        VolcanoUtils.setupCanvas(svg, margin, width, height)
-
-        // Volcano SVG initialization
+        VolcanoUtils.setupCanvas(svg)
         VolcanoUtils.initializeCanvas(svg)
-
-        // Volcano default initialization
 
     }, []);
 
@@ -43,6 +34,15 @@ const Volcano = () => {
         <div>
             <svg ref={svgRef} width={width} height={height}>
             </svg>
+
+            <div className='flex space-x-4'>
+                <Dropdown />
+                <p style={{ textAlign: 'right', fontSize: '14px'}}>
+                    Horizontal Left: Less Expression; Horizontal 
+                    Right: More Expression; Vertical: Signal 
+                    Strength.
+                </p>
+            </div>            
         </div>
     )
 }
