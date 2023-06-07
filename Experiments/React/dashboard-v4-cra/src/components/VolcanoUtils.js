@@ -179,8 +179,8 @@ export function updateVolcano(event) {
 }
 
 export function create_axis_labels(svg, width, height) {
-    let v_axis_label_adjust = -40
-    let h_axis_label_adjust = 30
+    let v_axis_label_adjust = 0
+    let h_axis_label_adjust = 0
     let font_family = 'Arial'
 
     // Horizontal axis label
