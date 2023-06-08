@@ -22,6 +22,9 @@ var brush_elm
 var maxx
 var maxv
 
+// Zoom
+const zoom_enabled = false
+
 
 // Begin Volcano Function Definitions
 export function initialize(svg) {
@@ -326,20 +329,22 @@ export function click_circle(pD, pI) {
 }
 
 function transition_data(data) {
-  if(typeof data === 'undefined') {
-  svg.selectAll(".volcano_point")
-      //.data(data)
-      .transition()
-      .duration(500)
-      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-  } else {
-    svg.selectAll(".volcano_point")
-      .data(data)
-      .transition()
-      .duration(500)
-      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+  if(zoom_enabled) {
+      if(typeof data === 'undefined') {
+      svg.selectAll(".volcano_point")
+          //.data(data)
+          .transition()
+          .duration(500)
+          .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+          .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+      } else {
+        svg.selectAll(".volcano_point")
+          .data(data)
+          .transition()
+          .duration(500)
+          .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+          .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+      }
   }
 }
 
@@ -358,6 +363,10 @@ export function idled() { idleTimeout = null; }
 
 // TODO: parameters?
 export function brushend() {
+  if(!zoom_enabled) {
+    return
+  }
+  
   var extent = brush.extent()
   console.log(extent)
 
