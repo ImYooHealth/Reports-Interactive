@@ -27,6 +27,12 @@ const zoom_enabled = false
 
 
 // Begin Volcano Function Definitions
+export function handleChange(arg) {
+    console.log(arg)
+    console.log(Object.keys(arg))
+    console.log(typeof(arg))
+}
+
 export function initialize(svg) {
     setState({'svg': svg})
     setupCanvas()
