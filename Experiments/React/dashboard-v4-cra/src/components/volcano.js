@@ -2,7 +2,7 @@ import React from "react"
 import d3v3 from './d3.v3.js'
 
 import * as utils from './utils.js'
-import * as VolcanoUtils from './VolcanoUtils.js'
+import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
 
 // State
@@ -24,7 +24,6 @@ const Volcano = () => {
 
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
-        svg.select('*').remove()
         VolcanoUtils.initialize(svg)
 
     }, []);
