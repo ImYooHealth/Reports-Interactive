@@ -259,13 +259,22 @@ function updateAbundance(theData) {
 // -------- //
 
 // Begin Volcano Function Definitions
-function transition_data() {
-  svg.selectAll(".point")
-  .data(data)
-  .transition()
-  .duration(500)
-  .attr("cx", function(d) { return x(d[VOLCANO_HORIZONTAL]); })
-  .attr("cy", function(d) { return y(d[VOLCANO_VERTICAL]); });
+function transition_data(data) {
+  if(typeof data === 'undefined') {
+  svg.selectAll(".volcano_point")
+      //.data(data)
+      .transition()
+      .duration(500)
+      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+  } else {
+    svg.selectAll(".volcano_point")
+      .data(data)
+      .transition()
+      .duration(500)
+      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+  }
 }
 
 // TODO: Move function defs into their own file
