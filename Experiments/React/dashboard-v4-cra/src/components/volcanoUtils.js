@@ -18,7 +18,7 @@ var svg
 var volcano_xAxis
 var volcano_yAxis
 var brush
-
+var brush_elm
 
 
 // Begin Volcano Function Definitions
@@ -319,8 +319,8 @@ export function click_circle(pD, pI) {
     var filename = volcanoDataPath + pD.gene_name + '.csv'
     console.log(filename)
     var data = readCSVFile(filename)
-    updateAbundance(data)  // Here
-    //alert(pD.gene_name)
+    //updateAbundance(data)  // Here
+    alert(pD.gene_name)
 }
 
 export function reset_axis() {
