@@ -441,14 +441,14 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
-// function transition_data(data) {
-//   svg.selectAll(".volcano_point")
-//   .data(data)
-//   .transition()
-//   .duration(500)
-//   .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-//   .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-// }
+function transition_data(data) {
+  svg.selectAll(".volcano_point")
+  .data(data)
+  .transition()
+  .duration(500)
+  .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+  .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+}
 
 function reset_axis() {
   svg.transition().duration(500)
@@ -484,7 +484,7 @@ function brushend() {
     d3v3.select(".brush").call(brush.clear());
   }
 
-  // transition_data();
+  transition_data();
   reset_axis();  
 }
 
@@ -542,7 +542,7 @@ function updateVolcano(event) {
       brush_elm.dispatchEvent(new_click_event);
     });
     
-    // transition_data(data);
+    transition_data(data);
     reset_axis();  
 
     //console.log(event.target.value)
