@@ -1,7 +1,5 @@
-//import Circle from './circle';
-import Abundance from './abundance.js'
-//import MyComponent from './demo_component.js'
 import Volcano from './volcano.js'
+import Abundance from './abundance.js'
 
 const Content = ({ title }) => (
   <div className="lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">

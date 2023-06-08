@@ -1,5 +1,5 @@
 // --- Constants --- //
-
+import './volcano.css'
 import d3v3 from './d3.v3.js'
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
