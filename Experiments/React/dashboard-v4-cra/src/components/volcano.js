@@ -4,6 +4,7 @@ import d3v3 from './d3.v3.js'
 import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
+import cellTypes from './../Data/cellTypesList.js'
 
 // State
 var width, height, margin, svg
@@ -34,7 +35,7 @@ const Volcano = () => {
             </svg>
 
             <div className='flex space-x-4'>
-                <Dropdown />
+                <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
                 <p style={{ textAlign: 'right', fontSize: '14px'}}>
                     Horizontal Left: Less Expression; Horizontal 
                     Right: More Expression; Vertical: Signal 

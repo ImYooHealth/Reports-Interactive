@@ -3,6 +3,7 @@ import * as d3v4 from './d3.v4.js';
 
 import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
+import genes from '../Data/geneList1000.js'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -170,12 +171,12 @@ const Abundance = () => {
 
     return (
         <div>
-            <Dropdown />
+            <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
             <div className='flex space-x-4'>
-                <Dropdown />
+                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
                 <div className='flex justify-end'>
                     <p style={paragraphStyle}>
                         Units of Counts per Million: literal number
