@@ -244,7 +244,7 @@ export function updateVolcano(path) {
       brush_elm.dispatchEvent(new_click_event);
     });
     
-    // transition_data(data);
+    transition_data(data);
     reset_axis();  
 
     //console.log(event.target.value)
@@ -323,6 +323,24 @@ export function click_circle(pD, pI) {
     alert(pD.gene_name)
 }
 
+function transition_data(data) {
+  if(typeof data === 'undefined') {
+  svg.selectAll(".volcano_point")
+      //.data(data)
+      .transition()
+      .duration(500)
+      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+  } else {
+    svg.selectAll(".volcano_point")
+      .data(data)
+      .transition()
+      .duration(500)
+      .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+      .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+  }
+}
+
 export function reset_axis() {
   svg.transition().duration(500)
    .select(".volcano_x.axis")
@@ -357,7 +375,7 @@ export function brushend() {
     d3v3.select(".brush").call(brush.clear());
   }
 
-  // transition_data();
+  transition_data();
   reset_axis();  
 }
 
