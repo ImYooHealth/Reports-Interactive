@@ -234,8 +234,8 @@ export function updateVolcano(path) {
 
     
     points.on('mousedown', function() {
-      brush_elm = svg.select(".brush").node();
-      new_click_event = new Event('mousedown');
+      var brush_elm = svg.select(".brush").node();
+      var new_click_event = new Event('mousedown');
       new_click_event.pageX = d3v3.event.pageX;
       new_click_event.clientX = d3v3.event.clientX;
       new_click_event.pageY = d3v3.event.pageY;
