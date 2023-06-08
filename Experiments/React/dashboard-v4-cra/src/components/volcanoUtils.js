@@ -19,6 +19,8 @@ var volcano_xAxis
 var volcano_yAxis
 var brush
 var brush_elm
+var maxx
+var maxv
 
 
 // Begin Volcano Function Definitions
@@ -104,12 +106,12 @@ export function initializeCanvas() {
     const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
     const minh = Math.min(...numeric_hvals);
     const maxh = Math.max(...numeric_hvals);
-    const maxx = Math.max(...[-minh, maxh]) * 1.10;
+    maxx = Math.max(...[-minh, maxh]) * 1.10;
 
     // Vertical
     const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    const maxv = Math.max(...numeric_vvals) * 1.10;
+    maxv = Math.max(...numeric_vvals) * 1.10;
 
     var volcano_x = d3v3.scale.linear()
         .domain([-maxx, maxx])
