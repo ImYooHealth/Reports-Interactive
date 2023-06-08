@@ -17,6 +17,7 @@ var data
 var svg
 var volcano_xAxis
 var volcano_yAxis
+var brush
 
 
 
@@ -118,7 +119,7 @@ export function initializeCanvas() {
         .domain([0, maxv])
         .range([height, 0]);
 
-    var brush = d3v3.svg.brush()
+    brush = d3v3.svg.brush()
         .x(volcano_x)
         .y(volcano_y)
         .on("brush", brushmove)
@@ -313,11 +314,12 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
+// TODO: Interplot interactivity
 export function click_circle(pD, pI) {
-    var filename = '304/Abundances/' + pD.gene_name + '.csv'
+    var filename = volcanoDataPath + pD.gene_name + '.csv'
     console.log(filename)
     var data = readCSVFile(filename)
-    updateAbundance(data)
+    updateAbundance(data)  // Here
     //alert(pD.gene_name)
 }
 
