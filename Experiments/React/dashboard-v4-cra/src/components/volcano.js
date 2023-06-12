@@ -30,7 +30,7 @@ const Volcano = () => {
     }, []);
 
     return (
-        <div>
+        <div className='volcano'>
             <svg ref={svgRef} width={width} height={height}>
             </svg>
 

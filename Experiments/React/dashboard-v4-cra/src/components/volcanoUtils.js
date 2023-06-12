@@ -8,6 +8,7 @@ const volcanoDataPath = volcanoPath + 'Data/__secrets__01/Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 60},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
+const initial_cell_type = 'B Cells'
 var points
 
 // State
@@ -28,23 +29,22 @@ const zoom_enabled = false
 
 // Begin Volcano Function Definitions
 export function handleChange(arg) {
-    console.log(arg)
-    console.log(Object.keys(arg))
-    console.log(typeof(arg))
+    updateVolcano(arg.value)
 }
 
 export function initialize(svg) {
     setState({'svg': svg})
     setupCanvas()
     initializeCanvas()
-    updateVolcano("B Cells.csv")
+    initVolcano(initial_cell_type)
 }
 
 // TODO: Move this to a 'shared-utils.js' file and reference it in
 // both abundance and volc utils. 
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
-export function readCSVFile(filePath, type) {
+export function readCSVFile(filePath) {
+  filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
   request.send();
@@ -106,7 +106,9 @@ export function setupCanvas() {
 }
 
 export function initializeCanvas() {
-    var data = readCSVFile(volcanoDataPath + "B Cells.csv");
+    console.log(data)
+    data = readCSVFile(volcanoDataPath + initial_cell_type);
+    console.log(data)
 
     /* Begin Setup axes and brush */
     // Find ranges for axes
@@ -172,7 +174,7 @@ export function initializeCanvas() {
     return data;
 }
 
-function setState(state) {
+export function setState(state) {
     //console.log(state)
 
     var n = Object.keys(state).length
@@ -202,19 +204,61 @@ function setState(state) {
     }
 }
 
-export function updateVolcano(path) {
-    console.log(path)
+export function updateVolcano(cellTypeName) {
+//    console.log(svg)
+//    console.log(svg.selectAll('.volcano_point'))
+/*    console.log(data)
+    console.log(svg.selectAll('.volcano_point').data(data))
+    console.log(svg.selectAll('.volcano_point').data(data)[0])
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0].cx)
+    //console.log(typeof svg.selectAll('.volcano_point').data(data)[0][0])
+    //console.log(Object.keys(svg.selectAll('.volcano_point').data(data)[0][0]))
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'])
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL])
+    console.log(volcano_x(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL]))
 
-    var data = readCSVFile(volcanoDataPath + path)
+    var val = volcano_x(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL])
+    //console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__onmouseover.tooltip'])
+*/
+
+    d3.select('circle').remove()
+
     console.log(data)
-    console.log(typeof(data))
-    console.log(Object.keys(data))
-    console.log(data.hasOwnProperty('0'))
-    console.log(Object.keys(data[0]))
-    console.log(data[0].hasOwnProperty('<!DOCTYPE html>'))
+    data = readCSVFile(volcanoDataPath + cellTypeName)
+    console.log(data)
+    transition_data(data)
 
-    console.log(data[0]['<!DOCTYPE html>'])
+/*
+    console.log(cellTypeName)
+    
+    var points = svg.selectAll('.volcano_point')
+    points.data(readCSVFile(volcanoDataPath + cellTypeName))
+        .attr("cx", function(d) { 
+          console.log(d); 
+            console.log(d[VOLCANO_HORIZONTAL]);
+            console.log(volcano_x(d[VOLCANO_HORIZONTAL]))
+            return volcano_x(d[VOLCANO_HORIZONTAL]);
+        })
+        .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); })
+*/
+/*
+    console.log(svg)
+    console.log(svg.selectAll('.volcano_point'))
+    console.log(svg.selectAll('.volcano_point').data(data))
+    console.log(svg.selectAll('.volcano_point').data(data)[0])
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0].cx)
+    //console.log(typeof svg.selectAll('.volcano_point').data(data)[0][0])
+    //console.log(Object.keys(svg.selectAll('.volcano_point').data(data)[0][0]))
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'])
+    console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL])
+    console.log(volcano_x(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL]))
+*/
+    var val = volcano_x(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL])
+    //console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__onmouseover.tooltip'])
 
+}
+
+export function initVolcano(path) {
     // Find ranges for axes
     // Horizontal
     const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
@@ -244,7 +288,6 @@ export function updateVolcano(path) {
         .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); })
         .call(d3v3.helper.tooltip());
 
-    
     points.on('mousedown', function() {
       var brush_elm = svg.select(".brush").node();
       var new_click_event = new Event('mousedown');
@@ -254,7 +297,7 @@ export function updateVolcano(path) {
       new_click_event.clientY = d3v3.event.clientY;
       brush_elm.dispatchEvent(new_click_event);
     });
-    
+
     transition_data(data);
     reset_axis();  
 
@@ -307,7 +350,8 @@ d3v3.helper.tooltip = function(){
             // Remove tooltip
             tooltipDiv.remove();
         })
-        .on('click', click_circle);
+        // Interplot Interactivity
+        //.on('click', click_circle);
     }
 
     tooltip.attr = function(_x){
@@ -325,6 +369,7 @@ d3v3.helper.tooltip = function(){
     return tooltip;
 };
 
+/*
 // TODO: Interplot interactivity
 export function click_circle(pD, pI) {
     var filename = volcanoDataPath + pD.gene_name + '.csv'
@@ -333,6 +378,7 @@ export function click_circle(pD, pI) {
     //updateAbundance(data)  // Here
     alert(pD.gene_name)
 }
+*/
 
 function transition_data(data) {
   if(zoom_enabled) {
