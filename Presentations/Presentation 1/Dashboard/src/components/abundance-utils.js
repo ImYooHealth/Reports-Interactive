@@ -26,7 +26,7 @@ var allBins
 var lengths
 var longest
 
-var abundance_path_prefix = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/Data/__secrets__00/Abundances/'
+var abundance_path_prefix = 'http://localhost:8000/Dashboard/src/Data/__secrets__00/Abundances/'
 
 
 // Functions used only here
