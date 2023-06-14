@@ -17,7 +17,7 @@ var GROUPING
 var ABUNDANCE_VERTICAL
 var SELF
 var data
-var abundance_path_prefix = 'http://localhost:8000/Experiments/React/dashboard-v4-cra/src/'
+var abundance_path_prefix = 'http://localhost:8000/Dashboard/src/'
 var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 
 GROUPING = 'cell_type' // For demo data use: 'Species'
