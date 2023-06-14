@@ -5,7 +5,7 @@ import * as AbundanceUtils from './abundance-utils.js'
 
 function Dropdown(props) {
   const [selectedOption, setSelectedOption] = React.useState(null);
-
+  
   return (
       <Select 
         value={selectedOption}

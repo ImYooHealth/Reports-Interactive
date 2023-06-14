@@ -21,6 +21,7 @@ if(false) {
 // The Volcano component
 const Volcano = () => {
     const svgRef = React.useRef(null)
+    const [cellTypeName, setCellTypeName] = React.useState('T Cells')  // Initial Value
     //var [margin, width, height] = ninf
 
     React.useEffect(() => {
@@ -29,8 +30,12 @@ const Volcano = () => {
 
     }, []);
 
+    React.useEffect(() => {
+        VolcanoUtils.updateVolcano(cellTypeName)
+    }, [cellTypeName]);
+
     return (
-        <div className='volcano'>
+        <div id='volcano'>
             <svg ref={svgRef} width={width} height={height}>
             </svg>
 
