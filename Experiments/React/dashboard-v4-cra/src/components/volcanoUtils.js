@@ -24,7 +24,7 @@ var maxx
 var maxv
 
 // Zoom
-const zoom_enabled = false
+const zoom_enabled = true
 
 
 // Begin Volcano Function Definitions
@@ -221,7 +221,7 @@ export function updateVolcano(cellTypeName) {
     //console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__onmouseover.tooltip'])
 */
 
-    d3.select('circle').remove()
+    //d3.select('circle').remove()
 
     console.log(data)
     data = readCSVFile(volcanoDataPath + cellTypeName)
@@ -255,7 +255,6 @@ export function updateVolcano(cellTypeName) {
 */
     var val = volcano_x(svg.selectAll('.volcano_point').data(data)[0][0]['__data__'][VOLCANO_HORIZONTAL])
     //console.log(svg.selectAll('.volcano_point').data(data)[0][0]['__onmouseover.tooltip'])
-
 }
 
 export function initVolcano(path) {
@@ -381,23 +380,24 @@ export function click_circle(pD, pI) {
 */
 
 function transition_data(data) {
-  if(zoom_enabled) {
+
       if(typeof data === 'undefined') {
-      svg.selectAll(".volcano_point")
-          //.data(data)
-          .transition()
-          .duration(500)
-          .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-          .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+          svg.selectAll(".volcano_point")
+              //.data(data)
+              .transition()
+              .duration(500)
+              .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+              .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
       } else {
-        svg.selectAll(".volcano_point")
-          .data(data)
-          .transition()
-          .duration(500)
-          .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-          .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+          console.log('transitioning data')
+          svg.selectAll(".volcano_point")
+              .data(data)
+              .transition()
+              .duration(500)
+              .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+              .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
       }
-  }
+
 }
 
 export function reset_axis() {
@@ -451,8 +451,6 @@ export function brushmove() {
     return h_brushed && v_brushed;
   });
 }
-
-
 
 // TODO: David, adjust axis labels "less / more expression" etc.
 export function create_axis_labels(svg, width, height) {

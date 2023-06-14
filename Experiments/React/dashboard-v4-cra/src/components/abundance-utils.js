@@ -295,6 +295,7 @@ export function updateAbundance(theData, state, abundance_svg) {
   updateAxes(theData)//, ABUNDANCE_VERTICAL, abundance_svg);
   removeFeatures();
   addViolin(theData)
+  console.log(theData)
   addPoints(theData)
 }
 // End Abundance function definitions
