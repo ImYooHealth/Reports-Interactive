@@ -6,7 +6,7 @@ const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = 'http://localhost:8000/Dashboard/src/'
 const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
-      width = 900 - margin.left - margin.right,
+      width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 import cellTypes from './../Data/cellTypesList.js'
 var points
