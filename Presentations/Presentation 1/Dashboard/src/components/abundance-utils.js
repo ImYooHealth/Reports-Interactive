@@ -142,7 +142,7 @@ function initializeDataful() {
 export function handleChange(option) {
     const geneName = option.value.toString()
     data = readAbundanceData(geneName)
-    updateAbundance(data)
+    updateAbundance(data, geneName)
 }
 
 export function readAbundanceData(geneName) {
@@ -150,12 +150,9 @@ export function readAbundanceData(geneName) {
     return readCSVFile(abundance_path_prefix + geneName + '.csv')
 }
 
-export function updateAbundance(theData, state) {
+export function updateAbundance(theData, geneName) {
     console.log('Update called')
     console.log(theData)
-    if(state !== undefined) {
-       setState(state)    
-    }
 
     data = theData
     updateAxes(theData)
