@@ -5,6 +5,7 @@ import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
 import cellTypes from './../Data/cellTypesList.js'
+import genes from '../Data/geneList.js'
 
 // The Volcano component
 const Volcano = ({changeAbundanceGene}) => {
@@ -14,7 +15,7 @@ const Volcano = ({changeAbundanceGene}) => {
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
         VolcanoUtils.initialize(svg, changeAbundanceGene)
-        changeAbundanceGene('COMT')
+        changeAbundanceGene(genes[0].value)
 
     }, []);
 
@@ -22,18 +23,27 @@ const Volcano = ({changeAbundanceGene}) => {
         VolcanoUtils.updateVolcano(cellTypeName)
     }, [cellTypeName]);
 
+    const paragraphStyle = {
+        fontSize: '12px',
+        textAlign: 'left',
+        fontFamily: 'Space Grotesk'
+    }
+
     return (
         <div id='volcano'>
-            <svg ref={svgRef}></svg>
-
-            <div className='flex space-x-4'>
+            <div style={{padding: '20px'}}>
                 <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
-                <p style={{ textAlign: 'right', fontSize: '14px'}}>
-                    Horizontal Left: Less Expression; Horizontal 
-                    Right: More Expression; Vertical: Signal 
-                    Strength.
-                </p>
-            </div>            
+            </div>
+            <svg ref={svgRef}>
+            </svg>
+
+            <div className='flex space-x-4' style={{paddingTop: '20px'}}>
+                <div className='flex justify-end'>
+                    <p style={paragraphStyle}>
+                        * Wald statistic of differential expression over reference database using DEseq2
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }

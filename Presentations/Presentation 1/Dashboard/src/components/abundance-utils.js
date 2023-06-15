@@ -1,4 +1,5 @@
 import * as d3v4 from './d3.v4.js'
+import genes from '../Data/geneList.js'
 
 // State
 
@@ -59,7 +60,7 @@ export function initialize(theSvg, theCurrentGene) {
     initializeDataless()
     setupConstants(currentGene)
     initializeDataful()
-    updateAbundance(readAbundanceData('COMT'))
+    updateAbundance(readAbundanceData(genes[0].value))
 }
 
 function initializeDataless() {
@@ -104,7 +105,7 @@ function initializeDataful() {
         .attr("transform", "translate(" + margin.left + "," + height + ")")
         .call(d3v4.axisBottom(abundance_x))
         .attr("font-size","16px")
-        .attr('font-family', "Arial")
+        .attr('font-family', "Space Grotesk")
 
     abundance_svg.append("g")
         .attr('transform', 'translate(' + margin.left + ",0)")
@@ -308,7 +309,7 @@ export function addPoints(theData) {
           }
           return val;
       })
-      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]) + v_offset)})
+      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
       .attr("r", data_groups[group]["radius"])
       .style("fill", data_groups[group]["color"]
       )

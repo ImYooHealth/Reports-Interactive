@@ -1,9 +1,10 @@
 import React from "react"
 import Volcano from './volcano.js'
 import Abundance from './abundance.js'
+import genes from '../Data/geneList.js'
 
 const Content = ({ title }) => {
-    const [currentGene, setCurrentGene] = React.useState('COMT')  // TODO: Just tagging that this is where the initial gene is set
+    const [currentGene, setCurrentGene] = React.useState(genes[0].value)  // TODO: Just tagging that this is where the initial gene is set
 
     const handleGeneChange = (gene) => {
         setCurrentGene(gene)
@@ -14,7 +15,7 @@ const Content = ({ title }) => {
 
         {/* Just Text */}
         <div className="flex justify-between text-white items-center mb-8">
-          <p className="text-2xl font-bold">{title}</p>
+          <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>{title}</p>
         </div>
 
         <div className="flex flex-wrap">
