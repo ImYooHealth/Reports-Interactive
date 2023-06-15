@@ -209,7 +209,6 @@ export function setState(state) {
     }
 }
 
-
 export function initVolcano(path) {
     // Find ranges for axes
     // Horizontal
@@ -238,8 +237,10 @@ export function initVolcano(path) {
         .attr("r", 8)
         .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
         .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); })
-        .call(d3v3.helper.tooltip());
+        .call(d3v3.helper.tooltip())
+        .on('click', click_circle)
 
+/*
     points.on('mousedown', function() {
       var brush_elm = svg.select(".brush").node();
       var new_click_event = new Event('mousedown');
@@ -249,7 +250,8 @@ export function initVolcano(path) {
       new_click_event.clientY = d3v3.event.clientY;
       brush_elm.dispatchEvent(new_click_event);
     });
-
+*/
+  
     transition_data(data);
     reset_axis();  
 
@@ -324,6 +326,15 @@ d3v3.helper.tooltip = function(){
 
 // TODO: Interplot interactivity
 export function click_circle(pD, pI) {
+    var clicked = d3v3.select(this)
+    var hasClass = clicked.classed('volcano_point_clicked')
+
+    if(hasClass) {
+        clicked.attr('class', 'volcano_point')
+    } else {
+        clicked.attr('class', 'volcano_point_clicked')
+    }
+
     var filename = volcanoDataPath + pD.gene_name
 
     console.log(filename)

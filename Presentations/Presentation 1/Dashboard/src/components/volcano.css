@@ -4,6 +4,12 @@
   opacity: 0.3;
 }
 
+.volcano_point_clicked {
+  fill: #69b3a2;
+  stroke: black;
+  opacity: 0.7;
+}
+
 .selected {
   fill: #afa2dc;
   stroke: #2f225d;
