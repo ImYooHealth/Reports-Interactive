@@ -140,7 +140,6 @@ export function initializeCanvas() {
         .domain([0, maxv])
         .range([height, 0]);
 
-
     brush = d3v3.svg.brush()
         .x(volcano_x)
         .y(volcano_y)
@@ -326,6 +325,7 @@ d3v3.helper.tooltip = function(){
 
 // TODO: Interplot interactivity
 export function click_circle(pD, pI) {
+    /*
     unclickAllCircles()
 
     var clicked = d3v3.select(this)
@@ -343,6 +343,7 @@ export function click_circle(pD, pI) {
     console.log(pD.gene_name)
     //var data = readCSVFile(filename)
     //updateAbundance(data)  // Here
+    */
     changeAbundanceGene(pD.gene_name)
     //alert(pD.gene_name)
 }
@@ -360,7 +361,6 @@ export function unclickAllCircles() {
 }
 
 export function updateAxes(data){
-
     /* Begin Setup axes and brush */
     // Find ranges for axes
     // Horizontal
@@ -385,11 +385,11 @@ export function updateAxes(data){
     svg.select(".x.axis")
         .transition()  // optional, for smooth transition
         .call(volcano_xAxis);
-  }
+}
 
 function transition_data(data) {
     // Unclick all
-    unclickAllCircles()
+    //unclickAllCircles()
 
     updateAxes(data);
 
