@@ -6,27 +6,15 @@ import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
 import cellTypes from './../Data/cellTypesList.js'
 
-// State
-var width, height, margin, svg
-var state = {
-    svg: svg,
-}
-
-// Volcano Main
-// Gross extrafunctional volcano code from abundance-volcano-305.js
-if(false) {
-
-}
-
 // The Volcano component
-const Volcano = () => {
+const Volcano = ({changeAbundanceGene}) => {
     const svgRef = React.useRef(null)
     const [cellTypeName, setCellTypeName] = React.useState('T Cells')  // Initial Value
-    //var [margin, width, height] = ninf
 
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
-        VolcanoUtils.initialize(svg)
+        VolcanoUtils.initialize(svg, changeAbundanceGene)
+        changeAbundanceGene('COMT')
 
     }, []);
 
@@ -36,8 +24,7 @@ const Volcano = () => {
 
     return (
         <div id='volcano'>
-            <svg ref={svgRef} width={width} height={height}>
-            </svg>
+            <svg ref={svgRef}></svg>
 
             <div className='flex space-x-4'>
                 <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
