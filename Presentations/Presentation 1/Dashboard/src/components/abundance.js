@@ -30,8 +30,9 @@ const Abundance = ({currentGene}) => {
 
     return (
         <div>
+            <p>{currentGene}</p> 
             <div style={{padding: '20px'}}>
-                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
+                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange} theCurrentGene={currentGene}/>
             </div>
             
             <svg ref={svgRef} width={width}  height={height + v_offset}>
@@ -67,3 +68,5 @@ export function create_axis_labels(svg, width, height) {
 }
 
 export default Abundance
+
+// David, see line 34 <p> to set gene name.

@@ -8,15 +8,19 @@ function Dropdown(props) {
 
   const handleSelectChange = (option) => {
     setSelectedOption(option);
-
     props.handleChange(option);
   }
+
+  React.useEffect(() => {
+    setSelectedOption(props.theCurrentGene)
+  }, [props.theCurrentGene])
   
   return (
       <Select 
         value={selectedOption}
         options={props.options}
         onChange={handleSelectChange}
+        //defaultValue={props.theGene}
       />
   )
 };
