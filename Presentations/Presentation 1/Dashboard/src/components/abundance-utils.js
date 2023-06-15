@@ -51,7 +51,7 @@ var data_groups = {
 
 // Begin functions section
 margin = {top: 15, right: 10, bottom: 45, left: 10},
-width = 900 - margin.left - margin.right,
+width = 1500 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 export function initialize(theSvg, theCurrentGene) {
     abundance_svg = theSvg
@@ -60,7 +60,7 @@ export function initialize(theSvg, theCurrentGene) {
     initializeDataless()
     setupConstants(currentGene)
     initializeDataful()
-    updateAbundance(readAbundanceData(genes[0].value))
+    updateAbundance(readAbundanceData(genes[0].value), theCurrentGene)
 }
 
 function initializeDataless() {
@@ -112,8 +112,8 @@ export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
   // Redraw yAxis
   yAxisGroup.selectAll('.tick').remove()
   abundance_svg.select(".y.axis")
-      //.transition()  // optional, for smooth transition
-      //.duration(1500)  // transition duration in milliseconds
+      .transition()  // optional, for smooth transition
+      .duration(1500)  // transition duration in milliseconds
       .call(abundance_y_axis);
 
   histogram.domain(abundance_y_scale.domain())
@@ -157,8 +157,19 @@ export function updateAbundance(theData, geneName) {
     data = theData
     updateAxes(theData)
     removeFeatures();
-    addViolin(theData)
-    addPoints(theData)
+    addViolin(theData);
+    addPoints(theData);
+
+    abundance_svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "middle")
+      .attr("y", 0)
+      .attr("x", -(height / 2))
+      .attr("dy", ".75em")
+      .attr("transform", "rotate(-90)")
+      .text(geneName)
+      .attr("font-size","14px")
+      .attr('font-family', "Space Grotesk")
 }
 
 // Functions used only here
@@ -329,7 +340,7 @@ export function readCSVFile(filePath, type) {
 
 export function respondToSelection(event) {
     var theData = readCSVFile(event.target.value)
-    updateAbundance(theData)
+    updateAbundance(theData, "")
 }
 
 export function setPointJitter(theData) {
