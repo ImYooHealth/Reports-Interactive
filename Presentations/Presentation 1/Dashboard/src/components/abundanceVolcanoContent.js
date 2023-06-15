@@ -6,6 +6,8 @@ import genes from '../Data/geneList.js'
 const Content = ({ title }) => {
     const [currentGene, setCurrentGene] = React.useState(genes[0].value)  // TODO: Just tagging that this is where the initial gene is set
 
+    // For Dropdown in Abundance
+
     const handleGeneChange = (gene) => {
         setCurrentGene(gene)
     }
