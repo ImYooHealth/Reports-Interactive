@@ -325,6 +325,8 @@ d3v3.helper.tooltip = function(){
 
 // TODO: Interplot interactivity
 export function click_circle(pD, pI) {
+    unclickAllCircles()
+
     var clicked = d3v3.select(this)
     var hasClass = clicked.classed('volcano_point_clicked')
 
@@ -342,6 +344,18 @@ export function click_circle(pD, pI) {
     //updateAbundance(data)  // Here
     changeAbundanceGene(pD.gene_name)
     //alert(pD.gene_name)
+}
+
+export function unclickAllCircles() {
+    svg.selectAll('.volcano_point_clicked')
+        .each(function() {
+                var circle = d3.select(this);
+                if(circle.classed('.volcano_point_clicked')) {
+                    circle.classed('.volcano_point_clicked', false)
+                          .classed('.volcano_point', true)
+                }
+            }
+        )
 }
 
 export function updateAxes(data){
@@ -373,6 +387,8 @@ export function updateAxes(data){
   }
 
 function transition_data(data) {
+    // Unclick all
+    unclickAllCircles()
 
     updateAxes(data);
 
