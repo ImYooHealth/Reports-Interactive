@@ -5,10 +5,10 @@ const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = 'http://localhost:8000/Dashboard/src/'
 const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
-const margin = {top: 10, right: 30, bottom: 40, left: 60},
-      width = 960 - margin.left - margin.right,
+const margin = {top: 10, right: 30, bottom: 40, left: 50},
+      width = 900 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
-const initial_cell_type = 'B Cells'
+import cellTypes from './../Data/cellTypesList.js'
 var points
 
 // State
@@ -36,7 +36,7 @@ export function initialize(svg) {
     setState({'svg': svg})
     setupCanvas()
     initializeCanvas()
-    initVolcano(initial_cell_type)
+    initVolcano()
 }
 
 // TODO: Move this to a 'shared-utils.js' file and reference it in
@@ -47,6 +47,7 @@ export function readCSVFile(filePath) {
   filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
+  console.log(filePath);
   request.send();
   const csvData = request.responseText;
   const rows = csvData.split("\n");
@@ -107,7 +108,8 @@ export function setupCanvas() {
 
 export function initializeCanvas() {
     console.log(data)
-    data = readCSVFile(volcanoDataPath + initial_cell_type);
+    console.log(cellTypes[0].value);
+    data = readCSVFile(volcanoDataPath + cellTypes[0].value);
     console.log(data)
 
     /* Begin Setup axes and brush */
@@ -123,6 +125,8 @@ export function initializeCanvas() {
     const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
     maxv = Math.max(...numeric_vvals) * 1.10;
+    console.log("MAX VERTICAL")
+    console.log(maxv)
 
     var volcano_x = d3v3.scale.linear()
         .domain([-maxx, maxx])
@@ -148,19 +152,15 @@ export function initializeCanvas() {
         .ticks(8);  // TODO: Replace with arrow
 
     // Modify svg
-    // TODO: David, horizontal bar adjuster. 
-    var height_adjust = 0//35
     svg.append("g")
         .attr("class", "volcano_x axis")
         .attr("clip-path", "url(#clip)")
-        .attr("transform", "translate(0," + (height+margin.bottom-margin.top) + ")")
+        .attr("transform", "translate(0," + (height) + ")")
         .call(volcano_xAxis);
 
-    // TODO: David, vertical axis adjuster 
-    var lateral_adjust = 0//25
     svg.append("g")
         .attr("class", "y axis")
-        .attr('transform', "translate(" + (width/2) + "," + (margin.bottom-margin.top) + ")")
+        .attr('transform', "translate(" + (width/2) + ", 0)")
         .call(volcano_yAxis);
 
     svg.append("g")
@@ -379,24 +379,54 @@ export function click_circle(pD, pI) {
 }
 */
 
+export function updateAxes(data){
+
+    /* Begin Setup axes and brush */
+    // Find ranges for axes
+    // Horizontal
+    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
+    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+    const minh = Math.min(...numeric_hvals);
+    const maxh = Math.max(...numeric_hvals);
+    maxx = Math.max(...[-minh, maxh]) * 1.10;
+
+    // Vertical
+    const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
+    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+    maxv = Math.max(...numeric_vvals) * 1.10;
+    
+    volcano_x.domain([-maxx, maxx]);
+    volcano_y.domain([0, maxv]);
+
+    svg.select(".y.axis")
+        .transition()  // optional, for smooth transition
+        .call(volcano_yAxis);
+
+    svg.select(".x.axis")
+        .transition()  // optional, for smooth transition
+        .call(volcano_xAxis);
+  }
+
 function transition_data(data) {
 
-      if(typeof data === 'undefined') {
-          svg.selectAll(".volcano_point")
-              //.data(data)
-              .transition()
-              .duration(500)
-              .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-              .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-      } else {
-          console.log('transitioning data')
-          svg.selectAll(".volcano_point")
-              .data(data)
-              .transition()
-              .duration(500)
-              .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
-              .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
-      }
+    updateAxes(data);
+
+    if(typeof data === 'undefined') {
+        svg.selectAll(".volcano_point")
+            //.data(data)
+            .transition()
+            .duration(500)
+            .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+            .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+    } else {
+        console.log('transitioning data')
+        svg.selectAll(".volcano_point")
+            .data(data)
+            .transition()
+            .duration(500)
+            .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
+            .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
+    }
 
 }
 
@@ -454,7 +484,7 @@ export function brushmove() {
 
 // TODO: David, adjust axis labels "less / more expression" etc.
 export function create_axis_labels(svg, width, height) {
-    let font_family = 'Arial'
+    let font_family = 'Space Grotesk'
 
     // Horizontal axis label
     svg.append("text")
@@ -462,8 +492,8 @@ export function create_axis_labels(svg, width, height) {
         .attr("text-anchor", "end")
         .attr("x", width)
         .attr("y", height + margin.bottom - margin.top)
-        .text("More Expression")
-        .attr('font-size', '10px')
+        .text("More Expression →")
+        .attr('font-size', '14px')
         .attr('font-family', font_family)
 
     svg.append("text")
@@ -471,8 +501,8 @@ export function create_axis_labels(svg, width, height) {
         .attr('text-anchor', 'Begin')
         .attr('x', 0)  // Here
         .attr('y', height + margin.bottom - margin.top) // Here
-        .text('Less Expression')
-        .attr('font-size', '10px')
+        .text('← Less Expression')
+        .attr('font-size', '14px')
         .attr('font-family', font_family)    
 
     // Vertical axis label
@@ -483,9 +513,9 @@ export function create_axis_labels(svg, width, height) {
         .attr("x", -(height / 2))
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text("Signal Strength")
-        .attr("font-size","10px")
-        .attr('font-family', "Arial")
+        .text("Signal Strength*")
+        .attr("font-size","14px")
+        .attr('font-family', "Space Grotesk")
 }
 // End Volcano Function Definitions 
 

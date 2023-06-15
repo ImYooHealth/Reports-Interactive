@@ -3,7 +3,7 @@ import * as d3v4 from './d3.v4.js';
 
 import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
-import genes from '../Data/geneList1000.js'
+import genes from '../Data/geneList.js'
 
 // -- vvv Abundance Functions vvv -- //
 
@@ -23,7 +23,8 @@ var abundance_data_path_prefix = abundance_path_prefix + 'Data/'
 GROUPING = 'cell_type' // For demo data use: 'Species'
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 SELF = 'is_self'
-data = AbundanceUtils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+console.log(genes);
+data = AbundanceUtils.readAbundanceData(genes[0].value)  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 
 var data_groups = {
   "others": {
@@ -49,7 +50,7 @@ var data_groups = {
 
 
 
-const margin = {top: 15, right: 10, bottom: 45, left: 10},
+const margin = {top: 15, right: 30, bottom: 45, left: 50},
 width = 900 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
@@ -126,36 +127,23 @@ const Abundance = () => {
                       "translate(" + margin.left + "," + margin.top + ")");
 
         svg.append("g")
-          .attr("transform", "translate(" + margin.left + "," + height + ")")
+          .attr("transform", "translate(" + margin.left + "," + (height) + ")")
           .call(d3v4.axisBottom(abundance_x))
           .attr("font-size","16px")
-          .attr('font-family', "Arial")
+          .attr('font-family', "Space Grotesk")
 
         svg.append("g")
           .attr('transform', 'translate(' + margin.left + ",0)")
           .attr("class", "y axis")
-          .call(abundance_y_axis);   
-
-        // Axis Labels
-        let v_axis_label_adjust = 0
-        let h_axis_label_adjust = 50
-        let font_family = 'Arial'
-        
-        svg.append("text")
-            .attr('class', 'x label right')
-            .attr('text-anchor', 'End')
-            .attr('x', width)
-            .attr('y', height + h_axis_label_adjust)
-            .text('Units of Counts per Million: literal number ' +
-                  'of transcripts of this gene counted per ' +
-                  'million transcripts counted.')
-            .attr('font-size', '14px')
-            .attr('font-family', font_family)    
+          .call(abundance_y_axis);
         
         svg
           .attr("viewBox", `0 0 ${
             width+ margin.left + margin.right} ${height + margin.top + margin.bottom
         }`);
+
+        // Create axis labels
+        create_axis_labels(svg, width, height)
 
         // This should be the last line
         state.abundance_svg = svg
@@ -166,35 +154,46 @@ const Abundance = () => {
 
     const paragraphStyle = {
         fontSize: '12px',
-        textAlign: 'right'
+        textAlign: 'right',
+        fontFamily: 'Space Grotesk'
     }
 
     return (
         <div>
-            <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
+            <div style={{padding: '20px'}}>
+                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
+            </div>
+            
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
-            <div className='flex space-x-4'>
-                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/>
+            <div className='flex space-x-4' style={{paddingTop: '20px'}}>
                 <div className='flex justify-end'>
                     <p style={paragraphStyle}>
-                        Units of Counts per Million: literal number
+                        * Units of Transcripts per Million (TPM): number
                         of transcripts of this gene counted per
                         million transcripts counted.
                     </p>
                 </div>                
             </div>
-
-            <div className='flex justify-end'>
-                <p style={paragraphStyle}>
-                    Units of Counts per Million: literal number
-                    of transcripts of this gene counted per 
-                    million transcripts counted.
-                </p>
-            </div>
         </div>
     );
+}
+export function create_axis_labels(svg, width, height) {
+
+  let font_family = 'Space Grotesk';
+
+  // Vertical axis label
+  svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "middle")
+      .attr("y", 0)
+      .attr("x", -(height / 2))
+      .attr("dy", ".75em")
+      .attr("transform", "rotate(-90)")
+      .text("Gene Abundance*")
+      .attr("font-size","14px")
+      .attr('font-family', font_family)
 }
 
 export default Abundance

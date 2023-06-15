@@ -34,19 +34,27 @@ const Volcano = () => {
         VolcanoUtils.updateVolcano(cellTypeName)
     }, [cellTypeName]);
 
+    const paragraphStyle = {
+        fontSize: '12px',
+        textAlign: 'left',
+        fontFamily: 'Space Grotesk'
+    }
+
     return (
         <div id='volcano'>
+            <div style={{padding: '20px'}}>
+                <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
+            </div>
             <svg ref={svgRef} width={width} height={height}>
             </svg>
 
-            <div className='flex space-x-4'>
-                <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
-                <p style={{ textAlign: 'right', fontSize: '14px'}}>
-                    Horizontal Left: Less Expression; Horizontal 
-                    Right: More Expression; Vertical: Signal 
-                    Strength.
-                </p>
-            </div>            
+            <div className='flex space-x-4' style={{paddingTop: '20px'}}>
+                <div className='flex justify-end'>
+                    <p style={paragraphStyle}>
+                        * Wald statistic of differential expression over reference database using DEseq2
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }
