@@ -4,10 +4,10 @@ import Select from 'react-select';
 import * as AbundanceUtils from './abundance-utils.js'
 
 function Dropdown(props) {
-  const [selectedOption, setSelectedOption] = React.useState(props.options[0]);
+  const [selectedOption, setSelectedOption] = React.useState("");
 
   const handleSelectChange = (option) => {
-    setSelectedOption(option);
+    // setSelectedOption(option);
 
     props.handleChange(option);
   }

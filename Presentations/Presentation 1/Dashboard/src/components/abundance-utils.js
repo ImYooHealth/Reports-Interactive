@@ -110,23 +110,7 @@ function initializeDataful() {
     abundance_svg.append("g")
         .attr('transform', 'translate(' + margin.left + ",0)")
         .attr("class", "y axis")
-        .call(abundance_y_axis);   
-
-    // Axis Labels
-    let v_axis_label_adjust = 0
-    let h_axis_label_adjust = 50
-    let font_family = 'Arial'
-    
-    abundance_svg.append("text")
-        .attr('class', 'x label right')
-        .attr('text-anchor', 'End')
-        .attr('x', width)
-        .attr('y', height + h_axis_label_adjust)   // TODO: Labeling this for adjustment
-        .text('Units of Counts per Million: literal number ' +
-              'of transcripts of this gene counted per ' +
-              'million transcripts counted.')
-        .attr('font-size', '14px')
-        .attr('font-family', font_family)    
+        .call(abundance_y_axis);
     
     abundance_svg
       .attr("viewBox", `0 0 ${
