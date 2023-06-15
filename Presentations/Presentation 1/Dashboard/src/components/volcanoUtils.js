@@ -25,7 +25,7 @@ var maxv
 var changeAbundanceGene
 
 // Zoom
-const zoom_enabled = true
+const zoom_enabled = false
 
 // Begin functions
 export function updateVolcano(cellTypeName) {
@@ -139,6 +139,7 @@ export function initializeCanvas() {
     var volcano_y = d3v3.scale.linear()
         .domain([0, maxv])
         .range([height, 0]);
+
 
     brush = d3v3.svg.brush()
         .x(volcano_x)
