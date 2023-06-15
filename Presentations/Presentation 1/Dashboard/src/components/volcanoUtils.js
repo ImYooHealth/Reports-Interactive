@@ -4,7 +4,7 @@ import d3v3 from './d3.v3.js'
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = 'http://localhost:8000/Dashboard/src/'
-const volcanoDataPath = volcanoPath + 'Data/__secrets__01/Volcanoes/'
+const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 60},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
