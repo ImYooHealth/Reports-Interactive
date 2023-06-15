@@ -193,7 +193,7 @@ export function addPoints(theData) {
           }
           return val;
       })
-      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]) + v_offset)})
+      .attr("cy", function(d){return(abundance_y_scale(d[ABUNDANCE_VERTICAL]))})
       .attr("r", data_groups[group]["radius"])
       .style("fill", data_groups[group]["color"]
       )

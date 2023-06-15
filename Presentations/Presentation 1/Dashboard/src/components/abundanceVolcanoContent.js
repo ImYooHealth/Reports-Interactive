@@ -6,7 +6,7 @@ const Content = ({ title }) => (
 
     {/* Just Text */}
     <div className="flex justify-between text-white items-center mb-8">
-      <p className="text-2xl font-bold">{title}</p>
+      <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>{title}</p>
     </div>
 
     <div className="flex flex-wrap">
