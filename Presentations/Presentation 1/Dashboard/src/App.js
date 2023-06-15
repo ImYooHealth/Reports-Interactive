@@ -13,9 +13,11 @@ function App() {
     <Router>
       <DashboardLayout>
         <Switch>
+
           <Route exact path="/">
             <HomePage />
           </Route>
+{/*
           <Route path="/admin/archives">
             <ArchivesPage />
           </Route>
@@ -28,9 +30,12 @@ function App() {
           <Route exact path="/admin/settings">
             <SettingsPage />
           </Route>
+
           <Route exact path="/admin/status">
             <StatusPage />
           </Route>
+*/}
+
         </Switch>
       </DashboardLayout>
     </Router>
