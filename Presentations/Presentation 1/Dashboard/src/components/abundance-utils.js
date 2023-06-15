@@ -100,6 +100,27 @@ function setupConstants(currentGene) {
     abundance_y_axis = d3v4.axisLeft(abundance_y_scale);
 }
 
+export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
+  // Vertical
+  const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
+  const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
+  const abundance_maxv = Math.max(...abundance_numeric_vvals);
+
+  // Update scale domain
+  abundance_y_scale.domain([0, abundance_maxv * 1.10]);
+
+  // Redraw yAxis
+  yAxisGroup.selectAll('.tick').remove()
+  abundance_svg.select(".y.axis")
+      //.transition()  // optional, for smooth transition
+      //.duration(1500)  // transition duration in milliseconds
+      .call(abundance_y_axis);
+
+  histogram.domain(abundance_y_scale.domain())
+    .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
+}
+
+var yAxisGroup 
 function initializeDataful() {
     abundance_svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + height + ")")
@@ -107,7 +128,7 @@ function initializeDataful() {
         .attr("font-size","16px")
         .attr('font-family', "Space Grotesk")
 
-    abundance_svg.append("g")
+    yAxisGroup = abundance_svg.append("g")
         .attr('transform', 'translate(' + margin.left + ",0)")
         .attr("class", "y axis")
         .call(abundance_y_axis);
@@ -155,26 +176,6 @@ function setState(state) {
     histogram = state.histogram
     data_groups = state.data_groups
     GROUPING = state.GROUPING
-}
-
-
-export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
-  // Vertical
-  const abundance_vvals = theData.map((row) => parseFloat(row[ABUNDANCE_VERTICAL]));
-  const abundance_numeric_vvals = abundance_vvals.filter((val) => !Number.isNaN(val));
-  const abundance_maxv = Math.max(...abundance_numeric_vvals);
-
-  // Update scale domain
-  abundance_y_scale.domain([0, abundance_maxv * 1.10]);
-
-  // Redraw yAxis
-  abundance_svg.select(".y.axis")
-      .transition()  // optional, for smooth transition
-      // .duration(1000)  // transition duration in milliseconds
-      .call(abundance_y_axis);
-
-  histogram.domain(abundance_y_scale.domain())
-    .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
 }
 
 export function removeFeatures() {
