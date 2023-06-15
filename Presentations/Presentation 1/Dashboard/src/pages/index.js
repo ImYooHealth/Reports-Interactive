@@ -1,5 +1,5 @@
-import Content from '../components/content';
+import Content from '../components/abundanceVolcanoContent.js';
 
 export default function HomePage() {
-  return <Content title="Home" />;
+  return <Content title="Cell Signatures" />;
 }
