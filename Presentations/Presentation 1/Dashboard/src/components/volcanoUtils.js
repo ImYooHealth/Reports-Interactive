@@ -6,7 +6,7 @@ const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = 'http://localhost:8000/Dashboard/src/'
 const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
-      width = 1500 - margin.left - margin.right,
+      width = 1200 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 import cellTypes from './../Data/cellTypesList.js'
 var points
@@ -475,7 +475,7 @@ export function create_axis_labels(svg, width, height) {
         .attr("x", width)
         .attr("y", height + margin.bottom - margin.top)
         .text("More Expression →")
-        .attr('font-size', '14px')
+        .attr('font-size', '18px')
         .attr('font-family', font_family)
 
     svg.append("text")
@@ -484,7 +484,7 @@ export function create_axis_labels(svg, width, height) {
         .attr('x', 0)  // Here
         .attr('y', height + margin.bottom - margin.top) // Here
         .text('← Less Expression')
-        .attr('font-size', '14px')
+        .attr('font-size', '18px')
         .attr('font-family', font_family)    
 
     // Vertical axis label
@@ -496,7 +496,7 @@ export function create_axis_labels(svg, width, height) {
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Signal Strength*")
-        .attr("font-size","14px")
+        .attr("font-size","20px")
         .attr('font-family', "Space Grotesk")
 }
 // End Volcano Function Definitions 
