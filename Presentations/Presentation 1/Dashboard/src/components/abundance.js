@@ -12,7 +12,7 @@ height = 500 - margin.top - margin.bottom;
 // Offsets to ensure non-overlap
 let v_offset = 0
 
-const Abundance = ({currentGene}) => {
+const Abundance = ({currentGene, setCurrentGene}) => {
     const svgRef = React.useRef(null)
     const svg = d3v4.select(svgRef.current)
     AbundanceUtils.initialize(svg, currentGene)
@@ -28,11 +28,25 @@ const Abundance = ({currentGene}) => {
       fontFamily: 'Space Grotesk'
     }
 
+    const headerStyle = {
+      fontSize: '24px',
+      textAlign: 'center',
+      fontFamily: 'Space Grotesk'
+    }
+
+
     return (
         <div>
-            <p>{currentGene}</p> 
-            <div style={{padding: '20px'}}>
-                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange} theCurrentGene={currentGene}/>
+            <div style={{padding: '10px'}}>
+                {/* <Dropdown options={genes} handleChange={AbundanceUtils.handleChange}/> */}
+                <Dropdown options={genes} handleChange={(selectedOption) => {
+                    setCurrentGene(selectedOption.value);
+                    AbundanceUtils.handleChange(selectedOption);
+                }}/>
+            </div>
+
+            <div style={{padding: '10px'}}>
+              <h3 style={headerStyle}>Your {currentGene} Gene Abundance</h3>
             </div>
             
             <svg ref={svgRef} width={width}  height={height + v_offset}>
@@ -49,22 +63,6 @@ const Abundance = ({currentGene}) => {
             </div>
         </div>
     );
-}
-export function create_axis_labels(svg, width, height) {
-
-  let font_family = 'Space Grotesk';
-
-  // Vertical axis label
-  svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "middle")
-      .attr("y", 0)
-      .attr("x", -(height / 2))
-      .attr("dy", ".75em")
-      .attr("transform", "rotate(-90)")
-      .text("Gene Abundance*")
-      .attr("font-size","14px")
-      .attr('font-family', font_family)
 }
 
 export default Abundance

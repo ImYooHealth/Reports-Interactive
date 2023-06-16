@@ -50,8 +50,8 @@ var data_groups = {
 
 
 // Begin functions section
-margin = {top: 15, right: 10, bottom: 45, left: 10},
-width = 1500 - margin.left - margin.right,
+margin = {top: 15, right: 30, bottom: 45, left: 50},
+width = 1200 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 export function initialize(theSvg, theCurrentGene) {
     abundance_svg = theSvg
@@ -59,7 +59,7 @@ export function initialize(theSvg, theCurrentGene) {
     currentGene = theCurrentGene
     initializeDataless()
     setupConstants(currentGene)
-    initializeDataful()
+    // initializeDataful()
     updateAbundance(readAbundanceData(genes[0].value), theCurrentGene)
 }
 
@@ -112,8 +112,8 @@ export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
   // Redraw yAxis
   yAxisGroup.selectAll('.tick').remove()
   abundance_svg.select(".y.axis")
-      .transition()  // optional, for smooth transition
-      .duration(1500)  // transition duration in milliseconds
+      // .transition()  // optional, for smooth transition
+      // .duration(1500)  // transition duration in milliseconds
       .call(abundance_y_axis);
 
   histogram.domain(abundance_y_scale.domain())
@@ -137,6 +137,8 @@ function initializeDataful() {
       .attr("viewBox", `0 0 ${
         width+ margin.left + margin.right} ${height + margin.top + margin.bottom
     }`);
+
+    create_axis_labels(abundance_svg, width, height);
 }
 
 export function handleChange(option) {
@@ -152,24 +154,14 @@ export function readAbundanceData(geneName) {
 
 export function updateAbundance(theData, geneName) {
     console.log('Update called')
-    console.log(theData)
+    // console.log(theData)
 
     data = theData
-    updateAxes(theData)
     removeFeatures();
+    initializeDataful();
+    updateAxes(theData);
     addViolin(theData);
     addPoints(theData);
-
-    abundance_svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "middle")
-      .attr("y", 0)
-      .attr("x", -(height / 2))
-      .attr("dy", ".75em")
-      .attr("transform", "rotate(-90)")
-      .text(geneName)
-      .attr("font-size","14px")
-      .attr('font-family', "Space Grotesk")
 }
 
 // Functions used only here
@@ -188,15 +180,17 @@ function setState(state) {
 
 export function removeFeatures() {
 
-  // Remove violin
-  abundance_svg.selectAll('.violin').remove()
+  abundance_svg.selectAll('*').remove()
 
-  // Remove dots in all data groups
-  for(let group in data_groups) {
-    let point_class = data_groups[group]["point_class"];
-    let class_selector = `\.${point_class}`;
-    abundance_svg.selectAll(class_selector).remove();
-  }
+  // // Remove violin
+  // abundance_svg.selectAll('.violin').remove()
+
+  // // Remove dots in all data groups
+  // for(let group in data_groups) {
+  //   let point_class = data_groups[group]["point_class"];
+  //   let class_selector = `\.${point_class}`;
+  //   abundance_svg.selectAll(class_selector).remove();
+  // }
 }
 
 // Begin Abundance Function Definitions
@@ -256,7 +250,7 @@ export function addViolin(theData) {
 // TODO: index.['likeThis'], pass field names as parameters. 
 export function addPoints(theData) {
   console.log('addPoints called')
-  console.log(abundance_svg)
+  // console.log(abundance_svg)
 
 
   //var jitterWidth = 40
@@ -402,4 +396,23 @@ export function setPointJitter(theData) {
 
   return theData;
 }
+
+
+export function create_axis_labels(svg, width, height) {
+
+  let font_family = 'Space Grotesk';
+
+  // Vertical axis label
+  svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "middle")
+      .attr("y", 0)
+      .attr("x", -(height / 2))
+      .attr("dy", ".75em")
+      .attr("transform", "rotate(-90)")
+      .text("Gene Abundance*")
+      .attr("font-size","20px")
+      .attr('font-family', font_family)
+}
+
 // End Abundance function definitions
