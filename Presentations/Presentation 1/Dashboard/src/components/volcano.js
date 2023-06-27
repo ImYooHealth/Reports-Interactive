@@ -10,7 +10,7 @@ import genes from '../Data/geneList.js'
 // The Volcano component
 const Volcano = ({changeAbundanceGene}) => {
     const svgRef = React.useRef(null)
-    const [cellTypeName, setCellTypeName] = React.useState('T Cells')  // Initial Value
+    const [cellTypeName, setCellTypeName] = React.useState(cellTypes[0].value)  // Initial Value
 
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
