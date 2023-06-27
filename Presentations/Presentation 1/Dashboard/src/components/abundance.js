@@ -6,7 +6,7 @@ import Dropdown from './dropdown.js'
 import genes from '../Data/geneList.js'
 
 const margin = {top: 15, right: 30, bottom: 45, left: 50},
-width = 900 - margin.left - margin.right,
+width = 1500 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
 // Offsets to ensure non-overlap
