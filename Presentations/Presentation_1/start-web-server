@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo $PATH
+PATH=$PATH:/home/samplereports/.nvm/versions/node/v16.17.0/bin
+echo $PATH
+
+cd Dashboard && npm start >> log.txt

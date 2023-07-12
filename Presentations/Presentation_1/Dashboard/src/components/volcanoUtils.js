@@ -74,6 +74,11 @@ export function readCSVFile(filePath) {
     result.push(obj);
   }
 
+	// Dev
+	console.log('vvv Result vvv')
+	console.log(result)
+	console.log('^^^ Result ^^^')
+
   // Validate
   if(result[0]['<!DOCTYPE html>'] === undefined)  {
     return result;

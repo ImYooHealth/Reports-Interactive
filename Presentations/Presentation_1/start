@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1/
+
+python3 start-data-server & ./start-web-server &
