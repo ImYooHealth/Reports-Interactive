@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1
+./stop

@@ -1,5 +1,6 @@
 import * as d3v4 from './d3.v4.js'
 import genes from '../Data/geneList.js'
+//let genes = {}
 
 // State
 
@@ -23,7 +24,7 @@ var allBins
 var lengths
 var longest
 var svg
-var abundance_path_prefix = 'http://localhost:8000/Dashboard/src/Data/__secrets__00/Abundances/'
+var abundance_path_prefix = 'https://samplereportdata.imyoo.health/Abundances/'
 var currentGene
 v_offset = 0
 GROUPING = 'cell_type' // For demo data use: 'Species'

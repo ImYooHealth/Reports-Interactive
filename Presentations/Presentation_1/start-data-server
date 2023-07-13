@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+import sys
+
+path_to_listen_on='/'
+directory_to_serve='/home/samplereports/Reports-Interactive/Data/__secrets__00/'
+
+class CORSRequestHandler (SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=directory_to_serve, **kwargs)
+
+    def translate_path(self, path):
+        path = super().translate_path(path)
+        return path_to_listen_on + path
+
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        SimpleHTTPRequestHandler.end_headers(self)
+
+#    def do_GET(self):
+#        if self.path == "/Data":
+#            self.path = '.'
+#        super().do_GET()
+
+if __name__ == '__main__':
+    test(CORSRequestHandler, HTTPServer, port=int(sys.argv[1]) if len(sys.argv) > 1 else 31339)

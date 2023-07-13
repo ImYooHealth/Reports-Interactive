@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1/
+
+echo
+echo 'Reports attempting to halt.'
+echo
+echo 'Attempting to halt data server'
+bash stop-data-server
+echo 
+echo 'Data server current state: (unpopulated if halt succeeded)'
+netstat -anpe | grep 31339
+echo
+echo 'Attempting to halt web server'
+bash stop-web-server
+echo
+echo 'Web server current state: (unpopulated if halt succeeded, but also unpopulated when shutting down. Re-run in a few moments to verify.)'
+netstat -anpe | grep 31337
+echo
+echo 'Reports shutdown script exiting'
