@@ -3,8 +3,8 @@ import './volcano.css'
 import d3v3 from './d3.v3.js'
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
-const volcanoPath = 'http://localhost:8000/Dashboard/src/'
-const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
+const volcanoPath = 'https://samplereportdata.imyoo.health/'
+const volcanoDataPath = volcanoPath + 'Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
@@ -73,6 +73,11 @@ export function readCSVFile(filePath) {
     }
     result.push(obj);
   }
+
+	// Dev
+	console.log('vvv Result vvv')
+	console.log(result)
+	console.log('^^^ Result ^^^')
 
   // Validate
   if(result[0]['<!DOCTYPE html>'] === undefined)  {
