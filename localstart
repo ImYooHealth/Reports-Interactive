@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ./Presentations/Presentation_1
+./start
