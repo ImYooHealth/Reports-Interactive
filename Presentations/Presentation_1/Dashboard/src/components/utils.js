@@ -24,3 +24,50 @@ export function readCSVFile(filePath) {
 }
 
 export default readCSVFile;
+
+
+// Deployed
+//const dataPath = 'https://samplereportdata.imyoo.health/'
+
+// Local
+const dataPath = 'http://localhost:31339/'
+
+
+export function getGenes() {
+    let response = readCSVFile(dataPath + 'gene_list')
+    const genes = [];
+
+    for (const obj of response) {
+      const keys = Object.keys(obj);
+      for (const key of keys) {
+        genes.push(obj[key]);
+      }
+    }
+
+    return genes
+}
+
+
+export var cellTypes = [
+    {
+        'value': 'Monocytes',
+        'label': 'Monocytes'
+    },
+    {
+        'value': 'B Cells',
+        'label': 'B Cells'
+    },
+    {
+        'value': 'NK Cells',
+        'label': 'NK Cells'
+    },
+    {
+        'value': 'T Cells',
+        'label': 'T Cells'
+    },
+];
+
+
+export function getCellTypes() {
+    return cellTypes
+}

@@ -3,12 +3,21 @@ import './volcano.css'
 import d3v3 from './d3.v3.js'
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
-const volcanoPath = 'https://samplereportdata.imyoo.health/'
+
+// Deployed
+//const volcanoPath = 'https://samplereportdata.imyoo.health/'
+
+// Local
+const volcanoPath = 'http://localhost:31339/'
+
+import * as utils from './utils.js'
+const cellTypes = utils.getCellTypes()
+
 const volcanoDataPath = volcanoPath + 'Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
-import cellTypes from './../Data/cellTypesList.js'
+
 var points
 
 // State
