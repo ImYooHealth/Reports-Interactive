@@ -1,7 +1,7 @@
 import * as d3v4 from './d3.v4.js'
-import genes from '../Data/geneList.js'
-//let genes = {}
-
+import * as utils from './utils.js'
+let genes = utils.getGenes()
+console.log(genes[0])
 // State
 
 // Abundance State
@@ -24,7 +24,13 @@ var allBins
 var lengths
 var longest
 var svg
-var abundance_path_prefix = 'https://samplereportdata.imyoo.health/Abundances/'
+
+// Local
+var abundance_path_prefix = 'http://localhost:31339/Abundances/'
+
+// Deployed
+//var abundance_path_prefix = 'https://samplereportdata.imyoo.health/Abundances/'
+
 var currentGene
 v_offset = 0
 GROUPING = 'cell_type' // For demo data use: 'Species'
@@ -61,7 +67,8 @@ export function initialize(theSvg, theCurrentGene) {
     initializeDataless()
     setupConstants(currentGene)
     initializeDataful()
-    updateAbundance(readAbundanceData(genes[0].value), theCurrentGene)
+    console.log(genes[0])
+    updateAbundance(readAbundanceData(genes[0]), theCurrentGene)
 }
 
 function initializeDataless() {

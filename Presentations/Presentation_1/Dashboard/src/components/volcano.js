@@ -4,8 +4,9 @@ import d3v3 from './d3.v3.js'
 import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
-import cellTypes from './../Data/cellTypesList.js'
-import genes from '../Data/geneList.js'
+
+let genes = utils.getGenes()
+let cellTypes = utils.cellTypes
 
 // The Volcano component
 const Volcano = ({changeAbundanceGene}) => {
@@ -15,7 +16,7 @@ const Volcano = ({changeAbundanceGene}) => {
     React.useEffect(() => {
         const svg = d3v3.select(svgRef.current)
         VolcanoUtils.initialize(svg, changeAbundanceGene)
-        changeAbundanceGene(genes[0].value)
+        changeAbundanceGene(genes[0])
 
     }, []);
 

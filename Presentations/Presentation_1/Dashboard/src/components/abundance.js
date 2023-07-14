@@ -3,8 +3,10 @@ import * as d3v4 from './d3.v4.js';
 
 import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
-//import genes from '../Data/geneList.js'
-let genes = {}
+
+import * as utils from './utils.js'
+let genes = utils.getGenes()
+
 
 const margin = {top: 15, right: 30, bottom: 45, left: 50},
 width = 1500 - margin.left - margin.right,

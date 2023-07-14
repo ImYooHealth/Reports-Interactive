@@ -1,10 +1,13 @@
 import React from "react"
 import Volcano from './volcano.js'
 import Abundance from './abundance.js'
-import genes from '../Data/geneList.js'
+
+import * as utils from './utils.js'
+let genes = utils.getGenes()
+
 
 const Content = ({ title }) => {
-    const [currentGene, setCurrentGene] = React.useState(genes[0].value)  // TODO: Just tagging that this is where the initial gene is set
+    const [currentGene, setCurrentGene] = React.useState(genes[0])  // TODO: Just tagging that this is where the initial gene is set
 
     // For Dropdown in Abundance
 
