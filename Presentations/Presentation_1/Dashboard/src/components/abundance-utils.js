@@ -121,9 +121,10 @@ export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
   yAxisGroup.selectAll('.tick').remove()
   abundance_svg.select(".y.axis")
       .transition()  // optional, for smooth transition
-      .duration(1500)  // transition duration in milliseconds
+      .duration(250)  // transition duration in milliseconds
       .call(abundance_y_axis);
 
+  // TODO TUNEABLE PIECE: not an actual task, but a notation of a knob. 
   histogram.domain(abundance_y_scale.domain())
     .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
 }
@@ -167,17 +168,6 @@ export function updateAbundance(theData, geneName) {
     removeFeatures();
     addViolin(theData);
     addPoints(theData);
-
-    abundance_svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "middle")
-      .attr("y", 0)
-      .attr("x", -(height / 2))
-      .attr("dy", ".75em")
-      .attr("transform", "rotate(-90)")
-      .text(geneName)
-      .attr("font-size","14px")
-      .attr('font-family', "Space Grotesk")
 }
 
 // Functions used only here
