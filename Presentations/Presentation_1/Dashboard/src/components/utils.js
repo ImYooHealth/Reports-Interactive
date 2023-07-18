@@ -32,6 +32,23 @@ export default readCSVFile;
 // Local
 const dataPath = 'http://localhost:31339/'
 
+export function getGenesForDropdown() {
+    let response = readCSVFile(dataPath + 'gene_list')
+    var genes = [];
+
+    for (const obj of response) {
+      const keys = Object.keys(obj);
+      for (const key of keys) {
+        var item = {}
+        item['value'] = obj[key]
+        item['label'] = obj[key]
+        genes.push(item)
+      }
+    }
+
+    return genes;
+}
+
 
 export function getGenes() {
     let response = readCSVFile(dataPath + 'gene_list')

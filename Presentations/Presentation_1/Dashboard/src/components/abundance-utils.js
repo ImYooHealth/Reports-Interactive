@@ -1,7 +1,7 @@
 import * as d3v4 from './d3.v4.js'
 import * as utils from './utils.js'
 let genes = utils.getGenes()
-console.log(genes[0])
+
 // State
 
 // Abundance State
