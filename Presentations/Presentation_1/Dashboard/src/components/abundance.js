@@ -53,22 +53,6 @@ const Abundance = ({currentGene}) => {
         </div>
     );
 }
-export function create_axis_labels(svg, width, height) {
-
-  let font_family = 'Space Grotesk';
-
-  // Vertical axis label
-  svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "middle")
-      .attr("y", 0)
-      .attr("x", -(height / 2))
-      .attr("dy", ".75em")
-      .attr("transform", "rotate(-90)")
-      .text("Gene Abundance*")
-      .attr("font-size","14px")
-      .attr('font-family', font_family)
-}
 
 export default Abundance
 
