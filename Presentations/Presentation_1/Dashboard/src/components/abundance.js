@@ -5,8 +5,7 @@ import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
 
 import * as utils from './utils.js'
-let genes = utils.getGenes()
-
+let genes = utils.getGenesForDropdown()
 
 const margin = {top: 15, right: 30, bottom: 45, left: 50},
 width = 1500 - margin.left - margin.right,
