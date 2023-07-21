@@ -38,7 +38,7 @@ const zoom_enabled = false
 
 // Begin functions
 export function updateVolcano(cellTypeName) {
-    data = readCSVFile(volcanoDataPath + cellTypeName)
+    data = utils.readCSVFile(volcanoDataPath + cellTypeName)
     transition_data(data)
 }
 
@@ -54,7 +54,7 @@ export function initialize(svg, changeGene) {
     initializeCanvas()
     initVolcano()
 }
-
+/*
 // TODO: Move this to a 'shared-utils.js' file and reference it in
 // both abundance and volc utils. 
 // Begin section functions used by both
@@ -97,7 +97,7 @@ export function readCSVFile(filePath) {
         "something else.")
   }
 }
-
+*/
 export function setupCanvas() {
     // Clear
     svg.select('*').remove()    
@@ -128,7 +128,7 @@ export function setupCanvas() {
 }
 
 export function initializeCanvas() {
-    data = readCSVFile(volcanoDataPath + cellTypes[0].value);
+    data = utils.readCSVFile(volcanoDataPath + cellTypes[0].value);
 
     /* Begin Setup axes and brush */
     // Find ranges for axes
@@ -355,7 +355,7 @@ export function click_circle(pD, pI) {
 
     console.log(filename)
     console.log(pD.gene_name)
-    //var data = readCSVFile(filename)
+    //var data = utils.readCSVFile(filename)
     //updateAbundance(data)  // Here
     */
     changeAbundanceGene(pD.gene_name)
