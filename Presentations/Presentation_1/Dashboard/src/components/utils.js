@@ -47,7 +47,7 @@ export function readCSVFile(filePath) {
 //const dataPath = 'https://samplereportdata.imyoo.health/'
 
 // Local
-const dataPath = 'http://localhost:31339/'
+export const dataPath = 'http://localhost:31339/'
 
 export function getGenesForDropdown() {
     let response = readCSVFile(dataPath + 'gene_list')
