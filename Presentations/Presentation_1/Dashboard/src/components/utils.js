@@ -1,3 +1,9 @@
+var deployed = false;
+
+export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/' : 'http://localhost:31339/'
+export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
+
+
 const max_genes = 500 // Not to exceed 4999
 
 export function readCSVFile(filePath) {
@@ -41,13 +47,6 @@ export function readCSVFile(filePath) {
         "something else.")
   }
 }
-
-
-// Deployed
-//const dataPath = 'https://samplereportdata.imyoo.health/'
-
-// Local
-export const dataPath = 'http://localhost:31339/'
 
 export function getGenesForDropdown() {
     let response = readCSVFile(dataPath + 'gene_list')

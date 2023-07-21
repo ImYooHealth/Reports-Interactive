@@ -25,11 +25,7 @@ var lengths
 var longest
 var svg
 
-// Local
-var abundance_path_prefix = 'http://localhost:31339/Abundances/'
-
-// Deployed
-//var abundance_path_prefix = 'https://samplereportdata.imyoo.health/Abundances/'
+var abundance_path_prefix = utils.dataPath + 'Abundances/'
 
 var currentGene
 v_offset = 0
