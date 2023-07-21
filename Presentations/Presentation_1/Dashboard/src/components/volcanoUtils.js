@@ -34,7 +34,7 @@ var maxv
 var changeAbundanceGene
 
 // Zoom
-const zoom_enabled = false
+const zoom_enabled = true
 
 // Begin functions
 export function updateVolcano(cellTypeName) {
@@ -54,50 +54,8 @@ export function initialize(svg, changeGene) {
     initializeCanvas()
     initVolcano()
 }
-/*
-// TODO: Move this to a 'shared-utils.js' file and reference it in
-// both abundance and volc utils. 
-// Begin section functions used by both
-// Read the data and compute summary statistics for each species
-export function readCSVFile(filePath) {
-  filePath += '.csv'
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  console.log(filePath);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].split(",");
-  var dataRows = rows.slice(1);
-  // Remove empty rows at the end that trigger nans
-  if (dataRows.slice(-1).length < headerRow.length) {
-    dataRows = dataRows.slice(0, -1);
-  }
-  const result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    const dataRow = dataRows[i].split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
-    }
-    result.push(obj);
-  }
 
-	// Dev
-	console.log('vvv Result vvv')
-	console.log(result)
-	console.log('^^^ Result ^^^')
 
-  // Validate
-  if(result[0]['<!DOCTYPE html>'] === undefined)  {
-    return result;
-  } else {
-    throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +
-        "\n\nIf you feel you've reached this error in error, please delete and try " +
-        "something else.")
-  }
-}
-*/
 export function setupCanvas() {
     // Clear
     svg.select('*').remove()    
@@ -404,8 +362,6 @@ export function updateAxes(data){
 function transition_data(data) {
     // Unclick all
     //unclickAllCircles()
-
-    updateAxes(data);
 
     if(typeof data === 'undefined') {
         svg.selectAll(".volcano_point")
