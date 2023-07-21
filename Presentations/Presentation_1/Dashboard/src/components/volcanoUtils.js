@@ -44,7 +44,15 @@ export function updateVolcano(cellTypeName) {
 
 // Begin Volcano Function Definitions
 export function handleChange(arg) {
+    // Reset if zoomed
+    idleTimeout = true
+    brushend()
+
+    // Handle change
     updateVolcano(arg.value)
+
+    // Reset double-click noticer
+    idleTimeout = null
 }
 
 export function initialize(svg, changeGene) {
