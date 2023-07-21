@@ -1,6 +1,7 @@
 import React from "react"
 import Volcano from './volcano.js'
 import Abundance from './abundance.js'
+import CommentBox from './comment_box.jsx'
 
 import * as utils from './utils.js'
 let genes = utils.getGenes()
@@ -38,6 +39,10 @@ const Content = ({ title }) => {
               <Abundance currentGene={currentGene}/>
             </div>
 
+          </div>
+
+          <div className="p-7 bg-white rounded-3xl">
+            <CommentBox />
           </div>
         </div>
       </div>
