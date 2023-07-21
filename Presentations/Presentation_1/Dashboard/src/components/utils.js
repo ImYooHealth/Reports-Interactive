@@ -1,3 +1,5 @@
+const max_genes = 500 // Not to exceed 4999
+
 export function readCSVFile(filePath) {
   filePath += '.csv'
   const request = new XMLHttpRequest();
@@ -11,8 +13,17 @@ export function readCSVFile(filePath) {
   if (dataRows.slice(-1).length < headerRow.length) {
     dataRows = dataRows.slice(0, -1);
   }
+
+  if(dataRows < max_genes) {
+      max_genes = dataRows
+      console.log('Warning: utils.js: max_genes > dataRows')
+  }
+
   const result = [];
   for (let i = 0; i < dataRows.length; i++) {
+    if(i >= max_genes) {
+        break
+    }
     const dataRow = dataRows[i].split(",");
     const obj = {};
     for (let j = 0; j < headerRow.length; j++) {
@@ -20,10 +31,16 @@ export function readCSVFile(filePath) {
     }
     result.push(obj);
   }
-  return result;
-}
 
-export default readCSVFile;
+  // Validate
+  if(result[0]['<!DOCTYPE html>'] === undefined)  {
+    return result;
+  } else {
+    throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +
+        "\n\nIf you feel you've reached this error in error, please delete and try " +
+        "something else.")
+  }
+}
 
 
 // Deployed
