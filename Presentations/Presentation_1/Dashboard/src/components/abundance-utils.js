@@ -67,7 +67,7 @@ export function initialize(theSvg, theCurrentGene) {
     initializeDataless()
     setupConstants(currentGene)
     initializeDataful()
-    console.log(genes[0])
+    //console.log(genes[0])
     updateAbundance(readAbundanceData(genes[0]), theCurrentGene)
 }
 
@@ -155,13 +155,12 @@ export function handleChange(option) {
 }
 
 export function readAbundanceData(geneName) {
-    console.log(`Reading data for gene ${geneName}`)
+    //console.log(`Reading data for gene ${geneName}`)
     return readCSVFile(abundance_path_prefix + geneName + '.csv')
 }
 
 export function updateAbundance(theData, geneName) {
-    console.log('Update called')
-    console.log(theData)
+    //console.log(theData)
 
     data = theData
     updateAxes(theData)
@@ -253,10 +252,6 @@ export function addViolin(theData) {
 
 // TODO: index.['likeThis'], pass field names as parameters. 
 export function addPoints(theData) {
-  console.log('addPoints called')
-  console.log(abundance_svg)
-
-
   //var jitterWidth = 40
   var jitterMultiplier = 2.5;
 

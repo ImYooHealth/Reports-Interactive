@@ -6,9 +6,9 @@ import Dropdown from './dropdown.js'
 
 import * as utils from './utils.js'
 let genes = utils.getGenesForDropdown()
-console.log('vvv genes vvv')
-console.log(genes)
-console.log('^^^ genes ^^^')
+//console.log('vvv genes vvv')
+//console.log(genes)
+//console.log('^^^ genes ^^^')
 
 const margin = {top: 15, right: 30, bottom: 45, left: 50},
 width = 1500 - margin.left - margin.right,
@@ -23,7 +23,7 @@ const Abundance = ({currentGene}) => {
     AbundanceUtils.initialize(svg, currentGene)
 
     React.useEffect(() => {
-        console.log('Abundance useEffect called')
+        //console.log('Abundance useEffect called')
         AbundanceUtils.handleChange({value: currentGene})
     }, [currentGene]);
 
@@ -57,5 +57,3 @@ const Abundance = ({currentGene}) => {
 }
 
 export default Abundance
-
-// David, see line 34 <p> to set gene name.
