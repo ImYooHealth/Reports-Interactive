@@ -48,7 +48,7 @@ class CORSRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
 if __name__ == '__main__':
-    port = 31339
+    port = 31338
     server = HTTPServer(('localhost', port), CORSRequestHandler)
     print(f"Feedback server listening on http://localhost:{port}/feedback")
     try:
