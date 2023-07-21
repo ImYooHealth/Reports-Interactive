@@ -49,4 +49,5 @@ const Content = ({ title }) => {
     )
 };
 
+console.log('Up and running!')
 export default Content;

@@ -1,23 +1,16 @@
 // --- Constants --- //
 import './volcano.css'
 import d3v3 from './d3.v3.js'
+import * as utils from './utils.js'
+
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
-
-// Deployed
-//const volcanoPath = 'https://samplereportdata.imyoo.health/'
-
-// Local
-const volcanoPath = 'http://localhost:31339/'
-
-import * as utils from './utils.js'
-const cellTypes = utils.getCellTypes()
-
+const volcanoPath = utils.dataPath
 const volcanoDataPath = volcanoPath + 'Volcanoes/'
+const cellTypes = utils.getCellTypes()
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
-
 var points
 
 // State
@@ -109,8 +102,6 @@ export function initializeCanvas() {
     const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
     maxv = Math.max(...numeric_vvals) * 1.10;
-    console.log("MAX VERTICAL")
-    console.log(maxv)
 
     var volcano_x = d3v3.scale.linear()
         .domain([-maxx, maxx])
@@ -373,13 +364,11 @@ function transition_data(data) {
 
     if(typeof data === 'undefined') {
         svg.selectAll(".volcano_point")
-            //.data(data)
             .transition()
             .duration(500)
             .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
             .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
     } else {
-        console.log('transitioning data')
         svg.selectAll(".volcano_point")
             .data(data)
             .transition()
@@ -387,7 +376,6 @@ function transition_data(data) {
             .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
             .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); });
     }
-
 }
 
 export function reset_axis() {

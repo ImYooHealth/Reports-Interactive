@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as utils from './utils.js'
 
 async function sendFeedback(feedbackText) {
-  const url = utils.dataPath + 'feedback'; // Replace with the actual URL of your backend service
+  const url = utils.feedbackPath + 'feedback'; // Replace with the actual URL of your backend service
 
   try {
     const response = await fetch(url, {
@@ -75,7 +75,7 @@ const CommentBox = () => {
                         Dismiss
                     </div>
 
-                    
+
                     <div
                     className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm"
                     onClick={handleClickSend}
