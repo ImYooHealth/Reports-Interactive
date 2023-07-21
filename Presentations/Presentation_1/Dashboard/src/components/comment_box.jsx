@@ -70,17 +70,19 @@ const CommentBox = () => {
                 <div className="flex">
                     <div
                     className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm"
+                      onClick={handleClick}
+                    >
+                        Dismiss
+                    </div>
+
+                    
+                    <div
+                    className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm"
                     onClick={handleClickSend}
                     >
                         {sendText}
                     </div>
 
-                    <div
-                    className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm"
-                      onClick={handleClick}
-                    >
-                        Dismiss
-                    </div>
                 </div>
             </div>
         </div>
