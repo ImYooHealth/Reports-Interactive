@@ -4,7 +4,25 @@ import d3v3 from './d3.v3.js'
 import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
-import cellTypes from './../Data/cellTypesList.js'
+
+var cellTypes = [
+    {
+        'value': 'Monocytes',
+        'label': 'Monocytes'
+    },
+    {
+        'value': 'B Cells',
+        'label': 'B Cells'
+    },
+    {
+        'value': 'NK Cells',
+        'label': 'NK Cells'
+    },
+    {
+        'value': 'T Cells',
+        'label': 'T Cells'
+    },
+];
 import genes from '../Data/geneList.js'
 
 // The Volcano component

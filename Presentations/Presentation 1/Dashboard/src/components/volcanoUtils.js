@@ -8,7 +8,24 @@ const volcanoDataPath = volcanoPath + 'Data/__secrets__00/Volcanoes/'
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1200 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
-import cellTypes from './../Data/cellTypesList.js'
+var cellTypes = [
+    {
+        'value': 'Monocytes',
+        'label': 'Monocytes'
+    },
+    {
+        'value': 'B Cells',
+        'label': 'B Cells'
+    },
+    {
+        'value': 'NK Cells',
+        'label': 'NK Cells'
+    },
+    {
+        'value': 'T Cells',
+        'label': 'T Cells'
+    },
+];
 var points
 
 // State
