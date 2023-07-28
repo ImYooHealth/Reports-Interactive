@@ -30,13 +30,22 @@ const Abundance = ({currentGene}) => {
       fontFamily: 'Space Grotesk'
     }
 
+    const headerStyle = {
+       fontSize: '24px',
+       textAlign: 'center',
+       fontFamily: 'Space Grotesk'
+     }
+
     return (
         <div>
-            <p>{currentGene}</p> 
             <div style={{padding: '20px'}}>
                 <Dropdown options={genes} handleChange={AbundanceUtils.handleChange} /> {/*theCurrentGene={currentGene}/>*/}
             </div>
             
+
+            <h3 style={headerStyle}>Your {currentGene} Gene Abundance</h3>
+
+
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
