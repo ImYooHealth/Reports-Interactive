@@ -62,7 +62,7 @@ export function initialize(theSvg, theCurrentGene) {
     currentGene = theCurrentGene
     initializeDataless()
     setupConstants(currentGene)
-    initializeDataful()
+    //initializeDataful()
     //console.log(genes[0])
     updateAbundance(readAbundanceData(genes[0]), theCurrentGene)
 }
@@ -159,8 +159,9 @@ export function updateAbundance(theData, geneName) {
     //console.log(theData)
 
     data = theData
-    updateAxes(theData)
     removeFeatures();
+    initializeDataful()
+    updateAxes(theData)
     addViolin(theData);
     addPoints(theData);
 }
@@ -182,14 +183,7 @@ function setState(state) {
 export function removeFeatures() {
 
   // Remove violin
-  abundance_svg.selectAll('.violin').remove()
-
-  // Remove dots in all data groups
-  for(let group in data_groups) {
-    let point_class = data_groups[group]["point_class"];
-    let class_selector = `\.${point_class}`;
-    abundance_svg.selectAll(class_selector).remove();
-  }
+  abundance_svg.selectAll('*').remove()
 }
 
 // Begin Abundance Function Definitions
