@@ -13,6 +13,7 @@ FEEDBACK_DIR = 'Feedback'
 
 class CORSRequestHandler(BaseHTTPRequestHandler):
     def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', 'https://samplereport.imyoo.health')
         self.send_header('Access-Control-Allow-Origin', 'http://localhost:31337')  # Allow requests from http://localhost:31337
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')  # Allow POST and OPTIONS methods
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')  # Allow 'Content-Type' header
