@@ -7,10 +7,10 @@ Performance:
 
 ## Summary of Deployment Process
 
-1. Edit, commit, push: check; check
-2. ssh vincent@blop: check; check
-3. cd, git pull: check; check
-4. ssh vincent-admin@blop; sudo su; 
+1. Edit, commit, push
+2. ssh vincent@blop
+3. cd, git pull
+4. ssh vincent-admin@blop; sudo su;
     1. Check the deployment flag on line zero of Reports-Interactive/Presentations/Presentation_1/Dashboard/src/components/utils.js; check
     2. rm -r /home/samplereports/Reports-Interactive/
     3. rm -r /home/samplereports/Data/__secrets__00/
