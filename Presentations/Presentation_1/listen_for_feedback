@@ -6,10 +6,14 @@ import sys
 # Directory to store feedback files
 FEEDBACK_DIR = 'Feedback'
 
+deployed = True
+
 class CORSRequestHandler(BaseHTTPRequestHandler):
     def end_headers(self):
-        self.send_header('Access-Control-Allow-Origin', 'https://samplereport.imyoo.health')
-        self.send_header('Access-Control-Allow-Origin', 'http://localhost:31337')  # Allow requests from http://localhost:31337
+        if deployed:
+            self.send_header('Access-Control-Allow-Origin', 'https://samplereport.imyoo.health')
+        else:
+            self.send_header('Access-Control-Allow-Origin', 'http://localhost:31337')  # Allow requests from http://localhost:31337
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')  # Allow POST and OPTIONS methods
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')  # Allow 'Content-Type' header
         self.send_header('Access-Control-Allow-Credentials', 'true')  # Allow credentials (if needed)
@@ -20,11 +24,6 @@ class CORSRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
-        if self.path != '/feedback':
-            self.send_response(404)
-            self.end_headers()
-            return
-
         content_length = int(self.headers['Content-Length'])
         feedback_text = self.rfile.read(content_length).decode('utf-8')
 
@@ -46,7 +45,7 @@ class CORSRequestHandler(BaseHTTPRequestHandler):
 if __name__ == '__main__':
     port = 31338
     server = HTTPServer(('localhost', port), CORSRequestHandler)
-    print(f"Feedback server listening on http://localhost:{port}/feedback")
+    print(f"Feedback server listening on http://localhost:{port}/")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
