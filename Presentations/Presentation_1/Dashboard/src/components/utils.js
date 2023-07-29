@@ -1,4 +1,4 @@
-var deployed = false;
+var deployed = true;
 
 export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/' : 'http://localhost:31339/'
 export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
