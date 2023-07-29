@@ -17,4 +17,9 @@ echo
 echo 'Web server current state: (unpopulated if halt succeeded, but also unpopulated when shutting down. Re-run in a few moments to verify.)'
 netstat -anpe | grep 31337
 echo
+echo 'Attempting to halt feedback server'
+bash stop-feedback-server
+echo 'Feedback server current state: (unpopulated if halt succeeded, but also unpopulated when shutting down. Re-run in a few moments to verify.)'
+netstat -anpe | grep 31338
+echo
 echo 'Reports shutdown script exiting'

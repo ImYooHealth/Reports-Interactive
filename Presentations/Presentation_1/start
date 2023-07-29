@@ -2,4 +2,6 @@
 
 cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1/
 
-python3 start-data-server & ./start-web-server & python3 listen_for_feedback
+nohup python3 start-data-server & 
+nohup bash start-web-server & 
+nohup python3 listen_for_feedback &
