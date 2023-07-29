@@ -5,16 +5,21 @@ Data:
 Performance:
 * Set max_genes in Dashboard/src/components/utils.js
 
-Deployment:
-1. Edit, commit, push  
-2. ssh vincent@blop  
-3. cd, git pull  
-4. ssh vincent-admin@blop sudo su 
-5. set the deployment flag on line zero of Reports-Interactive/Presentations/Presentation_1/Dashboard/src/components/utils.js 
-6. copy Reports-Interactive to /home/samplereports/Reports-Interactive  
-7. chown to samplereports?  
-8. Get out of sudo su  
-9. sudo su - samplereports  
-10. npm install
-11. Try to start it. Logs are in Dashboard/log.txt
-12. Try to view it. Remember https, rather than http
+## Summary of Deployment Process
+
+1. Edit, commit, push: check; check
+2. ssh vincent@blop: check; check
+3. cd, git pull: check; check
+4. ssh vincent-admin@blop; sudo su; 
+    1. Check the deployment flag on line zero of Reports-Interactive/Presentations/Presentation_1/Dashboard/src/components/utils.js; check
+    2. rm -r /home/samplereports/Reports-Interactive/
+    3. rm -r /home/samplereports/Data/__secrets__00/
+    4. cp -r /mnt/data/bio/Vincent/Sample\ Report\ Demo\ Data/data/__secrets__00/ /home/samplereports/Data/
+    5. cp -r /home/vincent/Repositories/Reports-Interactive/ /home/samplereports/
+    6. chown -R samplereports /home/samplereports/
+    7. Get out of sudo su
+5. sudo su - samplereports
+    1. cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1/Dashboard
+    2. npm install
+    3. Try to start it. Logs are in Dashboard/log.txt
+6. Try to view it. Remember: http**s**, rather than http
