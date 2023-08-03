@@ -1,11 +1,11 @@
 import React from "react"
-import Volcano from './volcano.js'
-import Abundance from './abundance.js'
-import CommentBox from './comment_box.jsx'
+import CommentBox from './comment_box'
 
-import * as utils from './utils.js'
+import Volcano from './Resources/AbundanceVolcano/volcano'
+import Abundance from './Resources/AbundanceVolcano/abundance'
+import * as utils from './Resources/AbundanceVolcano/utils.js'
+
 let genes = utils.getGenes()
-
 
 const Content = ({ title }) => {
     const [currentGene, setCurrentGene] = React.useState(genes[0])  // TODO: Just tagging that this is where the initial gene is set
