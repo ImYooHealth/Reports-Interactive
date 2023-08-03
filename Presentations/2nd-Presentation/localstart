@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./listen_for_feedback & 
+python3 listen_for_feedback &
 ./localstart-data-server &
 ./localstart-web-server &
