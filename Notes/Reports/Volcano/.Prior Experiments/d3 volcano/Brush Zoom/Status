@@ -1,0 +1,42 @@
+Status:
+1. Adapt example_brush_with_tooltips to more volcano plot form
+   - Done: Adjust clip
+   - Zoom behavior
+     > Has focus for the rest of remaining 15
+     > Done: Reset on double click
+   > Done: Load de_df
+   - Adjust tooltips
+     > Done: Not stupid looking   
+     > Done: Dynamically variable   
+   > Done: Fix reset 
+   > Done: Make square
+   > Done: Dynamic axes
+     - Has focus for remaining of 15
+   - Done: Remove dot size
+   - Done: Highlighting not working:
+     > Has focus for remaining of 15
+     > Seemingly arbitrary
+     > Has focus for new 15
+
+   - Dots look ugly
+     > Has focus for remaining of 15
+     > Has focus for next 15
+     > kills highlighting
+     > off stack
+     > Has focus for remaining of 15
+
+
+   - Legend?
+
+2. Get new data
+   > Loading adata
+   > Halted after 30m: errors in ihapi!
+3. Spruce up
+   > Highlighting
+
+Presentation:
+* Here's failed attempts with tooltips, brushing, and highlighting.
+
+
+Break.
+When back, split time between getting better DE, and figuring out the presentation. 

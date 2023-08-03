@@ -1,0 +1,17 @@
+#!/bin/bash
+
+pid=$(netstat -anpe | grep 31337 | grep node | sed 's:.* \([0-9][0-9]*\)[/]node:\1:')
+if [ -z "$pid" ]; then
+	echo "The web server does not appear to be running."
+else
+	echo "Attempting to halt web server"
+	kill $pid
+fi
+
+# Check
+pid=$(netstat -anpe | grep 31337 | grep node | sed 's:.* \([0-9][0-9]*\)[/]node:\1:')
+if [ -z "$pid" ]; then
+	echo "Web server halt attempt succeeded."
+else
+	echo "Data server halt attempt failed."
+fi

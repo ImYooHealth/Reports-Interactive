@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./listen_for_feedback & 
+./localstart-data-server &
+./localstart-web-server &
