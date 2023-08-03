@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./Presentations/Presentation_1
+cd ./Presentations/2nd-Presentation
 ./localstart

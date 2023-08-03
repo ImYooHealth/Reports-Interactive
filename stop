@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1
+cd /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation
 ./stop
