@@ -14,27 +14,27 @@ const data = [
   {
     title: 'Status',
     icon: <StatusIcon />,
-    link: '/admin/status',
+    link: '/status',
   },
   {
     title: 'Archives',
     icon: <ArchivesIcon />,
-    link: '/admin/archives',
+    link: '/archives',
   },
   {
     title: 'Credits',
     icon: <CreditsIcon />,
-    link: '/admin/credits',
+    link: '/credits',
   },
   {
     title: 'Settings',
     icon: <SettingsIcon />,
-    link: '/admin/settings',
+    link: '/settings',
   },
   {
     title: 'Documentation',
     icon: <DocumentationIcon />,
-    link: '/admin/documentation',
+    link: '/documentation',
   },
 ];
 
