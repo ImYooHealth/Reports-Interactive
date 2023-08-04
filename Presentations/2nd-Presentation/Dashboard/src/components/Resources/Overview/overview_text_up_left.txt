@@ -1,0 +1,8 @@
+Your blood is made up of many different types of cells. In our lab, we remove red blood cells and focus on checking the state of white blood cells.
+
+On the right are different types of cells that comprise the white blood cells in your sample.
+
+The inner circle represents the top level hierarchy and the outer circles show a breakdown of subtypes within those major cell types.
+
+Below you will see definitions of major cell types and their respective functions.  
+

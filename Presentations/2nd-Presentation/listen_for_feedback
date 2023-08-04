@@ -6,7 +6,7 @@ import sys
 # Directory to store feedback files
 FEEDBACK_DIR = 'Feedback'
 
-deployed = True
+deployed = False
 
 class CORSRequestHandler(BaseHTTPRequestHandler):
     def end_headers(self):

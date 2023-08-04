@@ -1,0 +1,3 @@
+Your cells are now a part of ImYoo’s human reference transcriptome database. Thank you!  This is a t-SNE plot of a portion of our database, and your cells are overlayed on top to show you where you land.
+
+Each dot here is one of your cells, and how close they are to each other represents how similar they are to each other. Cells that group together are often cells of a common type, such as T Cells. By growing our reference database, you are helping us discover more rare and unique cell types and states.
