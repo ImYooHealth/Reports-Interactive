@@ -7,9 +7,14 @@ import DocumentationIcon from './icons/documentation';
 
 const data = [
   {
-    title: 'Home',
+    title: 'Login',
     icon: <HomeIcon />,
     link: '/',
+  },
+  {
+    title: 'Home',
+    icon: <HomeIcon />,
+    link: '/HomePage',
   },
   {
     title: 'Status',

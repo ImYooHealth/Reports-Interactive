@@ -9,16 +9,21 @@ import ArchivesPage from './pages/archives';
 import SettingsPage from './pages/settings';
 import DocumentationPage from './pages/documentation';
 
+import LoginPage from './pages/Login';
+
 function App() {
   return (
     <Router>
       <DashboardLayout>
         <Switch>
 
-          <Route exact path="/">
+          <Route exact path="/HomePage">
             <HomePage />
           </Route>
 
+          <Route exact path="/">
+            <LoginPage />
+          </Route>
           <Route path="/archives">
             <ArchivesPage />
           </Route>
