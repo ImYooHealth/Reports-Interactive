@@ -10,6 +10,7 @@ import SettingsPage from './pages/settings';
 import DocumentationPage from './pages/documentation';
 
 import LoginPage from './pages/Login';
+import DisclaimerPage from './pages/Disclaimer';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
 
           <Route exact path="/">
             <LoginPage />
+          </Route>
+          <Route exact path="/Disclaimer">
+            <DisclaimerPage />
           </Route>
           <Route path="/archives">
             <ArchivesPage />
