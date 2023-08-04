@@ -6,7 +6,6 @@ build/
 *.JPG
 *.jpg
 *.jpeg
-*.svg
 *.png
 *.csv
 docs/notes/

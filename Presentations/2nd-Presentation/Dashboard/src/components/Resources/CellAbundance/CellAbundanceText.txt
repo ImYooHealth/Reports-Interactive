@@ -1,0 +1,3 @@
+In this view you can see the different immune cells captured in your capillary blood and how much each of them contributes to your white blood cells, and how it compares to other people.
+
+You can click on a cell type to further dig into how much of each cell subtype is present in your capillary blood.
