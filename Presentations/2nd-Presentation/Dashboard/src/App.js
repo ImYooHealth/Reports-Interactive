@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import HomePage from './pages';
-import StatusPage from './pages/admin/status';
-import CreditsPage from './pages/admin/credits';
 import DashboardLayout from './dashboard/layout';
-import ArchivesPage from './pages/admin/archives';
-import SettingsPage from './pages/admin/settings';
-import DocumentationPage from './pages/admin/documentation';
+
+import HomePage from './pages';
+import StatusPage from './pages/status';
+import CreditsPage from './pages/credits';
+import ArchivesPage from './pages/archives';
+import SettingsPage from './pages/settings';
+import DocumentationPage from './pages/documentation';
 
 function App() {
   return (
@@ -17,24 +18,23 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
-{/*
-          <Route path="/admin/archives">
+
+          <Route path="/archives">
             <ArchivesPage />
           </Route>
-          <Route exact path="/admin/credits">
+          <Route exact path="/credits">
             <CreditsPage />
           </Route>
-          <Route exact path="/admin/documentation">
+          <Route exact path="/documentation">
             <DocumentationPage />
           </Route>
-          <Route exact path="/admin/settings">
+          <Route exact path="/settings">
             <SettingsPage />
           </Route>
-
-          <Route exact path="/admin/status">
+          <Route exact path="/status">
             <StatusPage />
           </Route>
-*/}
+
 
         </Switch>
       </DashboardLayout>
