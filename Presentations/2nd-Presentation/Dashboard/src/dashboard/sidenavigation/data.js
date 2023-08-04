@@ -12,6 +12,11 @@ const data = [
     link: '/',
   },
   {
+    title: 'Disclaimer',
+    icon: <HomeIcon />,
+    link: '/Disclaimer',
+  },
+  {
     title: 'Home',
     icon: <HomeIcon />,
     link: '/HomePage',
