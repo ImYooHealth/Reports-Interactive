@@ -18,7 +18,7 @@ const Heptagon = () => (
   </svg>
 );
 
-const ComponentsCollection = () => {
+const FirstIdea = () => {
   const [selectedComponent, setSelectedComponent] = useState('circle');
 
   const components = ['circle', 'square', 'heptagon'];
@@ -75,5 +75,97 @@ const ComponentsCollection = () => {
     </div>
   );
 };
+
+export function SecondIdea() {
+  const initialData = ['foo','bar','baz'
+    // Existing data...
+  ];
+
+  const [data, setData] = useState(initialData);
+  const [newTabLabel, setNewTabLabel] = useState("");
+  const [newTabDesc, setNewTabDesc] = useState("");
+
+  const addNewTab = () => {
+    if (newTabLabel && newTabDesc) {
+      const newValue = newTabLabel.toLowerCase();
+      const newData = [
+        ...data,
+        {
+          label: newTabLabel,
+          value: newValue,
+          desc: newTabDesc,
+        },
+      ];
+      setData(newData);
+      setNewTabLabel("");
+      setNewTabDesc("");
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="space-x-4">
+        <input
+          type="text"
+          placeholder="Label"
+          value={newTabLabel}
+          onChange={(e) => setNewTabLabel(e.target.value)}
+          className="border rounded px-2 py-1"
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={newTabDesc}
+          onChange={(e) => setNewTabDesc(e.target.value)}
+          className="border rounded px-2 py-1"
+        />
+        <button
+          onClick={addNewTab}
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+        >
+          Add Tab
+        </button>
+      </div>
+      <div className="border rounded">
+        <ul className="flex space-x-2 border-b">
+          {data.map(({ label, value }) => (
+            <li
+              key={value}
+              className={`px-4 py-2 cursor-pointer ${
+                data[0].value === value ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setData(data.find((item) => item.value === value))}
+            >
+              {label}
+            </li>
+          ))}
+        </ul>
+        <div className="px-4 py-2">
+          {data.map(({ value, desc }) => (
+            <div
+              key={value}
+              className={`${
+                data[0].value === value ? "block" : "hidden"
+              }`}
+            >
+              {desc}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+export function ComponentsCollection() {
+    return (
+        <div>
+            <FirstIdea />
+            <SecondIdea />
+        </div>
+    )
+}
 
 export default ComponentsCollection;

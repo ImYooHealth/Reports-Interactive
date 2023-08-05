@@ -1,6 +1,5 @@
 The results of ImYoo’s assay are being returned to you as part of a research study. ImYoo’s assay, which incorporates single-cell RNA sequencing, has not been validated in a clinical setting and is not intended for diagnostic or therapeutic purposes.
 
-
 For research use only. No usage for diagnostic purposes is recommended or permitted.
 The results provided to you are part of a research study investigating expression of genes in various immune cell types.
 These assays and its results were not performed at a CLIA certified facility.

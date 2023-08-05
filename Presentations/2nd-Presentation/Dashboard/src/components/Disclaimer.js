@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import * as commonUtils from './commonUtils.js'
 import ComponentsCollection from './newUiIdeas.js'
+import DisclaimerUI from './DisclaimerUI.js'
 
 const Disclaimer = () => {
     const history = useHistory()
@@ -31,17 +32,8 @@ const Disclaimer = () => {
           <div className="p-4 rounded-3xl bg-gray-300">
 
             <div className="p-7 bg-white rounded-3xl">
-                <ComponentsCollection />
+                <DisclaimerUI />
             </div>
-
-          <button
-            type="button"
-            className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            onClick={handleLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Welcome' : 'Continue To Report'}
-          </button>
 
           </div>
 
