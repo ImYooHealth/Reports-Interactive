@@ -7,7 +7,7 @@ import * as utils from './Resources/AbundanceVolcano/utils.js'
 
 let genes = utils.getGenes()
 
-const Content = ({ title }) => {
+const GeneAbundance = ({ title }) => {
     const [currentGene, setCurrentGene] = React.useState(genes[0])  // TODO: Just tagging that this is where the initial gene is set
 
     // For Dropdown in Abundance
@@ -50,4 +50,4 @@ const Content = ({ title }) => {
 };
 
 console.log('Up and running!')
-export default Content;
+export default GeneAbundance;

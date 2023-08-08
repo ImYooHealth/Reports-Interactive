@@ -18,6 +18,6 @@ Presentation/data/
 *zip
 __secrets__
 *geneList*
-node_modules
+*node_modules*
 *.txt
 Presentation 1
