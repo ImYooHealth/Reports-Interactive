@@ -19,5 +19,5 @@ Presentation/data/
 __secrets__
 *geneList*
 node_modules
-*log*
+*.txt
 Presentation 1
