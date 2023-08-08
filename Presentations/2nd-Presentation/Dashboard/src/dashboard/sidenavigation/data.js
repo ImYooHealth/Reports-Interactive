@@ -17,34 +17,30 @@ const data = [
     link: '/Disclaimer',
   },
   {
-    title: 'Home',
+    title: 'Overview',
     icon: <HomeIcon />,
-    link: '/HomePage',
+    link: '/Overview',
   },
   {
-    title: 'Status',
-    icon: <StatusIcon />,
-    link: '/status',
+    title: 'CellAbundance',
+    icon: <HomeIcon />,
+    link: '/CellAbundance',
+  },
+  {  
+    /* AbundanceVolcano */
+    title: 'GeneAbundance',
+    icon: <HomeIcon />,
+    link: '/GeneAbundance',
   },
   {
-    title: 'Archives',
-    icon: <ArchivesIcon />,
-    link: '/archives',
+    title: 'Glossary',
+    icon: <HomeIcon />,
+    link: '/Glossary',
   },
   {
-    title: 'Credits',
-    icon: <CreditsIcon />,
-    link: '/credits',
-  },
-  {
-    title: 'Settings',
-    icon: <SettingsIcon />,
-    link: '/settings',
-  },
-  {
-    title: 'Documentation',
-    icon: <DocumentationIcon />,
-    link: '/documentation',
+    title: 'CallToAction',
+    icon: <HomeIcon />,
+    link: '/NextSteps',
   },
 ];
 
