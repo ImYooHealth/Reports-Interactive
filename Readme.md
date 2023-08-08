@@ -23,3 +23,8 @@ Performance:
     2. npm install
     3. Try to start it. Logs are in Dashboard/log.txt
 6. Try to view it. Remember: http**s**, rather than http
+
+
+## Data
+
+Put tsne and sunburst in Reports-Interactive/Data/Overview.
