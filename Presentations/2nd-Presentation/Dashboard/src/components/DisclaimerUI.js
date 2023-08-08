@@ -30,7 +30,7 @@ const DisclaimerUI = () => {
     setTimeout(() => {
         setIsLoading(false);
         console.log(`Disclaimer Signed. Redirecting to AbundanceVolcano.`);
-        history.push('/HomePage')
+        history.push('/Overview')
     }, 1500);
   };
 
@@ -44,20 +44,17 @@ const DisclaimerUI = () => {
         {text1}
       </p>
 
-      <p>
-        <ul>
-            <li> For research use only. No usage for diagnostic purposes is recommended or permitted. </li>
-            <li> The results provided to you are part of a research study investigating expression of genes in various immune cell types. </li>
-            <li> These assays and its results were not performed at a CLIA certified facility. </li>
-            <li> The metrics of specificity, sensitivity, and accuracy used in ImYoo’s assay have not been validated. The results in this report are not intended to replace a visit to a healthcare professional. It is the participant's responsibility to consult with a healthcare professional regarding any medical advice and the status of their health. </li>
-            <li> Do not use the results reported in this report to change course of existing treatment </li>
-            <li> Results in this report should not be used to make any medical decisions. </li>
-            <li> ImYoo’s assay measures RNA in different immune cell types and is not a substitute for clinical assays measuring blood counts or protein levels. </li>
-            <li> ImYoo is not a replacement for other gene expression assays that have been medically validated or are operating under CLIA license. </li>
-            <li> ImYoo’s assay does not provide complete information on your immune state and does not reflect or suggest how well your immune system will protect you against various adverse events (such as viruses, bacteria, etc).` </li>
-        </ul>
-      </p>
-
+    <ul>
+        <li> For research use only. No usage for diagnostic purposes is recommended or permitted. </li>
+        <li> The results provided to you are part of a research study investigating expression of genes in various immune cell types. </li>
+        <li> These assays and its results were not performed at a CLIA certified facility. </li>
+        <li> The metrics of specificity, sensitivity, and accuracy used in ImYoo’s assay have not been validated. The results in this report are not intended to replace a visit to a healthcare professional. It is the participant's responsibility to consult with a healthcare professional regarding any medical advice and the status of their health. </li>
+        <li> Do not use the results reported in this report to change course of existing treatment </li>
+        <li> Results in this report should not be used to make any medical decisions. </li>
+        <li> ImYoo’s assay measures RNA in different immune cell types and is not a substitute for clinical assays measuring blood counts or protein levels. </li>
+        <li> ImYoo is not a replacement for other gene expression assays that have been medically validated or are operating under CLIA license. </li>
+        <li> ImYoo’s assay does not provide complete information on your immune state and does not reflect or suggest how well your immune system will protect you against various adverse events (such as viruses, bacteria, etc).` </li>
+    </ul>
 
       <label>
         <input
