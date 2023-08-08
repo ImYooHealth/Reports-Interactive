@@ -11,6 +11,12 @@ import DocumentationPage from './pages/documentation';
 
 import LoginPage from './pages/Login';
 import DisclaimerPage from './pages/Disclaimer';
+import GlossaryPage from './pages/Glossary'
+import OverviewPage from './pages/Overview';
+import CellAbundancePage from './pages/CellAbundance'
+import GeneAbundancePage from './pages/GeneAbundance'
+
+import CallToActionPage from './pages/CallToAction'
 
 function App() {
   return (
@@ -18,32 +24,27 @@ function App() {
       <DashboardLayout>
         <Switch>
 
-          <Route exact path="/HomePage">
-            <HomePage />
-          </Route>
-
           <Route exact path="/">
             <LoginPage />
           </Route>
           <Route exact path="/Disclaimer">
             <DisclaimerPage />
           </Route>
-          <Route path="/archives">
-            <ArchivesPage />
+          <Route exact path="/Overview">
+            <OverviewPage />
           </Route>
-          <Route exact path="/credits">
-            <CreditsPage />
+          <Route exact path="/CellAbundance">
+            <CellAbundancePage />
           </Route>
-          <Route exact path="/documentation">
-            <DocumentationPage />
+          <Route exact path="/GeneAbundance">
+            <GeneAbundancePage />
           </Route>
-          <Route exact path="/settings">
-            <SettingsPage />
+          <Route exact path="/Glossary">
+            <GlossaryPage />
           </Route>
-          <Route exact path="/status">
-            <StatusPage />
+          <Route exact path="/NextSteps">
+            <CallToActionPage />
           </Route>
-
 
         </Switch>
       </DashboardLayout>
