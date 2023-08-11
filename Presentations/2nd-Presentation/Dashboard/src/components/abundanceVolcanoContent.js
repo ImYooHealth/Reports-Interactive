@@ -11,7 +11,6 @@ const GeneAbundance = ({ title }) => {
     const [currentGene, setCurrentGene] = React.useState(genes[0])  // TODO: Just tagging that this is where the initial gene is set
 
     // For Dropdown in Abundance
-
     const handleGeneChange = (gene) => {
         setCurrentGene(gene)
     }
@@ -25,8 +24,8 @@ const GeneAbundance = ({ title }) => {
         </div>
 
         <div className="flex flex-wrap">
+          {/* Abundance and Volcano in here */}
           <div className="p-4 rounded-3xl bg-gray-300">
-
             {/* Abundance */}
             <div className="p-7 bg-white rounded-3xl">
               <Volcano changeAbundanceGene={handleGeneChange}/>
@@ -35,15 +34,17 @@ const GeneAbundance = ({ title }) => {
             <div className="p-1">
             </div>
 
+            {/* Volcano */}
             <div className="p-7 bg-white rounded-3xl">
               <Abundance currentGene={currentGene}/>
             </div>
-
           </div>
 
           <div className="p-7 bg-white rounded-3xl">
             <CommentBox />
           </div>
+
+
         </div>
       </div>
     )
