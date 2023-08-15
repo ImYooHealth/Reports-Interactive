@@ -24,6 +24,10 @@ function App() {
       <DashboardLayout>
         <Switch>
 
+          <Route path="/ExperimentalScratchpad">
+            <ArchivesPage />
+          </Route>
+
           <Route exact path="/">
             <LoginPage />
           </Route>
