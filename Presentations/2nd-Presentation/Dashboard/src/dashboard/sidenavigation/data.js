@@ -42,6 +42,11 @@ const data = [
     icon: <HomeIcon />,
     link: '/NextSteps',
   },
+  {
+    title: 'ExperimentalScratchpad',
+    icon: <HomeIcon />,
+    link: '/ExperimentalScratchpad',
+  },
 ];
 
 export default data;
