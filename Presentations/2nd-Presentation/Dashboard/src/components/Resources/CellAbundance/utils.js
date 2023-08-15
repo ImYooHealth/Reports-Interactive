@@ -2,12 +2,13 @@ export const placeholder = 0;
 
 var deployed = false;
 
-export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/__secrets__00/' : 'http://localhost:31339/__secrets__00/'
+export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/CellAbundance/' : 'http://localhost:31339/CellAbundance/'
 export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
 
-const max_genes = 500 // Not to exceed 4999
+let max_genes = 1   // Not to exceed 1
 
 export function readCSVFile(filePath) {
+    console.log(filePath)
   filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
@@ -28,7 +29,7 @@ export function readCSVFile(filePath) {
 
   const result = [];
   for (let i = 0; i < dataRows.length; i++) {
-    if(i >= max_genes) {
+    if(i > max_genes) {
         break
     }
     const dataRow = dataRows[i].split(",");
@@ -39,8 +40,11 @@ export function readCSVFile(filePath) {
     result.push(obj);
   }
 
+  console.log(result)
+
   // Validate
   if(result[0]['<!DOCTYPE html>'] === undefined)  {
+    console.log('readcsvfile returning')
     return result;
   } else {
     throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +

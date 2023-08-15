@@ -38,18 +38,20 @@ const Abundance = ({currentGene}) => {
     return (
         <div>
             <div style={{padding: '20px'}}>        
-                <h3 style={headerStyle}>Your {currentGene} Gene Abundance</h3>
+                <h3 style={headerStyle}>Your Immune Army</h3>
             </div>
             
+            <p>
+            These are your immune cells, broken down by type. You can see how much each type contributes to the population of your immune army as a whole, and see how yours compare to the broader population of fellow participants.
+            </p>
+
             <svg ref={svgRef} width={width}  height={height + v_offset}></svg>
 
-            <div className='flex space-x-4' style={{paddingTop: '20px'}}>
-                <div className='flex justify-end'>
-                    <p style={paragraphStyle}>
-                        * Units of Transcripts per Million (TPM): number
-                        of transcripts of this gene counted per
-                        million transcripts counted.
-                    </p>
+            <div >
+                <div className='flex items-center justify-center'>
+                
+                    <p style={{fontSize: '18px', fontFamily: 'Space Grotesk'}}>Your Immune Cells By Type</p>
+
                 </div>                
             </div>
         </div>

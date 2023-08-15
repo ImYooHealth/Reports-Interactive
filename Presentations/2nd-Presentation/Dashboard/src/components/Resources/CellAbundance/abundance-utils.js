@@ -29,7 +29,7 @@ var abundance_path_prefix = utils.dataPath + 'Abundances/'
 
 var currentGene
 v_offset = 0
-GROUPING = 'cell_type' // For demo data use: 'Species'
+GROUPING = 'cell_type'  // Replace with column name for cell abundance data (likely also 'cell_type')
 ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
 var SELF = 'is_self'
 //data = AbundanceUtils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
@@ -123,6 +123,8 @@ export function updateAxes(theData){//, ABUNDANCE_VERTICAL, abundance_svg) {
   // TODO TUNEABLE PIECE: not an actual task, but a notation of a knob. 
   histogram.domain(abundance_y_scale.domain())
     .thresholds(abundance_y_scale.ticks(20)) //  Number of Bins
+
+  create_axis_labels(abundance_svg, width, height);
 }
 
 var yAxisGroup 
@@ -385,4 +387,20 @@ export function setPointJitter(theData) {
 
   return theData;
 }
-// End Abundance function definitions
+
+export function create_axis_labels(svg, width, height) {
+
+    let font_family = 'Space Grotesk';
+
+    // Vertical axis label
+    abundance_svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("y", -50)
+        .attr("x", -(height / 2))
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("Percent of Total")
+        .attr("font-size","20px")
+        .attr('font-family', font_family)
+ }
