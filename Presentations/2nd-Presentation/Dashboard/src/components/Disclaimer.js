@@ -21,24 +21,27 @@ const Disclaimer = () => {
 
 
     return (
-      <div className="lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
 
-        {/* Just Text */}
-        <div className="flex justify-between text-white items-center mb-8">
-          <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>Disclaimer</p>
-        </div>
+        <div className="flex w-50">            
+            <div className="bg-gray-800 py-6 px-6 rounded-3xl">
 
-        <div className="flex flex-wrap">
-          <div className="p-4 rounded-3xl bg-gray-300">
+                {/* Just Text */}
+                <div className="flex justify-between text-white items-center mb-8">
+                    <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>Disclaimer</p>
+                </div>
 
-            <div className="p-7 bg-white rounded-3xl">
-                <DisclaimerUI />
+                <div className="flex flex-wrap">
+                    <div className="p-4 rounded-3xl bg-gray-300">
+
+                    <div className="p-4 bg-white rounded-3xl">
+                        <DisclaimerUI />
+                    </div>
+
+                    </div>
+
+                </div>
             </div>
-
-          </div>
-
         </div>
-      </div>
     );
 }
 
