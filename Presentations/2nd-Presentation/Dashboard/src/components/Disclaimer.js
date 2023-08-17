@@ -4,6 +4,7 @@ import * as commonUtils from './commonUtils.js'
 import ComponentsCollection from './newUiIdeas.js'
 import DisclaimerUI from './DisclaimerUI.js'
 
+
 const Disclaimer = () => {
     const history = useHistory()
     const [isLoading, setIsLoading] = React.useState(false)
@@ -22,7 +23,7 @@ const Disclaimer = () => {
 
     return (
 
-        <div className="flex w-disclaimer">            
+        <div className="flex w-textPage">            
             <div className="bg-gray-800 py-6 px-6 rounded-3xl">
 
                 {/* Just Text */}

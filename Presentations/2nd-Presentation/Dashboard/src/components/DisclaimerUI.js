@@ -57,14 +57,14 @@ const DisclaimerUI = () => {
         </ul>
 
         <label className="flex flex-row items-center justify-center mx-8">
-            <input className="h-6 w-6" type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
-            <p className='text-center font-bold text-xl'>
+            <input className="h-6 w-6 mx-5 outline border-gray-900" type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+            <p className='text-center font-bold text-xl mr-10'>
                 I acknowledge I have read the above and understand this report is not for diagnostic use
             </p>
         </label>
 
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center pb-3">
             <div className="flex flex-row p-6">
                 <p className='font-bold text-xl p-3'>Signed:</p>
                 <input className='p-3 border border-gray-900 rounded-2xl' type="text" value={textFieldValue} onChange={handleTextFieldChange} placeholder="Your Name" />
