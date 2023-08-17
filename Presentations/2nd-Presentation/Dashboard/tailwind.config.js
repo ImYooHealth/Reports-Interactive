@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       width: {
         '50': '50%',
-        'disclaimer': '850px',
+        'textPage': '850px',
       },        
     },
   },
