@@ -40,46 +40,47 @@ const DisclaimerUI = () => {
 
   return (
     <div>
-      <p>
-        {text1}
-      </p>
+        <p className='text-left text-xl pt-3 pl-3 pr-3'>
+            {text1}
+        </p>
 
-    <ul>
-        <li> For research use only. No usage for diagnostic purposes is recommended or permitted. </li>
-        <li> The results provided to you are part of a research study investigating expression of genes in various immune cell types. </li>
-        <li> These assays and its results were not performed at a CLIA certified facility. </li>
-        <li> The metrics of specificity, sensitivity, and accuracy used in ImYoo’s assay have not been validated. The results in this report are not intended to replace a visit to a healthcare professional. It is the participant's responsibility to consult with a healthcare professional regarding any medical advice and the status of their health. </li>
-        <li> Do not use the results reported in this report to change course of existing treatment </li>
-        <li> Results in this report should not be used to make any medical decisions. </li>
-        <li> ImYoo’s assay measures RNA in different immune cell types and is not a substitute for clinical assays measuring blood counts or protein levels. </li>
-        <li> ImYoo is not a replacement for other gene expression assays that have been medically validated or are operating under CLIA license. </li>
-        <li> ImYoo’s assay does not provide complete information on your immune state and does not reflect or suggest how well your immune system will protect you against various adverse events (such as viruses, bacteria, etc).` </li>
-    </ul>
+        <ul className='list-disc pb-8 pl-8 pr-8 pt-4'>
+            <li> For research use only. No usage for diagnostic purposes is recommended or permitted. </li>
+            <li> The results provided to you are part of a research study investigating expression of genes in various immune cell types. </li>
+            <li> These assays and its results were not performed at a CLIA certified facility. </li>
+            <li> The metrics of specificity, sensitivity, and accuracy used in ImYoo’s assay have not been validated. The results in this report are not intended to replace a visit to a healthcare professional. It is the participant's responsibility to consult with a healthcare professional regarding any medical advice and the status of their health. </li>
+            <li> Do not use the results reported in this report to change course of existing treatment </li>
+            <li> Results in this report should not be used to make any medical decisions. </li>
+            <li> ImYoo’s assay measures RNA in different immune cell types and is not a substitute for clinical assays measuring blood counts or protein levels. </li>
+            <li> ImYoo is not a replacement for other gene expression assays that have been medically validated or are operating under CLIA license. </li>
+            <li> ImYoo’s assay does not provide complete information on your immune state and does not reflect or suggest how well your immune system will protect you against various adverse events (such as viruses, bacteria, etc).</li>
+        </ul>
 
-      <label>
-        <input
-          type="checkbox"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
-        I acknowledge I have read the above and understand this report is not for diagnostic use
-      </label>
+        <label className="flex flex-row items-center justify-center mx-8">
+            <input className="h-6 w-6" type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+            <p className='text-center font-bold text-xl'>
+                I acknowledge I have read the above and understand this report is not for diagnostic use
+            </p>
+        </label>
 
-      <input
-        type="text"
-        value={textFieldValue}
-        onChange={handleTextFieldChange}
-        placeholder="Your Name"
-      />
 
-          <button
-            type="button"
-            className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            onClick={handleLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Welcome' : 'Continue To Report'}
-          </button>      
+        <div className="flex flex-col items-center">
+            <div className="flex flex-row p-6">
+                <p className='font-bold text-xl p-3'>Signed:</p>
+                <input className='p-3 border border-gray-900 rounded-2xl' type="text" value={textFieldValue} onChange={handleTextFieldChange} placeholder="Your Name" />
+            </div>
+
+            <button
+                type="button"
+                className="bg-blue-500 text-white border border-gray-900 font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+                onClick={handleLogin}
+                disabled={isLoading}
+            >
+                {isLoading ? 'Welcome' : 'Continue To Report'}
+            </button>                  
+        </div>
+
+            
     </div>
   );
 };
