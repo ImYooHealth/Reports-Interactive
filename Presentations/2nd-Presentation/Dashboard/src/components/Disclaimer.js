@@ -22,7 +22,7 @@ const Disclaimer = () => {
 
     return (
 
-        <div className="flex w-50">            
+        <div className="flex w-disclaimer">            
             <div className="bg-gray-800 py-6 px-6 rounded-3xl">
 
                 {/* Just Text */}
