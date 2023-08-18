@@ -5,13 +5,13 @@ import { useToggle } from '../provider/context';
 
 const style = {
   mobilePosition: {
-    left: 'left-0 ',
-    right: 'right-0 lg:left-0',
+    left: 'top-0 ',
+    right: 'right-0',
   },
   container: `pb-32 lg:pb-12`,
-  close: `duration-700 ease-out hidden transition-all lg:w-24`,
-  open: `absolute duration-500 ease-in transition-all w-8/12 z-40 sm:w-5/12 md:w-64`,
-  default: `h-screen overflow-y-auto text-white top-0 lg:absolute bg-gray-900 lg:block lg:z-40`,
+  close: `duration-700 ease-out hidden transition-all lg:w-800`,
+  open: `absolute duration-500 ease-in transition-all w-80 z-40 sm:w-5/12 md:w-64`,
+  default: `top-24 h-48 w-screen overflow-y-auto text-white top-0 lg:absolute bg-gray-900 lg:block lg:z-40`,
 };
 
 export default function SideNavigation({ mobilePosition }) {

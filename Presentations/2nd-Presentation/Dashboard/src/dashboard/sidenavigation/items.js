@@ -6,7 +6,7 @@ import { useToggle } from '../provider/context';
 const style = {
   title: `mx-4 text-sm`,
   active: `bg-gray-700 rounded-full`,
-  link: `flex items-center justify-start my-1 p-3 w-full hover:text-white`,
+  link: ` my-1 p-3 hover:text-white`,
   close: `lg:duration-700 lg:ease-out lg:invisible lg:opacity-0 lg:transition-all`,
   open: `lg:duration-500 lg:ease-in lg:h-auto lg:opacity-100 lg:transition-all lg:w-auto`,
 };
@@ -15,8 +15,8 @@ export default function SidenavItems() {
   const { pathname } = useLocation();
   const { open } = useToggle();
   return (
-    <ul className="md:pl-3">
-      <li>
+    <ul className="flex flex-row md:pl-3">
+      <li className="flex flex-row">
         {data.map((item) => (
           <Link to={item.link} key={item.title}>
             <span className={style.link}>

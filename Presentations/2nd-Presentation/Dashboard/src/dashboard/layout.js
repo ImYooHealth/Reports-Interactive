@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }) {
       <div className={style.container}>
         <div className="flex items-start">
           <Overlay />
-          <SideNavigation mobilePosition="right" />
+          <SideNavigation mobilePosition="left" />
 
           {/* TopNavigation, and Main Window */}
           <div className={style.mainContainer}>
