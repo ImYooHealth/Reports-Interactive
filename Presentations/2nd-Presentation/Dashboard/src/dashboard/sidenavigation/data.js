@@ -5,48 +5,44 @@ import ArchivesIcon from './icons/archives';
 import SettingsIcon from './icons/settings';
 import DocumentationIcon from './icons/documentation';
 
+import * as icons from './icons/iconParty'
+//import DisclaimerIcon from './icons/Disclaimer'
+//import CellAbundanceIcon from './icons/CellAbundance'
+
 const data = [
   {
-    title: 'Login',
-    icon: <HomeIcon />,
-    link: '/',
-  },
-  {
     title: 'Disclaimer',
-    icon: <HomeIcon />,
+    icon: <icons.DisclaimerIcon />,
     link: '/Disclaimer',
   },
   {
     title: 'Overview',
-    icon: <HomeIcon />,
+    icon: <icons.OverviewIcon />,
     link: '/Overview',
   },
   {
     title: 'CellAbundance',
-    icon: <HomeIcon />,
+    icon: <icons.CellAbundanceIcon />,
     link: '/CellAbundance',
   },
   {  
     /* AbundanceVolcano */
     title: 'GeneAbundance',
-    icon: <HomeIcon />,
+    icon: <icons.GeneAbundanceIcon />,
     link: '/GeneAbundance',
   },
   {
     title: 'Glossary',
-    icon: <HomeIcon />,
+    icon: <icons.GlossaryIcon />,
     link: '/Glossary',
   },
+/*  
   {
     title: 'CallToAction',
-    icon: <HomeIcon />,
+    icon: <icons.CallToActionIcon />,
     link: '/NextSteps',
   },
-  {
-    title: 'ExperimentalScratchpad',
-    icon: <HomeIcon />,
-    link: '/ExperimentalScratchpad',
-  },
+*/
 ];
 
 export default data;
