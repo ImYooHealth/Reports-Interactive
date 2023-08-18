@@ -8,8 +8,8 @@ import * as utils from './utils.js'
 let genes = utils.getGenesForDropdown()
 
 const margin = {top: 15, right: 0, bottom: 45, left: 0},
-width = 800 - margin.left - margin.right,
-height = 420 - margin.top - margin.bottom; 
+width = 750 - margin.left - margin.right,
+height = 400 - margin.top - margin.bottom; 
 
 // Offsets to ensure non-overlap
 let v_offset = 0
