@@ -21,7 +21,7 @@ export default function SidenavItems() {
           <Link to={item.link} key={item.title}>
             <span className={style.link}>
               <div
-                className={`p-2 ${item.link === pathname ? style.active : ''}`}
+                className={`p-2 pr-1 ${item.link === pathname ? style.active : ''}`}
               >
                 <span>{item.icon}</span>
               </div>
