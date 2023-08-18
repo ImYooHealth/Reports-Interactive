@@ -32,7 +32,7 @@ const Volcano = ({changeAbundanceGene}) => {
     }
 
     const headerStyle = {
-       fontSize: '20px',
+       fontSize: '21px',
        textAlign: 'center',
        fontFamily: 'Space Grotesk'
     }

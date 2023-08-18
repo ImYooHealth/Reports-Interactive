@@ -31,7 +31,7 @@ const Abundance = ({currentGene}) => {
     }
 
     const headerStyle = {
-       fontSize: '24px',
+       fontSize: '21px',
        textAlign: 'center',
        fontFamily: 'Space Grotesk'
      }

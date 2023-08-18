@@ -17,7 +17,7 @@ export const Overhead = ({ children, title }) => {
             <div className="flex flex-wrap">
                 <div className="p-4 rounded-3xl bg-gray-300">
 
-                    <div className="p-4 bg-white rounded-3xl">
+                    <div className="p-4 bg-gray-100 rounded-3xl">
                         {children}
                     </div>
                 </div>
@@ -41,7 +41,7 @@ export const CellAbundanceSpecificOverhead = ({ children, title }) => {
             <div className="flex flex-wrap">
                 <div className="p-4 rounded-3xl bg-gray-300">
 
-                    <div className="px-6 py-3 bg-white rounded-3xl">
+                    <div className="px-6 py-3 bg-gray-100 rounded-3xl">
                         {children}
                     </div>
                 </div>
