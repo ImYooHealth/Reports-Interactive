@@ -21,8 +21,8 @@ export const Overhead = ({ children, title }) => {
                         {children}
                     </div>
                 </div>
+                    <CommentBox />
             </div>
-
         </div>
     )
 }
