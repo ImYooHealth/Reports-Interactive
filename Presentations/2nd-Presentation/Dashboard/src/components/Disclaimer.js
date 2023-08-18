@@ -1,9 +1,7 @@
 import React from 'react'
+import DisclaimerUI from './DisclaimerUI.js'
 import { useHistory } from 'react-router-dom'
 import * as commonUtils from './commonUtils.js'
-import ComponentsCollection from './newUiIdeas.js'
-import DisclaimerUI from './DisclaimerUI.js'
-
 
 const Disclaimer = () => {
     const history = useHistory()
@@ -20,29 +18,10 @@ const Disclaimer = () => {
         }, 1500);
     };
 
-
     return (
-
-        <div className="flex w-textPage">            
-            <div className="bg-gray-800 py-6 px-6 rounded-3xl">
-
-                {/* Just Text */}
-                <div className="flex justify-between text-white items-center mb-8">
-                    <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>Disclaimer</p>
-                </div>
-
-                <div className="flex flex-wrap">
-                    <div className="p-4 rounded-3xl bg-gray-300">
-
-                    <div className="p-4 bg-white rounded-3xl">
-                        <DisclaimerUI />
-                    </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        <commonUtils.Overhead title="Disclaimer">
+            <DisclaimerUI />
+        </commonUtils.Overhead>
     );
 }
 
