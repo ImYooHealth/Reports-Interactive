@@ -14,7 +14,7 @@ const t2p3 = 'Each dot here is one of your cells, and how close they are to each
 const Overview = () => {
     return (
         <div className='w-textPage'>
-            <commonUtils.Overhead name="Overview">
+            <commonUtils.Overhead title="Overview">
                 <div className="flex flex-col">
                     <div className="flex flex-row">
                         <p className="w-1/2"> </p>
