@@ -53,9 +53,10 @@ var data_groups = {
 
 
 // Begin functions section
-margin = {top: 15, right: 10, bottom: 45, left: 10},
-width = 1500 - margin.left - margin.right,
+margin = {top: 15, right: 0, bottom: 45, left: 0},
+width = 1000 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
+
 
 export function initialize(theSvg, theCurrentGene) {
     abundance_svg = theSvg

@@ -32,14 +32,14 @@ const Volcano = ({changeAbundanceGene}) => {
     }
 
     const headerStyle = {
-       fontSize: '24px',
+       fontSize: '20px',
        textAlign: 'center',
        fontFamily: 'Space Grotesk'
     }
 
     return (
         <div id='volcano'>
-            <div style={{padding: '20px'}}>
+            <div className="pb-2">
                 <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
             </div>
             <h3 style={headerStyle}>Your {cellTypeName}' Signature</h3>

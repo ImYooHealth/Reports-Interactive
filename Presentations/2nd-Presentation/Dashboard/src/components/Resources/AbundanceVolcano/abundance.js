@@ -7,9 +7,9 @@ import Dropdown from './dropdown.js'
 import * as utils from './utils.js'
 let genes = utils.getGenesForDropdown()
 
-const margin = {top: 15, right: 30, bottom: 45, left: 50},
-width = 1500 - margin.left - margin.right,
-height = 500 - margin.top - margin.bottom; 
+const margin = {top: 15, right: 0, bottom: 45, left: 0},
+width = 800 - margin.left - margin.right,
+height = 420 - margin.top - margin.bottom; 
 
 // Offsets to ensure non-overlap
 let v_offset = 0
@@ -38,7 +38,7 @@ const Abundance = ({currentGene}) => {
 
     return (
         <div>
-            <div style={{padding: '20px'}}>
+            <div className="pb-2">
                 <Dropdown options={genes} handleChange={AbundanceUtils.handleChange} /> {/*theCurrentGene={currentGene}/>*/}
             </div>
             
@@ -49,7 +49,7 @@ const Abundance = ({currentGene}) => {
             <svg ref={svgRef} width={width}  height={height + v_offset}>
             </svg>
 
-            <div className='flex space-x-4' style={{paddingTop: '20px'}}>
+            <div className='flex'>
                 <div className='flex justify-end'>
                     <p style={paragraphStyle}>
                         * Units of Transcripts per Million (TPM): number
