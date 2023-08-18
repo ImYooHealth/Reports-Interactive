@@ -35,7 +35,6 @@ const CommentBox = () => {
     setIsCircle(!isCircle);
   };
 
-
   const handleClickSend = () => {
     setSendText(sendText === "Send!" ? "Sent!" : "Send!")
     sendFeedback(inputText)
@@ -48,7 +47,7 @@ const CommentBox = () => {
   }
 
   return (
-    <div className="flex items-center justify-center h-16">
+    <div className="flex items-center justify-center px-6 py-4 bg-white rounded-3xl">
       {isCircle ? (
         <div>
             <div
@@ -74,7 +73,6 @@ const CommentBox = () => {
                     >
                         Dismiss
                     </div>
-
 
                     <div
                     className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm"
