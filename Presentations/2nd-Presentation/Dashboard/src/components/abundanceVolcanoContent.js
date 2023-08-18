@@ -50,10 +50,7 @@ const GeneAbundance = ({ title }) => {
                         </div>
                     </div>
 
-                    <div className="p-7 bg-white rounded-3xl">
-                        <CommentBox />
-                    </div>
-
+                    <CommentBox />
                 </div>
             </div>
 

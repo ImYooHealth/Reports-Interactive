@@ -10,7 +10,7 @@ const volcanoDataPath = volcanoPath + 'Volcanoes/'
 const cellTypes = utils.getCellTypes()
 const margin = {top: 20, right: 0, bottom: 0, left: 0},
       width = 800 - margin.left - margin.right,
-      height = 325 - margin.top - margin.bottom;
+      height = 300 - margin.top - margin.bottom;
 var points
 
 // State
