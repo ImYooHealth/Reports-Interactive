@@ -9,7 +9,7 @@ let genes = utils.getGenes()
 
 
 const adjustment = {
-    transform: 'translateY(80px)', /* Shift the element vertically by 50 pixels */
+    transform: 'translateY(0px)', /* Shift the element vertically by 50 pixels */
 }
 
 const heights = {
@@ -29,7 +29,7 @@ const GeneAbundance = ({ title }) => {
             <div className="bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
 
                 {/* Just Text */}
-                <div className="flex justify-between text-white items-center mb-8">
+                <div className="flex justify-between text-white items-center mb-4">
                     <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>{title}</p>
                 </div>
 
@@ -37,15 +37,15 @@ const GeneAbundance = ({ title }) => {
                     {/* Abundance and Volcano in here */}
                     <div className="p-4 rounded-3xl bg-gray-300">
                         {/* Volcano */}
-                        <div className="p-7 bg-white rounded-3xl outsideVolcano">
+                        <div className="p-6 bg-white rounded-3xl outsideVolcano">
                             <Volcano changeAbundanceGene={handleGeneChange}/>
                         </div>
 
-                        <div className="p-1">
+                        <div className="p-1.5">
                         </div>
 
                         {/* Abundance */}
-                        <div className="p-7 bg-white rounded-3xl">
+                        <div className="p-6 bg-white rounded-3xl">
                             <Abundance currentGene={currentGene}/>
                         </div>
                     </div>
@@ -57,15 +57,14 @@ const GeneAbundance = ({ title }) => {
                 </div>
             </div>
 
-
+            {/* The side items */}
             <div className="bg-gray-900 py-6 rounded-3xl w-full ml-8 lg:w-4/12">
 
-                {/* Just Text */}
-                <div className="py-5 flex justify-between text-white items-center mb-8">
-                    <p className="text-2xl font-bold" style={{display: 'none', fontFamily: "Space Grotesk"}}></p>
+                {/* Just padding */}
+                <div className="py-4 flex justify-between text-white items-center mb-8">
                 </div>
 
-                <div className="flex h-1/3 mb-24 p-4 rounded-3xl bg-gray-300">
+                <div className="flex h-1/3 mb-1 p-4 rounded-3xl bg-gray-300">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-6 pt-6">
                         <div className="flex text-white font-medium pb-6">
                             Gene Abundance
@@ -92,7 +91,12 @@ const GeneAbundance = ({ title }) => {
                     </div>
                 </div>
                  {/* absolute top-0 left-20 px-50 w-200 h-100 */}
-                <div style={adjustment} className="flex h-1/3 mt-24 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
+
+                {/* Just padding */}
+                <div className="p-2 flex justify-between text-white items-center">
+                </div>
+
+                <div className="mt-20 flex h-1/3 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-6 pt-6">
                         <div className="flex text-white font-medium pb-6">
                             Gene Abundance
@@ -118,10 +122,7 @@ const GeneAbundance = ({ title }) => {
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     )
 };

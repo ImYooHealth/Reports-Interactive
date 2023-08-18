@@ -8,9 +8,9 @@ const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = utils.dataPath
 const volcanoDataPath = volcanoPath + 'Volcanoes/'
 const cellTypes = utils.getCellTypes()
-const margin = {top: 10, right: 30, bottom: 40, left: 50},
-      width = 1500 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+const margin = {top: 20, right: 0, bottom: 0, left: 0},
+      width = 800 - margin.left - margin.right,
+      height = 325 - margin.top - margin.bottom;
 var points
 
 // State
