@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import * as commonUtils from './commonUtils.js'
 import * as utils from './Resources/Overview/utils.js'
 import ComponentsCollection from './newUiIdeas.js'
@@ -22,13 +23,19 @@ const Overview = () => {
                     </div>
 
                     <div className="flex flex-row pb-10">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-1/2">
                             <p className="text-xl">{t1p1}</p>
                             <p className="text-xl">{t1p2}</p>
                             <p className="text-xl">{t1p3}</p>
                             <p className="text-xl">{t1p4}</p>
                         </div>
-                        <img className="w-1/2 pl-5" src="http://localhost:31339/Overview/sunburst.png" />
+                        <div className="flex flex-col w-1/2">
+                            {/* Deployment: edit path */}
+                            <img className="pl-5" src="http://localhost:31339/Overview/sunburst.svg" />
+                            <div className="text-center justify-right inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-lg">
+                                <Link to="/CellAbundance">See how you compare to others</Link>
+                            </div>
+                        </div>                            
                     </div>
 
                     <div className="flex flex-row">
@@ -36,7 +43,10 @@ const Overview = () => {
                         <p className="w-1/3"> </p>
                     </div>
 
+
+
                     <div className="flex flex-row">
+                        {/* Deployment: edit path */}
                         <img className="w-1/2 pr-5" src="http://localhost:31339/Overview/tsne.png" />
                         <div className="flex flex-col">
                             <p className="text-xl">{t1p1}</p>
