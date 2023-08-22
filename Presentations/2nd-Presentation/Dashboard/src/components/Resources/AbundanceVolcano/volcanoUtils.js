@@ -259,7 +259,8 @@ d3v3.helper.tooltip = function(){
                 padding: '5px',
                 position: 'absolute',
                 'z-index': 1001,
-                'box-shadow': '0 1px 2px 0 #656565'
+                'box-shadow': '0 1px 2px 0 #656565',
+                'max-width':  '300px',
             });
 
             console.log(pD.gene_name)
@@ -268,16 +269,21 @@ d3v3.helper.tooltip = function(){
             console.log(pD.gene_name)
             console.log(pD.gene_name)
             console.log(pD.gene_name)
-            var first_line = '<p>Gene: ' + pD.gene_name + '</p>\n'
-            tooltipDiv.html(first_line)
             console.log(pD.gene_name)
             console.log(gene_description[pD.gene_name])
             console.log(gene_description)
             console.log(gene_description['ASIC1'])
             console.log(gene_description['DOCK4'])
             console.log(gene_description['MTRNR2L8'])
-            var second_line = '<p>' + gene_description[pD.gene_name] + '</p>\n'
-            tooltipDiv.html(first_line + second_line)
+            var description = gene_description[pD.gene_name]
+            if(description != 'No description available' && description !== undefined) {
+                var first_line = '<p>Gene: ' + pD.gene_name + '</p>\n'
+                var second_line = '<p>' + gene_description[pD.gene_name] + '</p>\n'
+                tooltipDiv.html(first_line + second_line)
+            } else {
+                var first_line = '<p>Gene: ' + pD.gene_name + '</p>\n'
+                tooltipDiv.html(first_line)
+            }
             
         })
         .on('mousemove.tooltip', function(pD, pI) {
