@@ -14,46 +14,42 @@ function App() {
     const [hasVisitedDisclaimer, setHasVisitedDisclaimer] = useState(false);
 
     const handleDisclaimerVisit = () => {
-        console.log('Before visiting disclaimer. hasVisitedDisclaimer == ' + hasVisitedDisclaimer)
         setHasVisitedDisclaimer(true);
     };
 
-
-        console.log('Current disclaimer visit status: hasVisitedDisclaimer == ' + hasVisitedDisclaimer)
-
-  return (
-    <Router>
-        <Switch>
-            <Route exact path="/">
-                <LoginPage />
-            </Route>
-
-            {!hasVisitedDisclaimer ? (
-                <Route exact path="/Disclaimer">
-                    <DisclaimerPage onVisit={handleDisclaimerVisit} hasVisitedDisclaimer={hasVisitedDisclaimer}/>
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/">
+                    <LoginPage />
                 </Route>
-            ) : (
-                <DashboardLayout>
+
+                {!hasVisitedDisclaimer ? (
                     <Route exact path="/Disclaimer">
-                        <DisclaimerPage hasVisitedDisclaimer={hasVisitedDisclaimer}/>
+                        <DisclaimerPage onVisit={handleDisclaimerVisit} hasVisitedDisclaimer={hasVisitedDisclaimer}/>
                     </Route>
-                    <Route exact path="/Overview">
-                        <OverviewPage />
-                    </Route>
-                    <Route exact path="/CellAbundance">
-                        <CellAbundancePage />
-                    </Route>
-                    <Route exact path="/GeneAbundance">
-                        <GeneAbundancePage />
-                    </Route>
-                    <Route exact path="/Glossary">
-                        <GlossaryPage />
-                    </Route>
-                </DashboardLayout>
-            )}
-        </Switch>
-    </Router>
-  );
+                ) : (
+                    <DashboardLayout>
+                        <Route exact path="/Disclaimer">
+                            <DisclaimerPage hasVisitedDisclaimer={hasVisitedDisclaimer}/>
+                        </Route>
+                        <Route exact path="/Overview">
+                            <OverviewPage />
+                        </Route>
+                        <Route exact path="/CellAbundance">
+                            <CellAbundancePage />
+                        </Route>
+                        <Route exact path="/GeneAbundance">
+                            <GeneAbundancePage />
+                        </Route>
+                        <Route exact path="/Glossary">
+                            <GlossaryPage />
+                        </Route>
+                    </DashboardLayout>
+                )}
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
