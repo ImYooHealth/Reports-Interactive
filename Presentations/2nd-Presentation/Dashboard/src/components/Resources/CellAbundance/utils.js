@@ -8,7 +8,6 @@ export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.healt
 let max_genes = 1   // Not to exceed 1
 
 export function readCSVFile(filePath) {
-    console.log(filePath)
   filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
@@ -40,11 +39,8 @@ export function readCSVFile(filePath) {
     result.push(obj);
   }
 
-  console.log(result)
-
   // Validate
   if(result[0]['<!DOCTYPE html>'] === undefined)  {
-    console.log('readcsvfile returning')
     return result;
   } else {
     throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +

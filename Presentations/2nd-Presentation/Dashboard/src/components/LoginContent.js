@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 
-const ExampleLogin = () => {
+const LoginContent = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,13 +23,13 @@ const ExampleLogin = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
-      <div className="bg-white p-8 shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div className="flex justify-center items-center h-screen w-screen bg-gray-800">
+      <div className="bg-gray-800 p-8 rounded-lg">
+        <h2 className="text-2xl font-bold mb-4 text-white">Login</h2>
 
         <form>
           <div className="mb-4">
-            <label htmlFor="username" className="block font-medium mb-2">
+            <label htmlFor="username" className="block text-white font-medium mb-2">
               Username
             </label>
             <input
@@ -41,7 +41,7 @@ const ExampleLogin = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-medium mb-2">
+            <label htmlFor="password" className="block font-medium text-white mb-2">
               Password
             </label>
             <input
@@ -67,4 +67,4 @@ const ExampleLogin = () => {
   );
 };
 
-export default ExampleLogin;
+export default LoginContent;

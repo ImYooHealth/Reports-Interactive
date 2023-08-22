@@ -1,12 +1,10 @@
 import * as commonUtils from './commonUtils.js'
-import ExampleLogin from './exampleLogin.js'
+import LoginContent from './LoginContent.js'
 import CommentBox from './comment_box'
 
 const Login = () => {
     return (
-        <commonUtils.Overhead>
-            <ExampleLogin name="Login"/>
-        </commonUtils.Overhead>
+        <LoginContent name="Login"/>
     );
 }
 
