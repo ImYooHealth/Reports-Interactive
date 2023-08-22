@@ -63,8 +63,8 @@ const GeneAbundance = ({ title }) => {
 
                 <div className="flex h-1/3 mb-1 p-4 rounded-3xl bg-gray-300">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-6 pt-6">
-                        <div className="flex text-white font-medium pb-6">
-                            Gene Abundance
+                        <div className="flex text-white font-medium pb-1">
+                            Volcano Plot
                         </div>
                         <div>
                             <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
@@ -74,13 +74,19 @@ const GeneAbundance = ({ title }) => {
                                     className="object-cover w-10 h-10 rounded-full"
                                 />
                                 <div className="pl-4 w-full">
-                                    <div className="flex items-center justify-between w-full">
-                                        <div className="text-white font-medium">Title</div>
-                                        <div className="flex justify-center items-center cursor-pointer h-7 w-7">
-                                        </div>
-                                    </div>
+
                                     <p className="my-2 text-sm text-gray-400">
-                                        Description of gene abundance
+                                        In this view you can explore gene expression signatures in the different immune cell types.
+                                    </p>
+                                    <p className="my-2 text-sm text-gray-400">
+                                        Genes to the left of y-axis are less present in your cells compared to other people in ImYoo’s database, and genes to the right of the y-axis are more present compared to other people. 
+                                    </p>
+                                    <p className="my-2 text-sm text-gray-400">
+                                        To select a cell type, use the drop-down menu. 
+                                        Hover over a point to see the name of the gene.
+                                        To get information about a gene, click on its point. 
+                                        To zoom in, click and drag to select an area. 
+                                        To zoom out, double click anywhere on the plot. 
                                     </p>
                                 </div>
                             </div>
@@ -95,7 +101,7 @@ const GeneAbundance = ({ title }) => {
 
                 <div className="mt-20 flex h-1/3 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-6 pt-6">
-                        <div className="flex text-white font-medium pb-6">
+                        <div className="flex text-white font-medium pb-1">
                             Gene Abundance
                         </div>
                         <div>
@@ -106,13 +112,12 @@ const GeneAbundance = ({ title }) => {
                                     className="object-cover w-10 h-10 rounded-full"
                                 />
                                 <div className="pl-4 w-full">
-                                    <div className="flex items-center justify-between w-full">
-                                        <div className="text-white font-medium">Title</div>
-                                        <div className="flex justify-center items-center cursor-pointer h-7 w-7">
-                                        </div>
-                                    </div>
                                     <p className="my-2 text-sm text-gray-400">
-                                        Description of gene abundance
+                                        In this view you can explore how much of a gene is expressed in various cell types. Below is a boxplot showing your average gene expression of selected in gene in specific cell type compared to those of other participants. 
+                                    </p>
+                                    <p className="my-2 text-sm text-gray-400">
+                                        Use the dropdown to browse genes. 
+                                        To search for a specific gene, type its name into the dropdown. 
                                     </p>
                                 </div>
                             </div>
