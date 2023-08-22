@@ -32,7 +32,7 @@ export const OverviewIcon = () => (
 export const CellAbundanceIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-8 w-8 pr-1"
+    className="h-10 w-10 pr-1"
     fill="none"
     viewBox="0 0 64 64"
     stroke="currentColor"
