@@ -4,8 +4,6 @@ import * as commonUtils from './commonUtils.js'
 import DisclaimeUI from './DisclaimerUI.js'
 
 const Disclaimer = ({onVisit, hasVisitedDisclaimer}) => {
-    console.log('In Disclaimer. hasVisitedDisclaimer is:')
-    console.log(hasVisitedDisclaimer)
     return (
         <div>
             {!hasVisitedDisclaimer ? (
