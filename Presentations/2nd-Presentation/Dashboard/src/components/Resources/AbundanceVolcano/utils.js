@@ -1,11 +1,27 @@
 var deployed = false;
 
-export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/__secrets__00/' : 'http://localhost:31339/__secrets__00/'
+export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/GeneAbundance/' : 'http://localhost:31339/GeneAbundance/'
 export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
 
-const max_genes = 500 // Not to exceed 4999
+const max_genes = 500  // Not to exceed 4999
 
-export function readCSVFile(filePath) {
+export function getGeneDescriptions() {
+    const rawDescriptionData = readCSVFile(dataPath + 'GeneDescriptions', false)
+
+    // Repackage as name:description dictionary
+    var descriptionLookup = {}
+    for(var row of rawDescriptionData) {
+        descriptionLookup[row['gene_name']] = row['gene_description']
+    }
+
+    console.log(descriptionLookup)
+    console.log('MTRNR2L8' in descriptionLookup)
+
+    return descriptionLookup
+}
+
+export function readCSVFile(filePath, enforceMax = true) {
+    console.log(filePath, enforceMax)
   filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
@@ -26,8 +42,10 @@ export function readCSVFile(filePath) {
 
   const result = [];
   for (let i = 0; i < dataRows.length; i++) {
-    if(i >= max_genes) {
-        break
+    if(enforceMax) {
+        if(i >= max_genes) {
+            break
+        }
     }
     const dataRow = dataRows[i].split(",");
     const obj = {};
