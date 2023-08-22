@@ -211,7 +211,25 @@ export function initVolcano(path) {
         .attr("cx", function(d) { return volcano_x(d[VOLCANO_HORIZONTAL]); })
         .attr("cy", function(d) { return volcano_y(d[VOLCANO_VERTICAL]); })
         .call(d3v3.helper.tooltip())
-        .on('click', click_circle)
+    .on('mouseenter', function() {
+        // Save the current z-index
+        var currentZIndex = parseInt(d3.select(this).attr("z-index"));
+        d3.select(this).attr("prev-z-index", currentZIndex);
+        
+        // Set a higher z-index to bring the point on top
+        d3.select(this).attr("z-index", 0);
+        
+        // Add the 'selected' class
+        d3.select(this).classed("selected", true);
+    })
+    .on('mouseleave', function() {
+        // Restore the previous z-index
+        var prevZIndex = parseInt(d3.select(this).attr("prev-z-index"));
+        d3.select(this).attr("z-index", prevZIndex);
+        
+        // Remove the 'selected' class
+        d3.select(this).classed("selected", false);
+    })
 
 /*
     points.on('mousedown', function() {
@@ -263,18 +281,6 @@ d3v3.helper.tooltip = function(){
                 'max-width':  '300px',
             });
 
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(pD.gene_name)
-            console.log(gene_description[pD.gene_name])
-            console.log(gene_description)
-            console.log(gene_description['ASIC1'])
-            console.log(gene_description['DOCK4'])
-            console.log(gene_description['MTRNR2L8'])
             var description = gene_description[pD.gene_name]
             if(description != 'No description available' && description !== undefined) {
                 var first_line = '<p>Gene: ' + pD.gene_name + '</p>\n'

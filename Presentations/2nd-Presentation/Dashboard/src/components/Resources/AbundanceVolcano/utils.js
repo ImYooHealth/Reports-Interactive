@@ -11,21 +11,18 @@ export function getGeneDescriptions() {
     // Repackage as name:description dictionary
     var descriptionLookup = {}
     for(var row of rawDescriptionData) {
-        // Cleanup)
+        // Cleanup
         if(row['gene_description'][0] == '"') {
-            console.log('slicing!')
             row['gene_description'] = row['gene_description'].slice(1)
         }
         descriptionLookup[row['gene_name']] = row['gene_description']
     }
 
-    console.log(descriptionLookup['MAPK1'])
-
     return descriptionLookup
 }
 
 export function readCSVFile(filePath, enforceMax = true) {
-    console.log(filePath, enforceMax)
+
   filePath += '.csv'
   const request = new XMLHttpRequest();
   request.open("GET", filePath, false);
