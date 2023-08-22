@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 
-const DisclaimerUI = () => {
+const DisclaimerUI = ({onVisit}) => {
     const history = useHistory()
     const [isLoading, setIsLoading] = React.useState(false)    
   const [isChecked, setIsChecked] = useState(false);
@@ -30,6 +30,7 @@ const DisclaimerUI = () => {
     setTimeout(() => {
         setIsLoading(false);
         console.log(`Disclaimer Signed. Redirecting to AbundanceVolcano.`);
+        onVisit()
         history.push('/Overview')
     }, 1500);
   };

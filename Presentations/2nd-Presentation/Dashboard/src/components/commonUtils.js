@@ -27,6 +27,33 @@ export const Overhead = ({ children, title }) => {
     )
 }
 
+export const DisclaimerUnsigned = ({ children, title }) => {
+    return (
+        <div className="flex items-center justify-center w-screen h-screen bg-gray-800 py-6 px-6">
+
+            <div className="flex flex-col">
+                {/* Just Text */}
+                <div className="flex justify-center text-white items-center mb-4">
+                    <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
+                        {title}
+                    </p>
+                </div>
+
+                <div className="flex flex-wrap w-textPage">
+                    <div className="p-4 rounded-3xl bg-gray-300">
+
+                        <div className="p-4 bg-gray-100 rounded-3xl">
+                            {children}
+                        </div>
+                    </div>
+                    <CommentBox />
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
 export const CellAbundanceSpecificOverhead = ({ children, title }) => {
     return (
         <div className="bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
