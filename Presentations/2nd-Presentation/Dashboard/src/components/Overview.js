@@ -31,7 +31,7 @@ const Overview = () => {
                         </div>
                         <div className="flex flex-col w-1/2">
                             {/* Deployment: edit path */}
-                            <img className="pl-5" src="http://localhost:31339/Overview/sunburst.svg" />
+                            <img className="pl-5 pb-2" src="http://localhost:31339/Overview/sunburst.svg" />
                             <div className="text-center justify-right inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-lg">
                                 <Link to="/CellAbundance">See how you compare to others</Link>
                             </div>
@@ -49,10 +49,9 @@ const Overview = () => {
                         {/* Deployment: edit path */}
                         <img className="w-1/2 pr-5" src="http://localhost:31339/Overview/tsne.png" />
                         <div className="flex flex-col">
-                            <p className="text-xl">{t1p1}</p>
-                            <p className="text-xl">{t1p2}</p>
-                            <p className="text-xl">{t1p3}</p>
-                            <p className="text-xl">{t1p4}</p>
+                            <p className="text-xl">{t2p1}</p>
+                            <p className="text-xl">{t2p2}</p>
+                            <p className="text-xl">{t2p3}</p>
                         </div>
                     </div>
                 </div>
