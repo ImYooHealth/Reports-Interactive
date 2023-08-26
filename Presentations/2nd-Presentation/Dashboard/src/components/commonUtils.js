@@ -9,7 +9,7 @@ export const Overhead = ({ children, title }) => {
 
             {/* Just Text */}
             <div className="flex justify-between text-white items-center mb-4">
-                <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
                     {title}
                 </p>
             </div>
@@ -34,7 +34,7 @@ export const DisclaimerUnsigned = ({ children, title }) => {
             <div className="flex flex-col">
                 {/* Just Text */}
                 <div className="flex justify-center text-white items-center mb-4">
-                    <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
+                    <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
                         {title}
                     </p>
                 </div>
@@ -60,7 +60,7 @@ export const CellAbundanceSpecificOverhead = ({ children, title }) => {
 
             {/* Just Text */}
             <div className="flex justify-between text-white items-center mb-4">
-                <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>
                     {title}
                 </p>
             </div>

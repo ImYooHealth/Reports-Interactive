@@ -41,7 +41,7 @@ const Abundance = ({currentGene}) => {
                 <h3 className="pb-1" style={headerStyle}>Your Immune Army</h3>
             </div>
             
-            <p className="text-base pb-4">
+            <p style={{fontFamily: "Space Grotesk"}} className="text-base pb-4">
             These are your immune cells, broken down by type. You can see how much each type contributes to the population of your immune army as a whole, and see how yours compare to the broader population of fellow participants.
             </p>
 
@@ -50,7 +50,7 @@ const Abundance = ({currentGene}) => {
             <div >
                 <div className='flex items-center justify-center'>
                 
-                    <p className="pb-1" style={{fontSize: '20px', fontFamily: 'Space Grotesk'}}>Your Immune Cells By Type</p>
+                    <p style={{fontFamily: "Space Grotesk"}} className="pb-1" style={{fontSize: '20px', fontFamily: 'Space Grotesk'}}>Your Immune Cells By Type</p>
 
                 </div>                
             </div>

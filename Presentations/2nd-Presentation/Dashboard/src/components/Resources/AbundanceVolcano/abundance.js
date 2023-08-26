@@ -51,7 +51,7 @@ const Abundance = ({currentGene}) => {
 
             <div className='flex'>
                 <div className='flex justify-end'>
-                    <p style={paragraphStyle}>
+                    <p style={{fontFamily: "Space Grotesk"}} style={paragraphStyle}>
                         * Units of Transcripts per Million (TPM): number
                         of transcripts of this gene counted per
                         million transcripts counted.

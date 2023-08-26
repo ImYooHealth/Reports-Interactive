@@ -18,16 +18,16 @@ const Overview = () => {
             <commonUtils.Overhead title="Overview">
                 <div className="flex flex-col">
                     <div className="flex flex-row">
-                        <p className="w-1/2"> </p>
-                        <p className="text-2xl pl-20">Your Immune Army</p>
+                        <p style={{fontFamily: "Space Grotesk"}} className="w-1/2"> </p>
+                        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl pl-20">Your Immune Army</p>
                     </div>
 
                     <div className="flex flex-row pl-2 pb-10">
                         <div className="flex flex-col w-1/2">
-                            <p className=" text-lg pb-2">{t1p1}</p>
-                            <p className="text-lg pb-2">{t1p2}</p>
-                            <p className="text-lg pb-2">{t1p3}</p>
-                            <p className="text-lg">{t1p4}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className=" text-lg pb-2">{t1p1}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-2">{t1p2}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-2">{t1p3}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg">{t1p4}</p>
                         </div>
                         <div className="flex flex-col w-1/2">
                             {/* Deployment: edit path */}
@@ -39,16 +39,16 @@ const Overview = () => {
                     </div>
 
                     <div className="flex flex-row">
-                        <p className="text-2xl pl-2">Welcome to ImYoo's Database!</p>
+                        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl pl-2">Welcome to ImYoo's Database!</p>
                     </div>
 
                     <div className="flex flex-row">
                         {/* Deployment: edit path */}
                         <img className="w-1/2 h-full mt-6" src="http://localhost:31339/Overview/tsne.png" />
                         <div className="flex flex-col w-1/2">
-                            <p className="text-lg pb-1">{t2p1}</p>
-                            <p className="text-lg pb-1">{t2p2}</p>
-                            <p className="text-lg pb-1">{t2p3}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-1">{t2p1}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-1">{t2p2}</p>
+                            <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-1">{t2p3}</p>
                         </div>
                     </div>
                 </div>

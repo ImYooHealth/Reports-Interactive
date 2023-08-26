@@ -50,7 +50,7 @@ const Volcano = ({changeAbundanceGene}) => {
 
             <div className='flex space-x-4' style={{paddingTop: '20px'}}>
                 <div className='flex justify-end'>
-                    <p style={paragraphStyle}>
+                    <p style={{fontFamily: "Space Grotesk"}} style={paragraphStyle}>
                         * Wald statistic of differential expression over reference database using DEseq2
                     </p>
                 </div>
