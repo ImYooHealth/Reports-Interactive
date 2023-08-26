@@ -41,7 +41,7 @@ const DisclaimerUI = ({onVisit}) => {
 
   return (
     <div>
-        <p className='text-left text-xl pt-3 pl-3 pr-3'>
+        <p style={{fontFamily: "Space Grotesk"}} className='text-left text-xl pt-3 pl-3 pr-3'>
             {text1}
         </p>
 
@@ -59,7 +59,7 @@ const DisclaimerUI = ({onVisit}) => {
 
         <label className="flex flex-row items-center justify-center mx-8">
             <input className="h-6 w-6 mx-5 outline border-gray-900" type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
-            <p className='text-center font-bold text-xl mr-10'>
+            <p style={{fontFamily: "Space Grotesk"}} className='text-center font-bold text-xl mr-10'>
                 I acknowledge I have read the above and understand this report is not for diagnostic use
             </p>
         </label>
@@ -67,7 +67,7 @@ const DisclaimerUI = ({onVisit}) => {
 
         <div className="flex flex-col items-center pb-3">
             <div className="flex flex-row p-6">
-                <p className='font-bold text-xl p-3'>Signed:</p>
+                <p style={{fontFamily: "Space Grotesk"}} className='font-bold text-xl p-3'>Signed:</p>
                 <input className='p-3 border border-gray-900 rounded-2xl' type="text" value={textFieldValue} onChange={handleTextFieldChange} placeholder="Your Name" />
             </div>
 

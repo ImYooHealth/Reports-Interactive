@@ -2,8 +2,8 @@ const Content = ({ title }) => (
   <div className="flex flex-wrap">
     <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl">
       <div className="flex justify-between text-white items-center mb-8">
-        <p className="text-2xl font-bold">{title}</p>
-        <p className="">December, 12</p>
+        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold">{title}</p>
+        <p style={{fontFamily: "Space Grotesk"}} className="">December, 12</p>
       </div>
       /* Encloses cards
       <div className="flex flex-wrap">
@@ -15,15 +15,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-indigo-700 w-5/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">50%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">50%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">

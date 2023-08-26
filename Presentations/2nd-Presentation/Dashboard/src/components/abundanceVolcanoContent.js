@@ -30,7 +30,7 @@ const GeneAbundance = ({ title }) => {
 
                 {/* Just Text */}
                 <div className="flex justify-between text-white items-center mb-4">
-                    <p className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>{title}</p>
+                    <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold" style={{fontFamily: "Space Grotesk"}}>{title}</p>
                 </div>
 
                 <div className="flex flex-wrap">
@@ -75,13 +75,13 @@ const GeneAbundance = ({ title }) => {
                                 />
                                 <div className="pl-4 w-full">
 
-                                    <p className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         In this view you can explore gene expression signatures in the different immune cell types.
                                     </p>
-                                    <p className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         Genes to the left of y-axis are less present in your cells compared to other people in ImYoo’s database, and genes to the right of the y-axis are more present compared to other people. 
                                     </p>
-                                    <p className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         To select a cell type, use the drop-down menu. 
                                         Hover over a point to see the name of the gene.
                                         To get information about a gene, click on its point. 
@@ -112,10 +112,10 @@ const GeneAbundance = ({ title }) => {
                                     className="object-cover w-10 h-10 rounded-full"
                                 />
                                 <div className="pl-4 w-full">
-                                    <p className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         In this view you can explore how much of a gene is expressed in various cell types. Below is a boxplot showing your average gene expression of selected in gene in specific cell type compared to those of other participants. 
                                     </p>
-                                    <p className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         Use the dropdown to browse genes. 
                                         To search for a specific gene, type its name into the dropdown. 
                                     </p>

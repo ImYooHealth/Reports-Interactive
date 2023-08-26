@@ -2,8 +2,8 @@ const Content = ({ title }) => (
   <div className="flex flex-wrap">
     <div className="w-full lg:w-8/12 bg-gray-800 py-6 px-6 rounded-3xl">
       <div className="flex justify-between text-white items-center mb-8">
-        <p className="text-2xl font-bold">{title}</p>
-        <p className="">December, 12</p>
+        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold">{title}</p>
+        <p style={{fontFamily: "Space Grotesk"}} className="">December, 12</p>
       </div>
       <div className="flex flex-wrap justify-between items-center pb-8">
         <div className="flex flex-wrap text-white">
@@ -72,15 +72,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-yellow-700 w-6/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">60%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">60%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -125,15 +125,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-indigo-700 w-5/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">50%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">50%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -178,15 +178,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-green-700 w-7/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">70%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">70%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -231,15 +231,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-blue-700 w-7/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">70%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">70%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -284,15 +284,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-red-700 w-7/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">70%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">70%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -337,15 +337,15 @@ const Content = ({ title }) => (
                 <span className="text-sm">December 10, 2020</span>
               </div>
               <div className="text-center mb-4 mt-5">
-                <p className="text-base font-bold opacity-70">Web Designing</p>
-                <p className="text-sm opacity-70 mt-2">Prototyping</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-base font-bold opacity-70">Web Designing</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm opacity-70 mt-2">Prototyping</p>
               </div>
               <div>
-                <p className="text-sm font-bold m-0">Progress</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-sm font-bold m-0">Progress</p>
                 <div className="w-full h-1 rounded-md overflow-hidden bg-white my-2 mx-0">
                   <span className="block h-1 rounded-md bg-purple-700 w-7/12" />
                 </div>
-                <p className="text-right m-0 text-sm font-bold">70%</p>
+                <p style={{fontFamily: "Space Grotesk"}} className="text-right m-0 text-sm font-bold">70%</p>
               </div>
               <div className="flex justify-between pt-4 relative">
                 <div className="flex items-center">
@@ -417,11 +417,11 @@ const Content = ({ title }) => (
                   </svg>
                 </div>
               </div>
-              <p className="my-2 text-sm text-gray-400">
+              <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                 I got your first assignment. It was quite good. 🥳 We can
                 continue with the next assignment.
               </p>
-              <p className="text-right text-gray-400 text-sm">Dec, 12</p>
+              <p style={{fontFamily: "Space Grotesk"}} className="text-right text-gray-400 text-sm">Dec, 12</p>
             </div>
           </div>
           <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
@@ -450,11 +450,11 @@ const Content = ({ title }) => (
                   </svg>
                 </div>
               </div>
-              <p className="my-2 text-sm text-gray-400">
+              <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                 Hey, can tell me about progress of project? I'm waiting for your
                 response.
               </p>
-              <p className="text-right text-gray-400 text-sm">Dec, 12</p>
+              <p style={{fontFamily: "Space Grotesk"}} className="text-right text-gray-400 text-sm">Dec, 12</p>
             </div>
           </div>
           <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
@@ -483,11 +483,11 @@ const Content = ({ title }) => (
                   </svg>
                 </div>
               </div>
-              <p className="my-2 text-sm text-gray-400">
+              <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                 Hey, can tell me about progress of project? I'm waiting for your
                 response.
               </p>
-              <p className="text-right text-gray-400 text-sm">Dec, 12</p>
+              <p style={{fontFamily: "Space Grotesk"}} className="text-right text-gray-400 text-sm">Dec, 12</p>
             </div>
           </div>
           <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
@@ -516,10 +516,10 @@ const Content = ({ title }) => (
                   </svg>
                 </div>
               </div>
-              <p className="my-2 text-sm text-gray-400">
+              <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                 I am really impressed! Can't wait to see the final result.
               </p>
-              <p className="text-right text-gray-400 text-sm">Dec, 12</p>
+              <p style={{fontFamily: "Space Grotesk"}} className="text-right text-gray-400 text-sm">Dec, 12</p>
             </div>
           </div>
         </div>
