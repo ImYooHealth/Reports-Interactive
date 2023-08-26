@@ -55,7 +55,7 @@ const GeneAbundance = ({ title }) => {
             </div>
 
             {/* The side items */}
-            <div className="bg-gray-900 py-6 rounded-3xl w-full ml-8 lg:w-4/12">
+            <div className="bg-gray-900 py-6 rounded-3xl ml-8" style={{ width: '500px', minWidth: '500px' }}>
 
                 {/* Just padding */}
                 <div className="py-4 flex justify-between text-white items-center mb-8">
@@ -67,14 +67,13 @@ const GeneAbundance = ({ title }) => {
                             Volcano Plot
                         </div>
                         <div>
-                            <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
+                            <div className="border-t solid border-gray-700 p-2 flex 2xl:items-start w-full ">
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Monocytes%2C_a_type_of_white_blood_cell_%28Giemsa_stained%29.jpg/640px-Monocytes%2C_a_type_of_white_blood_cell_%28Giemsa_stained%29.jpg"
                                     alt="profile image"
                                     className="object-cover w-10 h-10 rounded-full"
                                 />
                                 <div className="pl-4 w-full">
-
                                     <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         In this view you can explore gene expression signatures in the different immune cell types.
                                     </p>
@@ -101,18 +100,18 @@ const GeneAbundance = ({ title }) => {
 
                 <div className="mt-20 flex h-1/3 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-6 pt-6">
-                        <div className="flex text-white font-medium pb-1">
+                        <div className="flex text-white font-medium pb-2">
                             Gene Abundance
                         </div>
                         <div>
-                            <div className="border-t solid border-gray-700 p-4 flex 2xl:items-start w-full hover:bg-gray-700">
+                            <div className="border-t solid border-gray-700 p-2 flex 2xl:items-start w-full">
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Monocytes%2C_a_type_of_white_blood_cell_%28Giemsa_stained%29.jpg/640px-Monocytes%2C_a_type_of_white_blood_cell_%28Giemsa_stained%29.jpg"
                                     alt="profile image"
                                     className="object-cover w-10 h-10 rounded-full"
                                 />
                                 <div className="pl-4 w-full">
-                                    <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
+                                    <p style={{fontFamily: "Space Grotesk"}} className="mb-2 text-sm text-gray-400">
                                         In this view you can explore how much of a gene is expressed in various cell types. Below is a boxplot showing your average gene expression of selected in gene in specific cell type compared to those of other participants. 
                                     </p>
                                     <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
