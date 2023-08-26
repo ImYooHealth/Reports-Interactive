@@ -22,16 +22,16 @@ const Overview = () => {
                         <p className="text-2xl pl-20">Your Immune Army</p>
                     </div>
 
-                    <div className="flex flex-row pb-10">
+                    <div className="flex flex-row pl-2 pb-10">
                         <div className="flex flex-col w-1/2">
-                            <p className="text-xl">{t1p1}</p>
-                            <p className="text-xl">{t1p2}</p>
-                            <p className="text-xl">{t1p3}</p>
-                            <p className="text-xl">{t1p4}</p>
+                            <p className=" text-lg pb-2">{t1p1}</p>
+                            <p className="text-lg pb-2">{t1p2}</p>
+                            <p className="text-lg pb-2">{t1p3}</p>
+                            <p className="text-lg">{t1p4}</p>
                         </div>
                         <div className="flex flex-col w-1/2">
                             {/* Deployment: edit path */}
-                            <img className="pl-5 pb-2" src="http://localhost:31339/Overview/sunburst.svg" />
+                            <img className="pl-5 p-2" src="http://localhost:31339/Overview/sunburst.svg" />
                             <div className="text-center justify-right inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-lg">
                                 <Link to="/CellAbundance">See how you compare to others</Link>
                             </div>
@@ -39,19 +39,16 @@ const Overview = () => {
                     </div>
 
                     <div className="flex flex-row">
-                        <p className="text-2xl pl-1">Welcome to ImYoo's Database!</p>
-                        <p className="w-1/3"> </p>
+                        <p className="text-2xl pl-2">Welcome to ImYoo's Database!</p>
                     </div>
-
-
 
                     <div className="flex flex-row">
                         {/* Deployment: edit path */}
-                        <img className="w-1/2 pr-5" src="http://localhost:31339/Overview/tsne.png" />
-                        <div className="flex flex-col">
-                            <p className="text-xl">{t2p1}</p>
-                            <p className="text-xl">{t2p2}</p>
-                            <p className="text-xl">{t2p3}</p>
+                        <img className="w-1/2 h-full mt-6" src="http://localhost:31339/Overview/tsne.png" />
+                        <div className="flex flex-col w-1/2">
+                            <p className="text-lg pb-1">{t2p1}</p>
+                            <p className="text-lg pb-1">{t2p2}</p>
+                            <p className="text-lg pb-1">{t2p3}</p>
                         </div>
                     </div>
                 </div>
