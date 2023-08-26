@@ -25,6 +25,11 @@ const Volcano = ({changeAbundanceGene}) => {
         VolcanoUtils.updateVolcano(cellTypeName)
     }, [cellTypeName]);
 
+    const handleSelection = (arg) => {
+        setCellTypeName(arg.value)
+        VolcanoUtils.handleChange(arg)
+    }
+
     const paragraphStyle = {
         fontSize: '12px',
         textAlign: 'left',
@@ -40,7 +45,7 @@ const Volcano = ({changeAbundanceGene}) => {
     return (
         <div id='volcano'>
             <div className="pb-2">
-                <Dropdown options={cellTypes} handleChange={VolcanoUtils.handleChange}/>
+                <Dropdown options={cellTypes} handleChange={handleSelection}/>
             </div>
             <h3 style={headerStyle}>Your {cellTypeName}' Signature</h3>
 
