@@ -94,13 +94,8 @@ const GeneAbundance = ({ title }) => {
                         </div>
                     </div>
                 </div>
-                 {/* absolute top-0 left-20 px-50 w-200 h-100 */}
 
-                {/* Just padding */}
-                <div className="p-2 flex justify-between text-white items-center">
-                </div>
-
-                <div className="mt-20 flex h-1/3 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
+                <div className="mt-10 flex h-1/3 p-4 rounded-3xl bg-gray-300 transform translate-y-100">
                     <div className="flex-grow bg-gray-800 rounded-3xl px-4 pt-6">
                         <div className="flex text-white font-medium pb-2">
                             Gene Abundance
