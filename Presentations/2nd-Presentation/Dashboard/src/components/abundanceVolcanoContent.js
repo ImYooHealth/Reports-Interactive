@@ -46,7 +46,7 @@ const GeneAbundance = ({ title }) => {
 
                         {/* Abundance */}
                         <div className="p-6 bg-white rounded-3xl">
-                            <Abundance currentGene={currentGene}/>
+                            <Abundance currentGene={currentGene} handleGeneChange={handleGeneChange}/>
                         </div>
                     </div>
 
