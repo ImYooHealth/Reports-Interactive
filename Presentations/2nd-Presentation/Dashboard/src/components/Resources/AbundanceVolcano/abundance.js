@@ -14,7 +14,7 @@ height = 400 - margin.top - margin.bottom;
 // Offsets to ensure non-overlap
 let v_offset = 0
 
-const Abundance = ({currentGene}) => {
+const Abundance = ({currentGene, handleGeneChange}) => {
     const svgRef = React.useRef(null)
     const svg = d3v4.select(svgRef.current)
     AbundanceUtils.initialize(svg, currentGene)
@@ -36,10 +36,15 @@ const Abundance = ({currentGene}) => {
        fontFamily: 'Space Grotesk'
      }
 
+    const handleChange = (option) => {
+        handleGeneChange(option.value.toString())
+        AbundanceUtils.handleChange(option)
+    } 
+
     return (
         <div>
             <div className="pb-2">
-                <Dropdown options={genes} handleChange={AbundanceUtils.handleChange} /> {/*theCurrentGene={currentGene}/>*/}
+                <Dropdown options={genes} handleChange={handleChange} /> {/*theCurrentGene={currentGene}/>*/}
             </div>
             
 
