@@ -50,7 +50,7 @@ export function readCSVFile(filePath) {
 }
 
 export function getGenesForDropdown() {
-    let response = readCSVFile(dataPath + '/gene_list')
+    let response = readCSVFile(dataPath + 'gene_list')
     var genes = [];
 
     for (const obj of response) {
@@ -68,7 +68,7 @@ export function getGenesForDropdown() {
 
 
 export function getGenes() {
-    let response = readCSVFile(dataPath + '/gene_list')
+    let response = readCSVFile(dataPath + 'gene_list')
     const genes = [];
 
     for (const obj of response) {

@@ -21,3 +21,7 @@ __secrets__
 *node_modules*
 *.txt
 Presentation 1
+*pid
+*nohup*
+*yarn*
+yarn.lock
