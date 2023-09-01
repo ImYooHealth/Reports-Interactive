@@ -23,3 +23,4 @@ echo "${pids[1]}" > web-server-pid
 echo "${pids[2]}" > feedback-server-pid
 
 echo "Start Attempt Complete"
+
