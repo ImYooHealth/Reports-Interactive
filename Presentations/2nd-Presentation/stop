@@ -5,7 +5,11 @@ cd /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation/
 echo
 echo 'Reports attempting to halt.'
 
+# This looks like it gets them all
+ps aux | egrep 'start-|stop|Reports|feedback' | egrep -v '\|' | awk '{print $2}' | xargs kill
 
+
+### Notes: this is a non-working version of a cleaner way to do it
 #### Stop data server
 #echo
 #echo 'Attempting to halt data server'
@@ -46,8 +50,3 @@ echo 'Reports attempting to halt.'
 #
 #### Report exit
 #echo 'Reports shutdown script exiting'
-
-
-### Notes
-# This looks like it gets them all
-ps aux | egrep 'start-|stop|Reports|feedback' | egrep -v '\|' | awk '{print $2}' | xargs kill
