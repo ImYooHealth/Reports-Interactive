@@ -1,7 +1,25 @@
 #!/bin/bash
 
-cd /home/samplereports/Reports-Interactive/Presentations/Presentation_1/
+cd /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation/
+
+# Record PIDs
+pids=()
 
 nohup python3 start-data-server & 
+sleep 1
+pids+=$(ps aux | grep "[p]ython3 start-data-server" | awk '{print $2}')
+
 nohup bash start-web-server & 
-nohup python3 listen_for_feedback &
+sleep 1
+pids+=$(ps aux | grep "[p]ython3 start-web-server" | awk '{print $2}')
+
+nohup python3 start-feedback-server &
+sleep 1
+pids+=$(ps aux | grep "[p]ython3 start-feedback-server" | awk '{print $2}')
+
+# Store the PIDs so the stop script can access them
+echo "${pids[0]}" > data-server-pid
+echo "${pids[1]}" > web-server-pid
+echo "${pids[2]}" > feedback-server-pid
+
+echo "Start Attempt Complete"
