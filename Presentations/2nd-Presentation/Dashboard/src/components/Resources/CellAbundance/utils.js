@@ -1,9 +1,9 @@
+import *  as CommonUtils from './../../CommonUtils'
+
 export const placeholder = 0;
 
-var deployed = false;
-
-export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/CellAbundance/' : 'http://localhost:31339/CellAbundance/'
-export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
+export const dataPath = CommonUtils.dataPath + 'CellAbundance/'
+export const feedbackPath = CommonUtils.feedbackPath
 
 let max_genes = 1   // Not to exceed 1
 
@@ -50,7 +50,7 @@ export function readCSVFile(filePath) {
 }
 
 export function getGenesForDropdown() {
-    let response = readCSVFile(dataPath + 'gene_list')
+    let response = readCSVFile(dataPath + '/gene_list')
     var genes = [];
 
     for (const obj of response) {
@@ -68,7 +68,7 @@ export function getGenesForDropdown() {
 
 
 export function getGenes() {
-    let response = readCSVFile(dataPath + 'gene_list')
+    let response = readCSVFile(dataPath + '/gene_list')
     const genes = [];
 
     for (const obj of response) {

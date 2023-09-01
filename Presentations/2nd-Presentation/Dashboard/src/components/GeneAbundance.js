@@ -1,28 +1,23 @@
 import React from "react"
 import CommentBox from './comment_box'
 
-import Volcano from './Resources/AbundanceVolcano/volcano'
-import Abundance from './Resources/AbundanceVolcano/abundance'
-import * as utils from './Resources/AbundanceVolcano/utils.js'
+import *  as CommonUtils from './CommonUtils'
+import Volcano from './Resources/GeneAbundance/volcano'
+import Abundance from './Resources/GeneAbundance/abundance'
+import * as utils from './Resources/GeneAbundance/utils.js'
 
+const BlopIconPath = CommonUtils.dataPath + "/GeneAbundance/Blop.png"
 let genes = utils.getGenes()
 
 
-const adjustment = {
-    transform: 'translateY(0px)', /* Shift the element vertically by 50 pixels */
-}
-
-const heights = {
-    height: '100px',
-}
-
 const GeneAbundance = ({ title }) => {
-    const [currentGene, setCurrentGene] = React.useState(genes[0])  // TODO: Just tagging that this is where the initial gene is set
+    const [currentGene, setCurrentGene] = React.useState(genes[0])  
 
     // For Dropdown in Abundance
     const handleGeneChange = (gene) => {
         setCurrentGene(gene)
     }
+
 
     return (
         <div className="flex">
@@ -70,7 +65,7 @@ const GeneAbundance = ({ title }) => {
                             <div className="border-t solid border-gray-700 p-2 flex 2xl:items-start w-full ">
                                 <div style={{ width: "150px", height: "150px" }}>
                                     <img
-                                        src="http://localhost:31339/GeneAbundance/Blop.png"
+                                        src={`${CommonUtils.dataPath}/GeneAbundance/Blop.png`}
                                         alt="Our mascot, Blop"
                                     />
                                 </div>
@@ -104,7 +99,7 @@ const GeneAbundance = ({ title }) => {
                             <div className="border-t solid border-gray-700 p-2 flex 2xl:items-start w-full">
                                 <div style={{ width: "150px", height: "100px" }}>
                                     <img
-                                        src="http://localhost:31339/GeneAbundance/Blop.png"
+                                        src={`${CommonUtils.dataPath}/GeneAbundance/Blop.png`}
                                         alt="Our mascot, Blop"
                                     />
                                 </div>

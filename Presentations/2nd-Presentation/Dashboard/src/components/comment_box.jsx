@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import * as commonUtils from './commonUtils.js'
+import * as CommonUtils from './CommonUtils.js'
 
 async function sendFeedback(feedbackText) {
-  const url = commonUtils.feedbackPath + 'feedback'; // Replace with the actual URL of your backend service
+  const url = CommonUtils.feedbackPath + 'feedback'; 
 
   try {
     const response = await fetch(url, {

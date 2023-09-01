@@ -1,11 +1,11 @@
-import * as commonUtils from './commonUtils.js'
+import * as CommonUtils from './CommonUtils.js'
 import * as utils from './Resources/Glossary/utils.js'
 
 import ComponentsCollection from './newUiIdeas.js'
 
 const Glossary = () => {
     return (
-        <commonUtils.Overhead title="Glossary">
+        <CommonUtils.Overhead title="Glossary">
             <ul className="p-1">
                 <li className="space-y-2">
                     <p style={{fontFamily: "Space Grotesk"}} className="text-sm"><strong>RNA</strong> - RNA is a small molecular messengers derived from DNA and is responsible for producing proteins in a cell</p>
@@ -21,7 +21,7 @@ const Glossary = () => {
                     <p style={{fontFamily: "Space Grotesk"}} className="text-sm"><strong>Single-cell RNA sequencing</strong> - Single-cell RNA sequencing is a biological technique used to measure gene expression profiles of individual cells. It captures the state of the cell by measuring thousands of genes in individual cells. It is a powerful research and discovery tool.</p>
                 </li>
             </ul>
-        </commonUtils.Overhead>
+        </CommonUtils.Overhead>
     )
 }
 

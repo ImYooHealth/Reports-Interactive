@@ -1,7 +1,11 @@
-var deployed = false;
+import *  as CommonUtils from './../../CommonUtils'
 
-export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/GeneAbundance/' : 'http://localhost:31339/GeneAbundance/'
-export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
+
+export const dataPath = CommonUtils.dataPath + 'GeneAbundance/'
+//var deployed = false;
+
+//export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/GeneAbundance/' : 'http://localhost:31339/GeneAbundance/'
+//export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
 
 const max_genes = 500  // Not to exceed 4999
 

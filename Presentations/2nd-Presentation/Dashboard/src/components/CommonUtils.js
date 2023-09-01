@@ -1,6 +1,8 @@
-var deployed = true;
 import CommentBox from './comment_box'
 
+// Deployment constants
+export const deployed = false;
+export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/' : 'http://localhost:31339/';
 export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
 
 export const Overhead = ({ children, title }) => {
@@ -80,3 +82,4 @@ export const CellAbundanceSpecificOverhead = ({ children, title }) => {
     )
 }
 
+export default Overhead;
