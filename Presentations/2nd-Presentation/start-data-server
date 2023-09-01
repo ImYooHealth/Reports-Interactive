@@ -4,7 +4,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler, test
 import sys
 
 path_to_listen_on='/'
-directory_to_serve='/home/samplereports/Data/__secrets__00/'
+directory_to_serve='/home/samplereports/Reports-Interactive/Data/'
 
 class CORSRequestHandler (SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
