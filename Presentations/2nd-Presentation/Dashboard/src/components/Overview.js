@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import * as commonUtils from './commonUtils.js'
+import * as CommonUtils from './CommonUtils.js'
 import * as utils from './Resources/Overview/utils.js'
 import ComponentsCollection from './newUiIdeas.js'
 
@@ -15,7 +15,7 @@ const t2p3 = 'Each dot here is one of your cells, and how close they are to each
 const Overview = () => {
     return (
         <div className='w-textPage'>
-            <commonUtils.Overhead title="Overview">
+            <CommonUtils.Overhead title="Overview">
                 <div className="flex flex-col">
                     <div className="flex flex-row">
                         <p style={{fontFamily: "Space Grotesk"}} className="w-1/2"> </p>
@@ -31,7 +31,7 @@ const Overview = () => {
                         </div>
                         <div className="flex flex-col w-1/2">
                             {/* Deployment: edit path */}
-                            <img className="pl-5 p-2" src="http://localhost:31339/Overview/sunburst.svg" />
+                            <img className="pl-5 p-2" src={`${CommonUtils.dataPath}/Overview/sunburst.svg`} />
                             <div className="text-center justify-right inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-lg">
                                 <Link to="/CellAbundance">See how you compare to others</Link>
                             </div>
@@ -44,7 +44,7 @@ const Overview = () => {
 
                     <div className="flex flex-row">
                         {/* Deployment: edit path */}
-                        <img className="w-1/2 h-full mt-6" src="http://localhost:31339/Overview/tsne.png" />
+                        <img className="w-1/2 h-full mt-6" src={`${CommonUtils.dataPath}/Overview/tsne.png`}  />
                         <div className="flex flex-col w-1/2">
                             <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-1">{t2p1}</p>
                             <p style={{fontFamily: "Space Grotesk"}} className="text-lg pb-1">{t2p2}</p>
@@ -52,7 +52,7 @@ const Overview = () => {
                         </div>
                     </div>
                 </div>
-            </commonUtils.Overhead>
+            </CommonUtils.Overhead>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import * as commonUtils from './commonUtils.js'
+import * as CommonUtils from './CommonUtils.js'
 import * as utils from './Resources/CellAbundance/utils.js'
 import Abundance from './Resources/CellAbundance/abundance'
 import Volcano from './Resources/CellAbundance/volcano'
@@ -56,7 +56,7 @@ const CellAbundance = ({title}) => {
 
                 <div className="flex mb-1 p-4 rounded-3xl bg-gray-300">
                     <div className="bg-white rounded-3xl">
-                        <img className=" mx-auto" src="http://localhost:31339/CellAbundance/Definitions.png" />
+                        <img className=" mx-auto" src={`${CommonUtils.dataPath}/CellAbundance/Definitions.png`} />
                     </div>
                 </div>
 

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
 import DashboardLayout from './dashboard/layout';
-
 import LoginPage from './pages/Login';
 import DisclaimerPage from './pages/Disclaimer';
 import GlossaryPage from './pages/Glossary'
@@ -10,8 +8,11 @@ import OverviewPage from './pages/Overview';
 import CellAbundancePage from './pages/CellAbundance'
 import GeneAbundancePage from './pages/GeneAbundance'
 
+import *  as CommonUtils from './components/CommonUtils'
+
 function App() {
-    const [hasVisitedDisclaimer, setHasVisitedDisclaimer] = useState(false);
+                                                                     // TODO: Not a real todo. For dev, disable login by setting to True
+    const [hasVisitedDisclaimer, setHasVisitedDisclaimer] = useState(!CommonUtils.deployed);
 
     const handleDisclaimerVisit = () => {
         setHasVisitedDisclaimer(true);
