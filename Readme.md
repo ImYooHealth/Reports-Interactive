@@ -23,7 +23,7 @@
 1. sudo su - vincent@blop
 2. cd Repositories/Reports-Interactive
 3. git pull
-3. Edit the deployment flag on line zero of Reports-Interactive/Presentations/2nd-Presentation/Dashboard/src/components/CommonUtils.js, line 4
+3. Edit the deployment flag on line in Reports-Interactive/Presentations/2nd-Presentation/Dashboard/src/components/CommonUtils.js, line 4
 4. ssh vincent-admin@blop; sudo su;
     1. rm -r /home/samplereports/Reports-Interactive/
     2. cp -r /home/vincent/Repositories/Reports-Interactive/ /home/samplereports/
@@ -46,3 +46,4 @@
 2. Feedback notes are presentation-specific. At time of writing, feedback for the current deployment is in 2nd-Presentation/Feedback, in specific, /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation/Feedback
 3. Notes for later, the path for data deployment later will be around the following:
     1. cp -r /mnt/data/bio/Vincent/Sample\ Report\ Demo\ Data/data/__secrets__00/ destination
+4. Due to limitations in our current interactive rendering solution, the number of genes is limited to 500. This is set in src/components/Resources/GeneAbundance/utils.js, on line 10. The name of the variable is "max_genes". 
