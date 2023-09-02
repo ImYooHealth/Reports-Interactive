@@ -106,7 +106,7 @@ const GeneAbundance = ({ title }) => {
 
                                 <div className="pl-4 w-full">
                                     <p style={{fontFamily: "Space Grotesk"}} className="mb-2 text-sm text-gray-400">
-                                        In this view you can explore how much of a gene is expressed in various cell types. Below is a boxplot showing your average gene expression of selected in gene in specific cell type compared to those of other participants. 
+                                        In this view you can explore how much of a gene is expressed in various cell types. Below is a boxplot showing your average gene expression of the selected gene in specific cell type compared to those of other participants.
                                     </p>
                                     <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         Use the dropdown to browse genes. 
