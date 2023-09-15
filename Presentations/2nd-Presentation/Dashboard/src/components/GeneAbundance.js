@@ -12,12 +12,7 @@ let genes = utils.getGenes()
 
 const GeneAbundance = ({ title }) => {
     const [currentGene, setCurrentGene] = React.useState(genes[0])  
-
-    // For Dropdown in Abundance
-    const handleGeneChange = (gene) => {
-        setCurrentGene(gene)
-    }
-
+    console.log('GeneAbundance: ' + currentGene)
 
     return (
         <div className="flex">
@@ -33,7 +28,7 @@ const GeneAbundance = ({ title }) => {
                     <div className="p-4 rounded-3xl bg-gray-300">
                         {/* Volcano */}
                         <div className="p-6 bg-white rounded-3xl outsideVolcano">
-                            <Volcano changeAbundanceGene={handleGeneChange}/>
+                            <Volcano changeAbundanceGene={setCurrentGene}/>
                         </div>
 
                         <div className="p-1.5">
@@ -41,7 +36,7 @@ const GeneAbundance = ({ title }) => {
 
                         {/* Abundance */}
                         <div className="p-6 bg-white rounded-3xl">
-                            <Abundance currentGene={currentGene} handleGeneChange={handleGeneChange}/>
+                            <Abundance currentGene={currentGene} setCurrentGene={setCurrentGene}/>
                         </div>
                     </div>
 

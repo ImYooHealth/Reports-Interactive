@@ -2,7 +2,7 @@ import React from "react"
 import * as d3v4 from './d3.v4.js';
 
 import * as AbundanceUtils from './abundance-utils.js'
-import Dropdown from './dropdown.js'
+import AbundanceDropdown from './abundanceDropdown.js'
 
 import * as utils from './utils.js'
 let genes = utils.getGenesForDropdown()
@@ -11,10 +11,10 @@ const margin = {top: 15, right: 0, bottom: 45, left: 0},
 width = 750 - margin.left - margin.right,
 height = 400 - margin.top - margin.bottom; 
 
-// Offsets to ensure non-overlap
-let v_offset = 0
+const Abundance = ({currentGene, setCurrentGene}) => {
+    // Dev
+    console.log('Abundance: ' + currentGene)
 
-const Abundance = ({currentGene, handleGeneChange}) => {
     const svgRef = React.useRef(null)
     const svg = d3v4.select(svgRef.current)
     AbundanceUtils.initialize(svg, currentGene)
@@ -37,21 +37,28 @@ const Abundance = ({currentGene, handleGeneChange}) => {
      }
 
     const handleChange = (option) => {
-        handleGeneChange(option.value.toString())
+        console.log(option)
+        console.log(currentGene)
+
+        if(!option.hasOwnProperty('value')) {
+            option = {value: option}
+        }
+
+        setCurrentGene(option.value.toString())
         AbundanceUtils.handleChange(option)
     } 
 
     return (
         <div>
             <div className="pb-2">
-                <Dropdown options={genes} handleChange={handleChange} /> {/*theCurrentGene={currentGene}/>*/}
+                <AbundanceDropdown options={genes} setSelectedOption={handleChange} selectedOption={currentGene}/>
             </div>
             
 
             <h3 style={headerStyle}>Your {currentGene} Gene Abundance</h3>
 
 
-            <svg ref={svgRef} width={width}  height={height + v_offset}>
+            <svg ref={svgRef} width={width}  height={height}>
             </svg>
 
             <div className='flex'>
