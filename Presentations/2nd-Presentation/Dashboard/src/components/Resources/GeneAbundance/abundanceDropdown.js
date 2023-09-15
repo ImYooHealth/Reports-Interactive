@@ -4,10 +4,8 @@ import Select from 'react-select';
 import * as AbundanceUtils from './abundance-utils.js'
 
 function AbundanceDropdown({options, setSelectedOption, selectedOption}) {
-    console.log(options)
     var initialValue = {value: selectedOption, label: selectedOption}
     const [displayedValue, setDisplayedValue] = React.useState(initialValue);
-
 
     const handleSelectChange = (option) => {
         setSelectedOption(option.value);
