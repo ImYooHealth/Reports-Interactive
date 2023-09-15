@@ -70,7 +70,7 @@ const GeneAbundance = ({ title }) => {
                                         In this view you can explore gene expression signatures in the different immune cell types.
                                     </p>
                                     <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
-                                        Genes to the left of y-axis are less present in your cells compared to other people in ImYoo’s database, and genes to the right of the y-axis are more present compared to other people. 
+                                        Genes to the left of the y-axis are less present in your cells compared to other people in ImYoo’s database, and genes to the right of the y-axis are more present compared to other people. 
                                     </p>
                                     <p style={{fontFamily: "Space Grotesk"}} className="my-2 text-sm text-gray-400">
                                         To select a cell type, use the drop-down menu. 
