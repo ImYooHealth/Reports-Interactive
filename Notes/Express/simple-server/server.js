@@ -10,21 +10,27 @@ const path = require("path");
 const fs = require("fs");
 
 // Define the functions we'll be using
-
+function readCreds() {
+    try {
+        const data = fs.readFileSync('credentials.json')
+        const creds = JSON.parse(data)
+        return creds
+        //return creds[email] == password
+    } catch(err) {
+        console.error("Error reading credentials file.")
+    }
+}
 
 // The function that will be called by the passport middleware upon a 
 // login request
 function authenticate(username_hash, password_hash, callback) {
-
-  // lol, super secure
-  if(username_hash == "admin" && password_hash == "admin") {
-    return callback(null, {
-      "username_hash": username_hash
-    })
-  }
-  else {
-    return callback(null);
-  }
+    if(readCreds()[username_hash] == password_hash) {
+        return callback(null, {
+            "username_hash": username_hash
+        })
+    } else {
+        return callback(null)
+    }
 }
 
 // This function checks if a request is authenticated
@@ -60,19 +66,12 @@ function serialize_user(user, callback) {
 
 // A function that maps a user token back to a full user object. For cookies
 function deserialize_user(username_hash, callback) {
-
-  // Theoretically, you could have some user metadata you retrieve here
-  if(username_hash == "admin") {
-    callback(null, {
-      "username_hash": "admin",
-      "metadata": {
-        "favorite_color": "blue"
-      }
-    })
-  }
-  else {
-    callback(null);
-  }
+    const user = readCreds()[username_hash]
+    if(user) {
+        callback(null, user)
+    } else {
+        callback(null)
+    }
 }
 
 // Get data
