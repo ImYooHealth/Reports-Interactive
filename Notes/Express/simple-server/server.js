@@ -131,20 +131,29 @@ app.use("/dashboard",
   express.static(path.join(__dirname, "dashboard"))
 );
 
-var code;
-app.get("/reset_password", function(request, response) {
+var reset_password_info = {code: undefined, email: undefined}
+app.post("/reset_password", function(request, response) {
     console.log('Reset password endpoint hit')
 
     // Generate random code
     const min = 100000;
     const max = 1000000;
-    code = Math.floor(Math.random() * (max - min)) + min;
+    reset_password_info.code = Math.floor(Math.random() * (max - min)) + min;
+    reset_password_info.email = request.body.email
 
-    return code
+    if(readCreds().hasOwnProperty(request.body.email)) {
+        response.status(200).send();
+    } else {
+        response.status(401).send('Unauthorized.')
+    }
 });
 
 app.get('/check_code', function(request, response) {
-    console.log(code)
+    console.log(reset_password_info)
+})
+
+app.post('/receive_code', function(request, response) {
+
 })
 
 
