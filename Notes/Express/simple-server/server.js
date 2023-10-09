@@ -131,11 +131,27 @@ app.use("/dashboard",
   express.static(path.join(__dirname, "dashboard"))
 );
 
+var code;
+app.get("/reset_password", function(request, response) {
+    console.log('Reset password endpoint hit')
+
+    // Generate random code
+    const min = 100000;
+    const max = 1000000;
+    code = Math.floor(Math.random() * (max - min)) + min;
+
+    return code
+});
+
+app.get('/check_code', function(request, response) {
+    console.log(code)
+})
+
+
 
 // Set up our dynamic routes. Let's start with login. If login fails, return 
 // error code 401
 app.post("/login", function(request, response, next) {
-
   passport.authenticate("local", function(error, user, info) {
 
     if(error) {
@@ -154,7 +170,6 @@ app.post("/login", function(request, response, next) {
     })
 
   })(request, response, next);
-
 });
 
 // Logout route
