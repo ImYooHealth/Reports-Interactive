@@ -1,7 +1,11 @@
 import CommentBox from './comment_box'
 
 // Deployment constants
+<<<<<<< HEAD
 export const deployed = false;
+=======
+export const deployed = true;
+>>>>>>> 28da6fedf9f7d61112aa7fb148cd54a491daeb79
 export const dataPath = deployed ? 'https://samplereportdata.imyoo.health/' : 'http://localhost:31339/';
 export const feedbackPath = deployed ? 'https://samplereportfeedback.imyoo.health/' : 'http://localhost:31338/'
 
