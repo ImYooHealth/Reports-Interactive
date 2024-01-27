@@ -14,7 +14,7 @@ const t2p3 = 'Each dot here is one of your cells, and how close they are to each
 
 const Overview = () => {
     return (
-        <div className='w-textPage'>
+        <div className='w-textPage' data-testid="overview-component">
             <CommonUtils.Overhead title="Overview">
                 <div className="flex flex-col">
                     <div className="flex flex-row">
@@ -31,7 +31,7 @@ const Overview = () => {
                         </div>
                         <div className="flex flex-col w-1/2">
                             {/* Deployment: edit path */}
-                            <img className="pl-5 p-2" src={`${CommonUtils.dataPath}/Overview/sunburst.svg`} />
+                            <img data-testid="sunburst-img" className="pl-5 p-2" src={`${CommonUtils.dataPath}/Overview/sunburst.svg`} />
                             <div className="text-center justify-right inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-lg">
                                 <Link to="/CellAbundance">See how you compare to others</Link>
                             </div>

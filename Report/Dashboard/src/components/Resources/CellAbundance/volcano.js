@@ -1,5 +1,4 @@
-import React from "react"
-import d3v3 from './d3.v3.js'
+import React, { useEffect, useState } from "react"
 
 import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
@@ -10,20 +9,40 @@ let cellTypes = utils.cellTypes
 
 // The Volcano component
 const Volcano = ({changeAbundanceGene}) => {
+    const [d3, setD3] = useState(null);
     const svgRef = React.useRef(null)
     const [cellTypeName, setCellTypeName] = React.useState(cellTypes[0].value)  // Initial Value
 
-    React.useEffect(() => {
-        const svg = d3v3.select(svgRef.current)
-        VolcanoUtils.initialize(svg, changeAbundanceGene)
+    useEffect(() => {
+        let d3Promise;
+
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        } else if (typeof window !== 'undefined') {
+            d3Promise = import('./d3.v3.js')
+        }
+
+        d3Promise
+            .then(d3Module => {
+                setD3(d3Module.default || d3Module);
+            })
+            .catch(error => console.error('Failed to load d3:', error));
+    }, []);
+
+    useEffect(() => {
+        if (!d3) return;
+
+        const svg = d3.select(svgRef.current)
+        VolcanoUtils.initialize(d3, svg, changeAbundanceGene)
 //        changeAbundanceGene(genes[0])  // For no known reason
         changeAbundanceGene(genes[1])    // Abundance refuses to initialize with genes[0]
 //        changeAbundanceGene(genes[2])  // Adding indices induced the change
-    }, []);                              // Why it works as shown is a matter yet to be explained by rational inquiry. 
+    }, [d3]);                              // Why it works as shown is a matter yet to be explained by rational inquiry. 
 
-    React.useEffect(() => {
+    useEffect(() => {
+        if (!d3) return;
         VolcanoUtils.updateVolcano(cellTypeName)
-    }, [cellTypeName]);
+    }, [cellTypeName, d3]);
 
     const paragraphStyle = {
         fontSize: '12px',

@@ -47,7 +47,7 @@ const CommentBox = () => {
   }
 
   return (
-    <div className="flex items-center justify-center px-6 py-4 bg-white rounded-3xl">
+    <div className="flex items-center justify-center px-6 py-4 bg-white rounded-3xl" data-testid="comment-box">
       {isCircle ? (
         <div>
             <div
