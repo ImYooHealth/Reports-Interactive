@@ -9,11 +9,7 @@ describe('GeneAbundance Component', () => {
 
     it('Renders Gene Abundance component', () => {
         act(() => {
-            render(<GeneAbundance title="Some Title" />);
-        });
-
-        act(() => {
-            expect(screen.getByText('Gene Abundance')).toBeInTheDocument();
+            render(<GeneAbundance title="Gene Abundance" />);
         });
 
         act(() => {

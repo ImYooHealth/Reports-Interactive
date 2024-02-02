@@ -23,7 +23,7 @@ const LoginContent = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen bg-gray-800">
+    <div className="flex justify-center items-center h-screen w-screen bg-gray-800" data-testid="logincontent-component">
       <div className="bg-gray-800 p-8 rounded-lg">
         <h2 className="text-2xl font-bold mb-4 text-white">Login</h2>
 

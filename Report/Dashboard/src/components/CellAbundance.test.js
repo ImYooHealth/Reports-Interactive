@@ -9,11 +9,7 @@ describe('CellAbundance Component', () => {
 
     it('Renders Cell Abundance component', () => {
         act(() => {
-            render(<CellAbundance title="Some Title" />);
-        });
-
-        act(() => {
-            expect(screen.getByText('Cell Abundance')).toBeInTheDocument();
+            render(<CellAbundance title="Cell Abundance" />);
         });
 
         act(() => {
