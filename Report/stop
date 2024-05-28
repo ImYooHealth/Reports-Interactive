@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation/
-
 echo
 echo 'Reports attempting to halt.'
 
