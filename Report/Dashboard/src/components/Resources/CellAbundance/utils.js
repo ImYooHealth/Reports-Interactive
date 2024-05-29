@@ -31,7 +31,7 @@ export function readCSVFile(filePath) {
     if(i > max_genes) {
         break
     }
-    const dataRow = dataRows[i].split(",");
+    const dataRow = dataRows[i].replace('\r', '').split(",");
     const obj = {};
     for (let j = 0; j < headerRow.length; j++) {
       obj[headerRow[j]] = dataRow[j];
