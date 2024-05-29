@@ -33,7 +33,7 @@ export function readCSVFile(filePath, enforceMax = true) {
   request.send();
   const csvData = request.responseText;
   const rows = csvData.split("\n");
-  const headerRow = rows[0].split(",");
+  const headerRow = rows[0].replace('\r', '').split(",");
   var dataRows = rows.slice(1);
   // Remove empty rows at the end that trigger nans
   if (dataRows.slice(-1).length < headerRow.length) {
@@ -52,7 +52,7 @@ export function readCSVFile(filePath, enforceMax = true) {
             break
         }
     }
-    const dataRow = dataRows[i].split(",");
+    const dataRow = dataRows[i].replace('\r', '').split(",");
     const obj = {};
     for (let j = 0; j < headerRow.length; j++) {
       obj[headerRow[j]] = dataRow[j];

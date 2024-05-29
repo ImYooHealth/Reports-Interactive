@@ -100,6 +100,7 @@ export function initializeCanvas() {
 
     // Vertical
     const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
+    console.log(vvals);
     const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
     maxv = Math.max(...numeric_vvals) * 1.10;
 
