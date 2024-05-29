@@ -36,7 +36,7 @@ const Abundance = ({currentGene}) => {
      }
 
     return (
-        <div>
+        <div data-testid="cellabundance-abundance-component">
             <div>        
                 <h3 className="pb-1" style={headerStyle}>Your Immune Army</h3>
             </div>

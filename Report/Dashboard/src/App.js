@@ -32,7 +32,7 @@ function App() {
                 ) : (
                     <DashboardLayout>
                         <Route exact path="/Disclaimer">
-                            <DisclaimerPage hasVisitedDisclaimer={hasVisitedDisclaimer}/>
+                            <DisclaimerPage onVisit={handleDisclaimerVisit} hasVisitedDisclaimer={hasVisitedDisclaimer}/>
                         </Route>
                         <Route exact path="/Overview">
                             <OverviewPage />

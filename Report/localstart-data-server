@@ -1,10 +1,14 @@
 #!/usr/bin/python3
 
+import os
+import dotenv
+dotenv.load_dotenv()
+
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
 import sys
 
 path_to_listen_on='/'
-directory_to_serve='/Users/imyoo/Documents/Repositories/Reports-Interactive/Data/'
+directory_to_serve=os.environ["REPORTS_DATA_DIR"]
 
 class CORSRequestHandler (SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):

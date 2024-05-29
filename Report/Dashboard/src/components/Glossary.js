@@ -6,7 +6,7 @@ import ComponentsCollection from './newUiIdeas.js'
 const Glossary = () => {
     return (
         <CommonUtils.Overhead title="Glossary">
-            <ul className="p-1">
+            <ul className="p-1" data-testid="glossary-component">
                 <li className="space-y-2">
                     <p style={{fontFamily: "Space Grotesk"}} className="text-sm"><strong>RNA</strong> - RNA is a small molecular messengers derived from DNA and is responsible for producing proteins in a cell</p>
                     <p style={{fontFamily: "Space Grotesk"}} className="text-sm"><strong>Gene</strong> - Gene is a portion of DNA containing instructions to make a certain protein or RNA molecule. They are turned and off throughout your lifetime and in exposure to internal and external events</p>

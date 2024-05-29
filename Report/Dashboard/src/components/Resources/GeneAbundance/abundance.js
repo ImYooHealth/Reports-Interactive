@@ -49,7 +49,7 @@ const Abundance = ({currentGene, setCurrentGene}) => {
     } 
 
     return (
-        <div>
+        <div data-testid="geneabundance-abundance-component">
             <div className="pb-2">
                 <AbundanceDropdown options={genes} setSelectedOption={handleChange} selectedOption={currentGene}/>
             </div>

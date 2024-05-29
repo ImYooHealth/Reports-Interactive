@@ -16,7 +16,7 @@ const CellAbundance = ({title}) => {
     }
 
     return (
-        <div className="flex">
+        <div className="flex" data-testid="cellabundance-component">
             <div className="bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
 
                 {/* Just Text */}

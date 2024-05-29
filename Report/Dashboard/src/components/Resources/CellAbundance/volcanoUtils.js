@@ -1,6 +1,5 @@
 // --- Constants --- //
 import './volcano.css'
-import d3v3 from './d3.v3.js'
 import * as utils from './utils.js'
 
 const VOLCANO_HORIZONTAL = 'log2FoldChange'
@@ -12,6 +11,7 @@ const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 var points
+var d3v3
 
 // State
 var volcano_x
@@ -48,14 +48,15 @@ export function handleChange(arg) {
     idleTimeout = null
 }
 
-export function initialize(svg, changeGene) {
+export function initialize(d3, svg, changeGene) {
+    d3v3 = d3;
     changeAbundanceGene = changeGene
     setState({'svg': svg})
     setupCanvas()
     initializeCanvas()
+    initHelper();
     initVolcano()
 }
-
 
 export function setupCanvas() {
     // Clear
@@ -231,68 +232,70 @@ export function initVolcano(path) {
     return data
 }
 
-d3v3.helper = {};
-d3v3.helper.tooltip = function(){
-    var tooltipDiv;
-    var bodyNode = d3v3.select('body').node();
+const initHelper = () => {
+    d3v3.helper = {};
+    d3v3.helper.tooltip = function () {
+        var tooltipDiv;
+        var bodyNode = d3v3.select('body').node();
 
-    function tooltip(selection){
+        function tooltip(selection) {
 
-        selection.on('mouseover.tooltip', function(pD, pI) {
-            // Clean up lost tooltips
-            d3v3.select('body').selectAll('div.tooltip').remove();
-            // Append tooltip
-            tooltipDiv = d3v3.select('body')
-                           .append('div')
-                           .attr('class', 'tooltip')
-            var absoluteMousePos = d3v3.mouse(bodyNode);
-            tooltipDiv.style({
-                left: (absoluteMousePos[0] + 10)+'px',
-                top: (absoluteMousePos[1] - 40)+'px',
-                'background-color': 'white',
-                border: 'solid',
-                'border-width': "2px",
-                'border-radius': '5px',
-                padding: '5px',
-                padding: '5px',
-                position: 'absolute',
-                'z-index': 1001,
-                'box-shadow': '0 1px 2px 0 #656565'
-            });
+            selection.on('mouseover.tooltip', function (pD, pI) {
+                // Clean up lost tooltips
+                d3v3.select('body').selectAll('div.tooltip').remove();
+                // Append tooltip
+                tooltipDiv = d3v3.select('body')
+                    .append('div')
+                    .attr('class', 'tooltip')
+                var absoluteMousePos = d3v3.mouse(bodyNode);
+                tooltipDiv.style({
+                    left: (absoluteMousePos[0] + 10) + 'px',
+                    top: (absoluteMousePos[1] - 40) + 'px',
+                    'background-color': 'white',
+                    border: 'solid',
+                    'border-width': "2px",
+                    'border-radius': '5px',
+                    padding: '5px',
+                    padding: '5px',
+                    position: 'absolute',
+                    'z-index': 1001,
+                    'box-shadow': '0 1px 2px 0 #656565'
+                });
 
-            var only_line = '<p>Gene: ' + pD.gene_name + '</p>'
-            tooltipDiv.html(only_line)
-        })
-        .on('mousemove.tooltip', function(pD, pI) {
-            // Move tooltip
-            var absoluteMousePos = d3v3.mouse(bodyNode);
-            tooltipDiv.style({
-                left: (absoluteMousePos[0] + 20)+'px',
-                top: (absoluteMousePos[1] - 30)+'px'
-            });
-        })
-        .on('mouseout.tooltip', function(pD, pI) {
-            // Remove tooltip
-            tooltipDiv.remove();
-        })
-        // Interplot Interactivity
-        .on('click', click_circle);
-    }
+                var only_line = '<p>Gene: ' + pD.gene_name + '</p>'
+                tooltipDiv.html(only_line)
+            })
+                .on('mousemove.tooltip', function (pD, pI) {
+                    // Move tooltip
+                    var absoluteMousePos = d3v3.mouse(bodyNode);
+                    tooltipDiv.style({
+                        left: (absoluteMousePos[0] + 20) + 'px',
+                        top: (absoluteMousePos[1] - 30) + 'px'
+                    });
+                })
+                .on('mouseout.tooltip', function (pD, pI) {
+                    // Remove tooltip
+                    tooltipDiv.remove();
+                })
+                // Interplot Interactivity
+                .on('click', click_circle);
+        }
 
-    tooltip.attr = function(_x){
-        if (!arguments.length) return attrs;
-        attrs = _x;
-        return this;
+        tooltip.attr = function (_x) {
+            if (!arguments.length) return attrs;
+            attrs = _x;
+            return this;
+        };
+
+        tooltip.style = function (_x) {
+            if (!arguments.length) return styles;
+            styles = _x;
+            return this;
+        };
+
+        return tooltip;
     };
-
-    tooltip.style = function(_x){
-        if (!arguments.length) return styles;
-        styles = _x;
-        return this;
-    };
-
-    return tooltip;
-};
+}
 
 
 // TODO: Interplot interactivity
@@ -467,7 +470,3 @@ export function create_axis_labels(svg, width, height) {
         .attr('font-family', "Space Grotesk")
 }
 // End Volcano Function Definitions 
-
-
-
-
