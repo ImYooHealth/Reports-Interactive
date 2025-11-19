@@ -5,7 +5,6 @@ import * as AbundanceUtils from './abundance-utils.js'
 import AbundanceDropdown from './abundanceDropdown.js'
 
 import * as utils from './utils.js'
-let genes = utils.getGenesForDropdown()
 
 const margin = {top: 15, right: 0, bottom: 45, left: 0},
 width = 750 - margin.left - margin.right,
@@ -16,13 +15,57 @@ const Abundance = ({currentGene, setCurrentGene}) => {
     console.log('Abundance: ' + currentGene)
 
     const svgRef = React.useRef(null)
-    const svg = d3v4.select(svgRef.current)
-    AbundanceUtils.initialize(svg, currentGene)
+    const [initialized, setInitialized] = React.useState(false)
+    const [genes, setGenes] = React.useState(null)
 
+    // Load genes for dropdown
     React.useEffect(() => {
-        //console.log('Abundance useEffect called')
-        AbundanceUtils.handleChange({value: currentGene})
-    }, [currentGene]);
+        let isMounted = true
+        
+        utils.getGenesForDropdown().then(loadedGenes => {
+            if (isMounted) {
+                setGenes(loadedGenes)
+            }
+        }).catch(err => {
+            if (isMounted) {
+                console.error('Failed to load genes for dropdown:', err)
+            }
+        })
+        
+        return () => {
+            isMounted = false
+        }
+    }, [])
+
+    // Initialize only once on mount
+    React.useEffect(() => {
+        let isMounted = true
+        
+        if (svgRef.current && !initialized && currentGene) {
+            const svg = d3v4.select(svgRef.current)
+            AbundanceUtils.initialize(svg, currentGene).then(() => {
+                if (isMounted) {
+                    setInitialized(true)
+                }
+            }).catch(err => {
+                if (isMounted) {
+                    console.error('Failed to initialize:', err)
+                }
+            })
+        }
+        
+        return () => {
+            isMounted = false
+        }
+    }, [currentGene])
+
+    // Update when currentGene changes
+    React.useEffect(() => {
+        if (initialized && currentGene) {
+            //console.log('Abundance useEffect called')
+            AbundanceUtils.handleChange({value: currentGene})
+        }
+    }, [currentGene, initialized]);
 
     const paragraphStyle = {
       fontSize: '12px',
@@ -46,6 +89,10 @@ const Abundance = ({currentGene, setCurrentGene}) => {
 
         setCurrentGene(option.value.toString())
         AbundanceUtils.handleChange(option)
+    } 
+
+    if (!genes) {
+        return <div>Loading...</div>
     } 
 
     return (

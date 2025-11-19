@@ -7,7 +7,6 @@ const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = utils.dataPath
 const volcanoDataPath = volcanoPath + 'Volcanoes/'
-const cellTypes = utils.getCellTypes()
 const margin = {top: 20, right: 0, bottom: 0, left: 0},
       width = 800 - margin.left - margin.right,
       height = 300 - margin.top - margin.bottom;
@@ -25,16 +24,15 @@ var brush_elm
 var maxx
 var maxv
 var changeAbundanceGene
+var cellTypes
+var gene_description
 
 // Zoom
 const zoom_enabled = true
 
-// Get gene descriptions
-const gene_description = utils.getGeneDescriptions()
-
 // Begin functions
-export function updateVolcano(cellTypeName) {
-    data = utils.readCSVFile(volcanoDataPath + cellTypeName)
+export async function updateVolcano(cellTypeName) {
+    data = await utils.readCSVFile(volcanoDataPath + cellTypeName)
     transition_data(data)
 }
 
@@ -51,11 +49,29 @@ export function handleChange(arg) {
     idleTimeout = null
 }
 
-export function initialize(svg, changeGene) {
+export async function initialize(svg, changeGene) {
     changeAbundanceGene = changeGene
+    
+    // Load data on initialization (lazy loading)
+    try {
+        if (!cellTypes) {
+            console.log('Loading cell types...')
+            cellTypes = utils.getCellTypes()
+        }
+        if (!gene_description) {
+            console.log('Loading gene descriptions...')
+            gene_description = await utils.getGeneDescriptions()
+        }
+    } catch (error) {
+        console.error('Failed to load volcano data:', error)
+        // Continue with empty data rather than crashing
+        cellTypes = cellTypes || []
+        gene_description = gene_description || {}
+    }
+    
     setState({'svg': svg})
     setupCanvas()
-    initializeCanvas()
+    await initializeCanvas()
     initVolcano()
 }
 
@@ -89,22 +105,34 @@ export function setupCanvas() {
     return [margin, width, height]
 }
 
-export function initializeCanvas() {
-    data = utils.readCSVFile(volcanoDataPath + cellTypes[0].value);
+export async function initializeCanvas() {
+    data = await utils.readCSVFile(volcanoDataPath + cellTypes[0].value);
 
     /* Begin Setup axes and brush */
-    // Find ranges for axes
-    // Horizontal
-    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
-    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
-    const minh = Math.min(...numeric_hvals);
-    const maxh = Math.max(...numeric_hvals);
+    // Find ranges for axes across ALL cell types
+    let allHvals = [];
+    let allVvals = [];
+    
+    // Load data from all cell types to find global max
+    for (const cellType of cellTypes) {
+        const cellTypeData = await utils.readCSVFile(volcanoDataPath + cellType.value);
+        
+        // Horizontal values
+        const hvals = cellTypeData.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
+        const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
+        allHvals.push(...numeric_hvals);
+        
+        // Vertical values
+        const vvals = cellTypeData.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
+        const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
+        allVvals.push(...numeric_vvals);
+    }
+    
+    // Calculate global max from all cell types
+    const minh = Math.min(...allHvals);
+    const maxh = Math.max(...allHvals);
     maxx = Math.max(...[-minh, maxh]) * 1.10;
-
-    // Vertical
-    const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
-    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    maxv = Math.max(...numeric_vvals) * 1.10;
+    maxv = Math.max(...allVvals) * 1.10;
 
     var volcano_x = d3v3.scale.linear()
         .domain([-maxx, maxx])
@@ -183,18 +211,8 @@ export function setState(state) {
 }
 
 export function initVolcano(path) {
-    // Find ranges for axes
-    // Horizontal
-    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
-    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
-    const minh = Math.min(...numeric_hvals);
-    const maxh = Math.max(...numeric_hvals);
-    const maxx = Math.max(...[-minh, maxh]) * 1.10;
-
-    // Vertical
-    const vvals = data.map((row) => parseFloat(row[VOLCANO_VERTICAL]));
-    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    const maxv = Math.max(...numeric_vvals) * 1.10;
+    // Use global max values calculated from all cell types during initialization
+    // No need to recalculate maxx and maxv - they are global across all cell types
 
     volcano_x.domain([-maxx, maxx])
     volcano_y.domain([0, maxv]) 
@@ -345,7 +363,19 @@ export function click_circle(pD, pI) {
     //var data = utils.readCSVFile(filename)
     //updateAbundance(data)  // Here
     */
-    changeAbundanceGene(pD.gene_name)
+    try {
+        console.log('Volcano plot: Gene clicked:', pD.gene_name)
+        console.log('Volcano plot: Full data object:', pD)
+        if (!pD.gene_name) {
+            console.error('Volcano plot: gene_name is undefined or null')
+            alert('Error: Gene name is missing from the volcano plot data')
+            return
+        }
+        changeAbundanceGene(pD.gene_name)
+    } catch (error) {
+        console.error('Volcano plot: Error in click handler:', error)
+        alert(`Error handling gene click: ${error.message}`)
+    }
     //alert(pD.gene_name)
 }
 
@@ -362,19 +392,8 @@ export function unclickAllCircles() {
 }
 
 export function updateAxes(data){
-    /* Begin Setup axes and brush */
-    // Find ranges for axes
-    // Horizontal
-    const hvals = data.map((row) => parseFloat(row[VOLCANO_HORIZONTAL]));
-    const numeric_hvals = hvals.filter((val) => !Number.isNaN(val));
-    const minh = Math.min(...numeric_hvals);
-    const maxh = Math.max(...numeric_hvals);
-    maxx = Math.max(...[-minh, maxh]) * 1.10;
-
-    // Vertical
-    const vvals = data.map((row) => Math.abs(parseFloat(row[VOLCANO_VERTICAL])));
-    const numeric_vvals = vvals.filter((val) => !Number.isNaN(val));
-    maxv = Math.max(...numeric_vvals) * 1.10;
+    /* Use global max values calculated from all cell types during initialization */
+    // No need to recalculate maxx and maxv - they are global across all cell types
     
     volcano_x.domain([-maxx, maxx]);
     volcano_y.domain([0, maxv]);

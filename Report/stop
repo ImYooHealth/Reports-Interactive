@@ -1,52 +1,93 @@
 #!/bin/bash
 
-cd /home/samplereports/Reports-Interactive/Presentations/2nd-Presentation/
+echo
+echo "Reports attempting to halt."
+
+# Function to recursively get all descendant PIDs
+get_descendants() {
+    local pid=$1
+    local children=$(pgrep -P $pid 2>/dev/null)
+    
+    for child in $children; do
+        echo $child
+        get_descendants $child
+    done
+}
+
+# Function to kill a process and all its descendants
+kill_process_tree() {
+    local pid=$1
+    local name=$2
+    
+    if ps -p $pid > /dev/null 2>&1; then
+        # Get all descendant PIDs recursively
+        local descendants=$(get_descendants $pid)
+        
+        # Kill all descendants first (bottom-up)
+        if [ -n "$descendants" ]; then
+            echo "Stopping all child processes of $name (PID $pid)..."
+            # Reverse order to kill leaf processes first
+            for child in $(echo "$descendants" | tac); do
+                kill $child 2>/dev/null
+            done
+            sleep 2
+            # Force kill any remaining descendants
+            for child in $(echo "$descendants" | tac); do
+                if ps -p $child > /dev/null 2>&1; then
+                    kill -9 $child 2>/dev/null
+                fi
+            done
+        fi
+        
+        # Kill parent
+        if kill $pid 2>/dev/null; then
+            echo "$name (PID $pid) stopped successfully"
+            sleep 1
+            # Force kill if still running
+            if ps -p $pid > /dev/null 2>&1; then
+                kill -9 $pid 2>/dev/null
+            fi
+        fi
+    else
+        echo "$name (PID $pid) was not running or already stopped"
+    fi
+}
+
+# Ensure terminal is reset at the end
+trap 'stty sane 2>/dev/null' EXIT
+
+# Stop data server
+if [ -f data-server-pid ]; then
+    echo "Attempting to halt data server"
+    pid=$(cat data-server-pid)
+    kill_process_tree $pid "Data server"
+    rm data-server-pid
+else
+    echo "No data server PID file found"
+fi
+
+# Stop web server
+if [ -f web-server-pid ]; then
+    echo "Attempting to halt web server"
+    pid=$(cat web-server-pid)
+    kill_process_tree $pid "Web server"
+    rm web-server-pid
+else
+    echo "No web server PID file found"
+fi
+
+# Stop feedback server
+if [ -f feedback-server-pid ]; then
+    echo "Attempting to halt feedback server"
+    pid=$(cat feedback-server-pid)
+    kill_process_tree $pid "Feedback server"
+    rm feedback-server-pid
+else
+    echo "No feedback server PID file found"
+fi
 
 echo
-echo 'Reports attempting to halt.'
+echo "Reports shutdown script complete"
 
-# This looks like it gets them all
-ps aux | egrep 'start-|stop|Reports|feedback' | egrep -v '\|' | awk '{print $2}' | xargs kill
-
-
-### Notes: this is a non-working version of a cleaner way to do it
-#### Stop data server
-#echo
-#echo 'Attempting to halt data server'
-#pid=$(cat data-server-pid)
-#kill $pid
-#
-#### Verify stopped
-#echo 
-#echo 'Data server current state: (unpopulated if halt succeeded)'
-#ps | grep $pid
-#
-#### Stop web server
-#echo
-#echo 'Attempting to halt web server'
-#pid=$(cat web-server-pid)
-#kill $pid
-#
-#### Verify stopped
-#echo
-#echo 'Web server current state: (unpopulated if halt succeeded, but also unpopulated when shutting down. Re-run in a few moments to verify.)'
-#ps | grep $pid
-#
-#### Stop feedback server
-#echo
-#echo 'Attempting to halt feedback server'
-#pid=$(cat feedback-server-pid)
-#kill $pid
-#
-#### Verify stopped
-#echo 'Feedback server current state: (unpopulated if halt succeeded, but also unpopulated when shutting down. Re-run in a few moments to verify.)'
-#ps | grep $pid
-#echo
-#
-#### Remove previous PID files
-#rm data-server-pid
-#rm web-server-pid
-#rm feedback-server-pid
-#
-#### Report exit
-#echo 'Reports shutdown script exiting'
+# Reset terminal to sane state
+stty sane 2>/dev/null

@@ -1,6 +1,6 @@
 import * as d3v4 from './d3.v4.js'
 import * as utils from './utils.js'
-let genes = utils.getGenes()
+var genes = null  // Lazy loaded
 
 // State
 
@@ -25,14 +25,15 @@ var lengths
 var longest
 var svg
 
-var abundance_path_prefix = utils.dataPath + 'Abundances/'
+// Path directly to the cell abundances file
+var cell_type_abundances_path = utils.dataPath + 'cell_type_abundances.csv'
 
 var currentGene
 v_offset = 0
-GROUPING = 'cell_type'  // Replace with column name for cell abundance data (likely also 'cell_type')
-ABUNDANCE_VERTICAL = 'abundance_value'  // For demo data use: 'Sepal_Width'
+GROUPING = 'cell_type'  // Column name for cell type grouping
+ABUNDANCE_VERTICAL = 'abundance_value'  // Column name for abundance values
 var SELF = 'is_self'
-//data = AbundanceUtils.readAbundanceData("WDR83OS")  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+// CellAbundance uses a dedicated cell_type_abundances.csv file, not gene-specific files
 
 var data_groups = {
   "others": {
@@ -58,15 +59,30 @@ margin = {top: 15, right: 0, bottom: 45, left: 0},
 width = 1000 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
-export function initialize(theSvg, theCurrentGene) {
+export async function initialize(theSvg, theCurrentGene) {
+    console.log('CellAbundance abundance-utils: initialize called')
+    // Note: CellAbundance doesn't need genes - it loads cell type abundance data directly
+    // Set genes to empty array to avoid trying to load non-existent gene_list.csv
+    genes = []
+    
     abundance_svg = theSvg
     abundance_svg.select("*").remove()
-    currentGene = theCurrentGene
+    currentGene = "cell_type_abundances"  // Not actually used anymore, kept for compatibility
+    
+    console.log('CellAbundance: About to call initializeDataless')
     initializeDataless()
-    setupConstants(currentGene)
-    //initializeDataful()
-    //console.log(genes[0])
-    updateAbundance(readAbundanceData(genes[0]), theCurrentGene)
+    console.log('CellAbundance: initializeDataless complete')
+    
+    // Load the cell abundance data from cell_type_abundances.csv
+    try {
+        console.log('CellAbundance: About to call setupConstants')
+        await setupConstants()
+        console.log('CellAbundance: setupConstants complete, about to updateAbundance')
+        await updateAbundance(await readCellAbundanceData(), currentGene)
+        console.log('CellAbundance: initialize complete!')
+    } catch (error) {
+        console.error('Failed to initialize CellAbundance:', error)
+    }
 }
 
 function initializeDataless() {
@@ -86,8 +102,8 @@ function initializeDataless() {
                   "translate(" + margin.left + "," + margin.top + ")");
 }
 
-function setupConstants(currentGene) {
-    data = readAbundanceData(currentGene)  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+async function setupConstants() {
+    data = await readCellAbundanceData()
 
     const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
@@ -148,26 +164,46 @@ function initializeDataful() {
     }`);
 }
 
-export function handleChange(option) {
-    const geneName = option.value.toString()
-    data = readAbundanceData(geneName)
-    updateAbundance(data, geneName)
+// Note: handleChange is not used for CellAbundance since there's no gene selection
+// Keeping it for compatibility but it won't be called
+export async function handleChange(option) {
+    try {
+        console.log(`handleChange called but CellAbundance doesn't use gene selection`)
+        data = await readCellAbundanceData()
+        await updateAbundance(data, "cell_type_abundances")
+    } catch (error) {
+        console.error(`Failed to load cell abundance data:`, error)
+        alert(`Failed to load cell abundance data.\n\nPlease check the console for details.`)
+    }
 }
 
-export function readAbundanceData(geneName) {
-    //console.log(`Reading data for gene ${geneName}`)
-    return readCSVFile(abundance_path_prefix + geneName + '.csv')
+// Read cell abundance data from the dedicated cell_type_abundances.csv file
+export async function readCellAbundanceData() {
+    console.log(`Reading cell abundance data from: ${cell_type_abundances_path}`)
+    return await readCSVFile(cell_type_abundances_path)
 }
 
-export function updateAbundance(theData, geneName) {
-    //console.log(theData)
+// Legacy function kept for compatibility - redirects to readCellAbundanceData
+export async function readAbundanceData(geneName) {
+    console.log(`readAbundanceData called (legacy), redirecting to readCellAbundanceData`)
+    return await readCellAbundanceData()
+}
+
+export async function updateAbundance(theData, geneName) {
+    console.log('updateAbundance: called with', theData.length, 'data points')
 
     data = theData
+    console.log('updateAbundance: about to removeFeatures')
     removeFeatures();
+    console.log('updateAbundance: about to initializeDataful')
     initializeDataful()
+    console.log('updateAbundance: about to updateAxes')
     updateAxes(theData)
+    console.log('updateAbundance: about to addViolin')
     addViolin(theData);
+    console.log('updateAbundance: about to addPoints')
     addPoints(theData);
+    console.log('updateAbundance: complete!')
 }
 
 // Functions used only here
@@ -300,28 +336,45 @@ export function addPoints(theData) {
 
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
-export function readCSVFile(filePath, type) {
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].replace('\r', '').split(",");
-  var dataRows = rows.slice(1);
-  // Remove empty rows at the end that trigger nans
-  if (dataRows.slice(-1).length < headerRow.length) {
-    dataRows = dataRows.slice(0, -1);
-  }
-  var result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    const dataRow = dataRows[i].replace('\r', '').split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
+export async function readCSVFile(filePath, type) {
+  try {
+    const response = await fetch(filePath);
+    
+    // Check for HTTP errors
+    if (!response.ok) {
+      console.error(`Failed to load ${filePath}: HTTP ${response.status}`);
+      throw new Error(`Failed to load file: ${filePath} (HTTP ${response.status})`);
     }
-    result.push(obj);
+    
+    const csvData = await response.text();
+    
+    // Check if response is empty
+    if (!csvData || csvData.trim().length === 0) {
+      console.error(`Empty response from ${filePath}`);
+      throw new Error(`Empty response from: ${filePath}`);
+    }
+    
+    const rows = csvData.split("\n");
+    const headerRow = rows[0].replace('\r', '').split(",");
+    var dataRows = rows.slice(1);
+    // Remove empty rows at the end that trigger nans
+    if (dataRows.slice(-1).length < headerRow.length) {
+      dataRows = dataRows.slice(0, -1);
+    }
+    var result = [];
+    for (let i = 0; i < dataRows.length; i++) {
+      const dataRow = dataRows[i].replace('\r', '').split(",");
+      const obj = {};
+      for (let j = 0; j < headerRow.length; j++) {
+        obj[headerRow[j]] = dataRow[j];
+      }
+      result.push(obj);
+    }
+    return result;
+  } catch (error) {
+    console.error(`Error reading CSV file ${filePath}:`, error);
+    throw error;
   }
-  return result;
 }
 // End section functions used by both
 
@@ -406,3 +459,4 @@ export function create_axis_labels(svg, width, height) {
         .attr("font-size","20px")
         .attr('font-family', font_family)
  }
+

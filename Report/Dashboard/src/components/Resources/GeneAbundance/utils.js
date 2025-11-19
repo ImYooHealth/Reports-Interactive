@@ -9,8 +9,8 @@ export const dataPath = CommonUtils.dataPath + 'GeneAbundance/'
 
 const max_genes = 500  // Not to exceed 4999
 
-export function getGeneDescriptions() {
-    const rawDescriptionData = readCSVFile(dataPath + 'GeneDescriptions', false)
+export async function getGeneDescriptions() {
+    const rawDescriptionData = await readCSVFile(dataPath + 'GeneDescriptions', false)
 
     // Repackage as name:description dictionary
     var descriptionLookup = {}
@@ -25,53 +25,71 @@ export function getGeneDescriptions() {
     return descriptionLookup
 }
 
-export function readCSVFile(filePath, enforceMax = true) {
+export async function readCSVFile(filePath, enforceMax = true) {
 
   filePath += '.csv'
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].replace('\r', '').split(",");
-  var dataRows = rows.slice(1);
-  // Remove empty rows at the end that trigger nans
-  if (dataRows.slice(-1).length < headerRow.length) {
-    dataRows = dataRows.slice(0, -1);
-  }
-
-  if(dataRows < max_genes) {
-      max_genes = dataRows
-      console.log('Warning: utils.js: max_genes > dataRows')
-  }
-
-  const result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    if(enforceMax) {
-        if(i >= max_genes) {
-            break
-        }
+  
+  try {
+    const response = await fetch(filePath);
+    
+    // Check for HTTP errors
+    if (!response.ok) {
+      console.error(`Failed to load ${filePath}: HTTP ${response.status}`);
+      throw new Error(`Failed to load file: ${filePath} (HTTP ${response.status})`);
     }
-    const dataRow = dataRows[i].replace('\r', '').split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
+    
+    const csvData = await response.text();
+    
+    // Check if response is empty
+    if (!csvData || csvData.trim().length === 0) {
+      console.error(`Empty response from ${filePath}`);
+      throw new Error(`Empty response from: ${filePath}`);
     }
-    result.push(obj);
-  }
+    
+    const rows = csvData.split("\n");
+    const headerRow = rows[0].replace('\r', '').split(",");
+    var dataRows = rows.slice(1);
+    // Remove empty rows at the end that trigger nans
+    if (dataRows.slice(-1).length < headerRow.length) {
+      dataRows = dataRows.slice(0, -1);
+    }
 
-  // Validate
-  if(result[0]['<!DOCTYPE html>'] === undefined)  {
-    return result;
-  } else {
-    throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +
-        "\n\nIf you feel you've reached this error in error, please delete and try " +
-        "something else.")
+    if(dataRows < max_genes) {
+        max_genes = dataRows
+        console.log('Warning: utils.js: max_genes > dataRows')
+    }
+
+    const result = [];
+    for (let i = 0; i < dataRows.length; i++) {
+      if(enforceMax) {
+          if(i >= max_genes) {
+              break
+          }
+      }
+      const dataRow = dataRows[i].replace('\r', '').split(",");
+      const obj = {};
+      for (let j = 0; j < headerRow.length; j++) {
+        obj[headerRow[j]] = dataRow[j];
+      }
+      result.push(obj);
+    }
+
+    // Validate
+    if(result[0] && result[0]['<!DOCTYPE html>'] === undefined)  {
+      return result;
+    } else {
+      throw new Error('You got the path wrong bozo\nYou said:\n' + filePath +
+          "\n\nIf you feel you've reached this error in error, please delete and try " +
+          "something else.")
+    }
+  } catch (error) {
+    console.error(`Error reading CSV file ${filePath}:`, error);
+    throw error;
   }
 }
 
-export function getGenesForDropdown() {
-    let response = readCSVFile(dataPath + 'gene_list')
+export async function getGenesForDropdown() {
+    let response = await readCSVFile(dataPath + 'gene_list')
     var genes = [];
 
     for (const obj of response) {
@@ -88,8 +106,8 @@ export function getGenesForDropdown() {
 }
 
 
-export function getGenes() {
-    let response = readCSVFile(dataPath + 'gene_list')
+export async function getGenes() {
+    let response = await readCSVFile(dataPath + 'gene_list')
     const genes = [];
 
     for (const obj of response) {

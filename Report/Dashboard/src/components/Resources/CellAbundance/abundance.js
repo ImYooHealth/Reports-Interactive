@@ -5,7 +5,6 @@ import * as AbundanceUtils from './abundance-utils.js'
 import Dropdown from './dropdown.js'
 
 import * as utils from './utils.js'
-let genes = utils.getGenesForDropdown()
 
 const margin = {top: 15, right: 0, bottom: 45, left: 0},
 width = 800 - margin.left - margin.right,
@@ -16,13 +15,31 @@ let v_offset = 0
 
 const Abundance = ({currentGene}) => {
     const svgRef = React.useRef(null)
-    const svg = d3v4.select(svgRef.current)
-    AbundanceUtils.initialize(svg, currentGene)
-/*
+    const [initialized, setInitialized] = React.useState(false)
+
+    // Note: CellAbundance doesn't use gene dropdown - it only shows cell type abundances
     React.useEffect(() => {
-        AbundanceUtils.handleChange({value: currentGene})
-    }, [currentGene]);
-*/
+        let isMounted = true // Track if component is still mounted
+        
+        if (svgRef.current && !initialized) {
+            const svg = d3v4.select(svgRef.current)
+            // Call async initialize
+            AbundanceUtils.initialize(svg, "Loading").then(() => {
+                if (isMounted) { // Only update state if still mounted
+                    setInitialized(true)
+                }
+            }).catch(error => {
+                if (isMounted) {
+                    console.error('Failed to initialize CellAbundance:', error)
+                }
+            })
+        }
+        
+        // Cleanup function
+        return () => {
+            isMounted = false
+        }
+    }, [])
     const paragraphStyle = {
       fontSize: '12px',
       textAlign: 'right',
@@ -50,7 +67,7 @@ const Abundance = ({currentGene}) => {
             <div >
                 <div className='flex items-center justify-center'>
                 
-                    <p style={{fontFamily: "Space Grotesk"}} className="pb-1" style={{fontSize: '20px', fontFamily: 'Space Grotesk'}}>Your Immune Cells By Type</p>
+                    <p className="pb-1" style={{fontSize: '20px', fontFamily: 'Space Grotesk'}}>Your Immune Cells By Type</p>
 
                 </div>                
             </div>

@@ -1,6 +1,6 @@
 import * as d3v4 from './d3.v4.js'
 import * as utils from './utils.js'
-let genes = utils.getGenes()
+var genes = null  // Lazy loaded
 
 // State
 
@@ -58,15 +58,27 @@ width = 1000 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom; 
 
 
-export function initialize(theSvg, theCurrentGene) {
+export async function initialize(theSvg, theCurrentGene) {
+    // Lazy load genes if not already loaded
+    if (!genes) {
+        try {
+            genes = await utils.getGenes()
+        } catch (error) {
+            console.error('Failed to load genes in abundance-utils:', error)
+            genes = []
+        }
+    }
+    
     abundance_svg = theSvg
     abundance_svg.select("*").remove()
     currentGene = theCurrentGene
     initializeDataless()
-    setupConstants(currentGene)
+    await setupConstants(currentGene)
     //initializeDataful()
     //console.log(genes[0])
-    updateAbundance(readAbundanceData(genes[0]), theCurrentGene)
+    if (genes && genes.length > 0) {
+        await updateAbundance(await readAbundanceData(genes[0]), theCurrentGene)
+    }
 }
 
 
@@ -88,8 +100,8 @@ function initializeDataless() {
 }
 
 
-function setupConstants(currentGene) {
-    data = readAbundanceData(currentGene)  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
+async function setupConstants(currentGene) {
+    data = await readAbundanceData(currentGene)  // TODO: Cleanup when adding formal backend, and also enclose in a directory named data
 
     const abundance_hvals = [...new Set(data.map((row) => row[GROUPING]))].filter((item) => typeof(item) === 'string')
 
@@ -151,18 +163,24 @@ function initializeDataful() {
     }`);
 }
 
-export function handleChange(option) {
-    const geneName = option.value.toString()
-    data = readAbundanceData(geneName)
-    updateAbundance(data, geneName)
+export async function handleChange(option) {
+    try {
+        const geneName = option.value.toString()
+        console.log(`Loading abundance data for gene: ${geneName}`)
+        data = await readAbundanceData(geneName)
+        await updateAbundance(data, geneName)
+    } catch (error) {
+        console.error(`Failed to load gene abundance data:`, error)
+        alert(`Failed to load data for gene: ${option.value}\n\nThe data file may not exist. Please check the console for details.`)
+    }
 }
 
-export function readAbundanceData(geneName) {
+export async function readAbundanceData(geneName) {
     //console.log(`Reading data for gene ${geneName}`)
-    return readCSVFile(abundance_path_prefix + geneName + '.csv')
+    return await readCSVFile(abundance_path_prefix + geneName + '.csv')
 }
 
-export function updateAbundance(theData, geneName) {
+export async function updateAbundance(theData, geneName) {
     //console.log(theData)
 
     data = theData
@@ -303,28 +321,45 @@ export function addPoints(theData) {
 
 // Begin section functions used by both
 // Read the data and compute summary statistics for each species
-export function readCSVFile(filePath, type) {
-  const request = new XMLHttpRequest();
-  request.open("GET", filePath, false);
-  request.send();
-  const csvData = request.responseText;
-  const rows = csvData.split("\n");
-  const headerRow = rows[0].replace('\r', '').split(",");
-  var dataRows = rows.slice(1);
-  // Remove empty rows at the end that trigger nans
-  if (dataRows.slice(-1).length < headerRow.length) {
-    dataRows = dataRows.slice(0, -1);
-  }
-  const result = [];
-  for (let i = 0; i < dataRows.length; i++) {
-    const dataRow = dataRows[i].replace('\r', '').split(",");
-    const obj = {};
-    for (let j = 0; j < headerRow.length; j++) {
-      obj[headerRow[j]] = dataRow[j];
+export async function readCSVFile(filePath, type) {
+  try {
+    const response = await fetch(filePath);
+    
+    // Check for HTTP errors
+    if (!response.ok) {
+      console.error(`Failed to load ${filePath}: HTTP ${response.status}`);
+      throw new Error(`Failed to load file: ${filePath} (HTTP ${response.status})`);
     }
-    result.push(obj);
+    
+    const csvData = await response.text();
+    
+    // Check if response is empty
+    if (!csvData || csvData.trim().length === 0) {
+      console.error(`Empty response from ${filePath}`);
+      throw new Error(`Empty response from: ${filePath}`);
+    }
+    
+    const rows = csvData.split("\n");
+    const headerRow = rows[0].replace('\r', '').split(",");
+    var dataRows = rows.slice(1);
+    // Remove empty rows at the end that trigger nans
+    if (dataRows.slice(-1).length < headerRow.length) {
+      dataRows = dataRows.slice(0, -1);
+    }
+    const result = [];
+    for (let i = 0; i < dataRows.length; i++) {
+      const dataRow = dataRows[i].replace('\r', '').split(",");
+      const obj = {};
+      for (let j = 0; j < headerRow.length; j++) {
+        obj[headerRow[j]] = dataRow[j];
+      }
+      result.push(obj);
+    }
+    return result;
+  } catch (error) {
+    console.error(`Error reading CSV file ${filePath}:`, error);
+    throw error;
   }
-  return result;
 }
 // End section functions used by both
 

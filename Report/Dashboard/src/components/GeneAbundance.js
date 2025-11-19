@@ -7,12 +7,78 @@ import Abundance from './Resources/GeneAbundance/abundance'
 import * as utils from './Resources/GeneAbundance/utils.js'
 
 const BlopIconPath = CommonUtils.dataPath + "/GeneAbundance/Blop.png"
-let genes = utils.getGenes()
 
 
 const GeneAbundance = ({ title }) => {
-    const [currentGene, setCurrentGene] = React.useState(genes[0])  
+    const [genes, setGenes] = React.useState(null)
+    const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState(null)
+    const [currentGene, setCurrentGene] = React.useState(null)
+    
     console.log('GeneAbundance: ' + currentGene)
+
+    // Load genes data on mount
+    React.useEffect(() => {
+        let isMounted = true
+        
+        console.log('GeneAbundance: Loading genes list...')
+        utils.getGenes().then(loadedGenes => {
+            if (isMounted) {
+                setGenes(loadedGenes)
+                setCurrentGene(loadedGenes[0])
+                setLoading(false)
+                console.log('GeneAbundance: Genes loaded successfully')
+            }
+        }).catch(err => {
+            if (isMounted) {
+                console.error('GeneAbundance: Failed to load genes:', err)
+                setError(err.message)
+                setLoading(false)
+            }
+        })
+        
+        return () => {
+            isMounted = false
+        }
+    }, [])
+
+    if (loading) {
+        return (
+            <div className="flex">
+                <div className="bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
+                    <div className="flex justify-between text-white items-center mb-4">
+                        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold">{title}</p>
+                    </div>
+                    <div className="p-4 text-white">Loading...</div>
+                </div>
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div className="flex">
+                <div className="bg-gray-800 py-6 px-6 rounded-3xl min-w-min max-w-min">
+                    <div className="flex justify-between text-white items-center mb-4">
+                        <p style={{fontFamily: "Space Grotesk"}} className="text-2xl font-bold">{title}</p>
+                    </div>
+                    <div className="p-4 text-white">
+                        <p>Error loading data: {error}</p>
+                        <button 
+                            onClick={() => window.location.reload()} 
+                            className="mt-4 px-4 py-2 bg-blue-500 rounded"
+                        >
+                            Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (!genes || !currentGene) {
+        return null
+    }
 
     return (
         <div className="flex">

@@ -5,25 +5,44 @@ import * as utils from './utils.js'
 import * as VolcanoUtils from './volcanoUtils.js'
 import Dropdown from './dropdown.js'
 
-let genes = utils.getGenes()
-let cellTypes = utils.cellTypes
-
 // The Volcano component
 const Volcano = ({changeAbundanceGene}) => {
     const svgRef = React.useRef(null)
-    const [cellTypeName, setCellTypeName] = React.useState(cellTypes[0].value)  // Initial Value
+    const [genes, setGenes] = React.useState(null)
+    const [cellTypes, setCellTypes] = React.useState(null)
+    const [cellTypeName, setCellTypeName] = React.useState(null)
+    const [initialized, setInitialized] = React.useState(false)
+
+    // Load genes and cell types on mount
+    React.useEffect(() => {
+        try {
+            // Note: CellAbundance volcano is hidden - we only need cell types
+            // Don't load genes to avoid unnecessary data loading
+            const loadedCellTypes = utils.cellTypes
+            setGenes([])  // Empty array since we don't need genes
+            setCellTypes(loadedCellTypes)
+            setCellTypeName(loadedCellTypes[0].value)
+        } catch (err) {
+            console.error('Failed to load volcano data:', err)
+        }
+    }, [])
 
     React.useEffect(() => {
-        const svg = d3v3.select(svgRef.current)
-        VolcanoUtils.initialize(svg, changeAbundanceGene)
-//        changeAbundanceGene(genes[0])  // For no known reason
-        changeAbundanceGene(genes[1])    // Abundance refuses to initialize with genes[0]
-//        changeAbundanceGene(genes[2])  // Adding indices induced the change
-    }, []);                              // Why it works as shown is a matter yet to be explained by rational inquiry. 
+        if (svgRef.current && !initialized && genes && cellTypes) {
+            const svg = d3v3.select(svgRef.current)
+            VolcanoUtils.initialize(svg, changeAbundanceGene)
+//            changeAbundanceGene(genes[0])  // For no known reason
+            changeAbundanceGene(genes[1])    // Abundance refuses to initialize with genes[0]
+//            changeAbundanceGene(genes[2])  // Adding indices induced the change
+            setInitialized(true)
+        }
+    }, [genes, cellTypes]);                              // Why it works as shown is a matter yet to be explained by rational inquiry. 
 
     React.useEffect(() => {
-        VolcanoUtils.updateVolcano(cellTypeName)
-    }, [cellTypeName]);
+        if (cellTypeName && initialized) {
+            VolcanoUtils.updateVolcano(cellTypeName)
+        }
+    }, [cellTypeName, initialized]);
 
     const paragraphStyle = {
         fontSize: '12px',
@@ -35,6 +54,10 @@ const Volcano = ({changeAbundanceGene}) => {
        fontSize: '24px',
        textAlign: 'center',
        fontFamily: 'Space Grotesk'
+    }
+
+    if (!cellTypes || !genes) {
+        return <div>Loading...</div>
     }
 
     return (

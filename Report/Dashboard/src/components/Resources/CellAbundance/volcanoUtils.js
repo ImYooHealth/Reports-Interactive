@@ -7,7 +7,6 @@ const VOLCANO_HORIZONTAL = 'log2FoldChange'
 const VOLCANO_VERTICAL = 'magstat'
 const volcanoPath = utils.dataPath
 const volcanoDataPath = volcanoPath + 'Volcanoes/'
-const cellTypes = utils.getCellTypes()
 const margin = {top: 10, right: 30, bottom: 40, left: 50},
       width = 1500 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
@@ -25,6 +24,7 @@ var brush_elm
 var maxx
 var maxv
 var changeAbundanceGene
+var cellTypes
 
 // Zoom
 const zoom_enabled = true
@@ -49,11 +49,31 @@ export function handleChange(arg) {
 }
 
 export function initialize(svg, changeGene) {
+    console.log('CellAbundance volcanoUtils: initialize called')
     changeAbundanceGene = changeGene
+    
+    // Load data on initialization (lazy loading)
+    try {
+        if (!cellTypes) {
+            console.log('Loading cell types...')
+            cellTypes = utils.getCellTypes()
+        }
+        console.log('Cell types loaded:', cellTypes)
+    } catch (error) {
+        console.error('Failed to load cell types:', error)
+        // Continue with empty data rather than crashing
+        cellTypes = cellTypes || []
+    }
+    
+    console.log('About to setState')
     setState({'svg': svg})
+    console.log('About to setupCanvas')
     setupCanvas()
+    console.log('About to initializeCanvas')
     initializeCanvas()
+    console.log('About to initVolcano')
     initVolcano()
+    console.log('CellAbundance volcanoUtils: initialize complete')
 }
 
 
@@ -316,7 +336,19 @@ export function click_circle(pD, pI) {
     //var data = utils.readCSVFile(filename)
     //updateAbundance(data)  // Here
     */
-    changeAbundanceGene(pD.gene_name)
+    try {
+        console.log('Volcano plot: Gene clicked:', pD.gene_name)
+        console.log('Volcano plot: Full data object:', pD)
+        if (!pD.gene_name) {
+            console.error('Volcano plot: gene_name is undefined or null')
+            alert('Error: Gene name is missing from the volcano plot data')
+            return
+        }
+        changeAbundanceGene(pD.gene_name)
+    } catch (error) {
+        console.error('Volcano plot: Error in click handler:', error)
+        alert(`Error handling gene click: ${error.message}`)
+    }
     //alert(pD.gene_name)
 }
 

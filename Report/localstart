@@ -1,5 +1,21 @@
 #!/bin/bash
 
-python3 localstart-feedback-server & 
+echo "Starting Reports servers..."
+
+# Start feedback server and save PID
+python3 localstart-feedback-server &
+echo $! > feedback-server-pid
+echo "Feedback server started (PID: $!)"
+
+# Start data server and save PID
 ./localstart-data-server &
+echo $! > data-server-pid
+echo "Data server started (PID: $!)"
+
+# Start web server and save PID
 ./localstart-web-server &
+echo $! > web-server-pid
+echo "Web server started (PID: $!)"
+
+echo
+echo "All servers started. Use ./stop to shut them down."

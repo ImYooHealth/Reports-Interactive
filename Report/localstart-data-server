@@ -1,10 +1,16 @@
 #!/usr/bin/python3
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+from socketserver import ThreadingMixIn
 import sys
+import os
 
-path_to_listen_on='/'
-directory_to_serve='/Users/imyoo/Documents/Repositories/Reports-Interactive/Data/'
+# Get the directory to serve from environment variable or use relative path
+script_dir = os.path.dirname(os.path.abspath(__file__))
+default_data_dir = os.path.join(script_dir, "..", "Data")
+directory_to_serve = os.getenv("DATA_DIR", default_data_dir)
+
+path_to_listen_on="/"
 
 class CORSRequestHandler (SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -16,7 +22,15 @@ class CORSRequestHandler (SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
+        # Disable caching for testing - always fetch fresh data
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.send_header('Pragma', 'no-cache')
+        self.send_header('Expires', '0')
         SimpleHTTPRequestHandler.end_headers(self)
+
+# Make server multi-threaded to handle concurrent requests
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+    daemon_threads = True  # Allow threads to die when main thread dies
 
 #    def do_GET(self):
 #        if self.path == "/Data":
@@ -24,4 +38,7 @@ class CORSRequestHandler (SimpleHTTPRequestHandler):
 #        super().do_GET()
 
 if __name__ == '__main__':
-    test(CORSRequestHandler, HTTPServer, port=int(sys.argv[1]) if len(sys.argv) > 1 else 31339)
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 31339
+    server = ThreadedHTTPServer(('', port), CORSRequestHandler)
+    print(f"Serving {directory_to_serve} on port {port} (multi-threaded)")
+    server.serve_forever()
